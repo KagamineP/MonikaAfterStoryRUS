@@ -15,7 +15,7 @@ init 5 python:
 
 
 label dev_idle_test:
-    m 1eua "Hi there! I will test idle mode now."
+    m 1eua "Привет! Сейчас я проверю режим ожидания."
 
     # set idle data
     $ persistent._mas_idle_data["dev_idle_test"] = True
@@ -28,7 +28,7 @@ label dev_idle_test:
 
 
 label dev_idle_test_cb:
-    m 1hua "done with idle!"
+    m 1hua "Хватит бездельничать!"
     return
 
 

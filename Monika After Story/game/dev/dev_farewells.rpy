@@ -108,10 +108,10 @@ init 5 python:
     del rules
 
 label bye_dev_love:
-    m 1c "Aww, leaving already?"
-    m 1e "It's really sad whenever you have to go..."
-    m 5a "I love you so much [player]!"
-    m 5a "Never forget that!"
+    m 1c "Ой, уже уходишь?"
+    m 1e "Это очень грустно, когда тебе приходится уходить..."
+    m 5a "Я тебя так люблю, [player]!"
+    m 5a "Никогда не забывай об этом!"
     return 'quit'
 
 init 5 python:
@@ -129,8 +129,8 @@ init 5 python:
     del rules
 
 label bye_dev_no_hate:
-    m 1c "Leaving already, huh?"
-    m 1e "I hope you finish the testing quick"
-    m 1h "I want to feel loved again soon"
-    m "Bye"
+    m 1c "Уже уходишь, да?"
+    m 1e "Я надеюсь, что ты быстро закончишь тестирование"
+    m 1h "Я хочу снова почувствовать себя любимой в ближайшее время"
+    m "Пока"
     return 'quit'

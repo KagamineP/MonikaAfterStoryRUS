@@ -3,7 +3,7 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel="monika_check_window",
-            prompt="TEST ACTIVE WINDOW CHECK",
+            prompt="Тестирование проверки реакции на окно",
             category=['dev'],
             random=False,
             pool=True,
@@ -12,17 +12,17 @@ init 5 python:
     )
 
 label monika_check_window:
-    m 1hub "Okay, [player]!"
-    m 2dsc "Let's see...your active window is.{w=0.5}.{w=0.5}."
+    m 1hub "Ладно, [player]!"
+    m 2dsc "Давай посмотрим...твое активное окно это.{w=0.5}.{w=0.5}."
 
     pause 2.0
 
     if mas_isFocused():
-        m 1hub "Me, yay!"
+        m 1hub "Я, ура!"
     else:
         $ active_wind = mas_getActiveWindow(True)
         if active_wind:
             m 3eua "[active_wind]."
         else:
-            m 1hksdlb "[player], you don't have an active window!"
+            m 1hksdlb "[player], у тебя нет активных окон!"
     return

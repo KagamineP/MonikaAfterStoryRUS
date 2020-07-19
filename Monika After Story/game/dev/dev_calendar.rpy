@@ -6,7 +6,7 @@ init 5 python:
             persistent.event_database,
             eventlabel="dev_calendar_testing",
             category=["dev"],
-            prompt="TEST CALENDAR",
+            prompt="Тестирование календаря",
             pool=True,
             unlocked=True
         )
@@ -15,21 +15,21 @@ init 5 python:
 label dev_calendar_testing:
     $ import store.mas_calendar as mas_cal
     menu:
-        m "What would you like to do?"
-        "View Calendar":
+        m "Что бы ты хотел[mas_gender_none] сделать?"
+        "Посмотреть календарь":
             call mas_start_calendar_read_only
 
-        "Select Date":
+        "Выбрать дату":
             call mas_start_calendar_select_date
 
             $ sel_date = _return
 
             if not sel_date:
-                m 1tfp "You did not select a date!"
+                m 1tfp "Ты не выбрал[mas_gender_none] дату!"
 
             else:
                 $ sel_date_formal = sel_date.strftime("%B %d, %Y")
-                m "You selected [sel_date_formal]."
+                m "Ты выбрал[mas_gender_none] [sel_date_formal]."
 
     return
                     

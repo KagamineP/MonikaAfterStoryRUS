@@ -6,30 +6,30 @@ init 5 python:
             persistent.event_database,
             eventlabel="dev_bday_visuals",
             category=["dev"],
-            prompt="BDAY VISUALS",
+            prompt="Визуальные эффекты дня рождения",
             pool=True,
             unlocked=True
         )
     )
 
 label dev_bday_visuals:
-    m 1eua "hi there, i will now test the birthday visuals"
+    m 1eua "Привет, сейчас я проверю визуальные эффекты дня рождения."
 
-    m "start with banner"
+    m "Начнем с баннера."
     show mas_bday_banners zorder 7
 
-    m "now for balloons"
+    m "Теперь воздушные шары."
     show mas_bday_balloons zorder 8
 
-    m "now for cake"
+    m "Теперь торт."
     show mas_bday_cake zorder 11
 
-    m "now for lit cake"
+    m "Теперь торт со свечами."
     $ mas_bday_cake_lit = True
 
-    m "how does that look?"
+    m "Как это выглядит?"
 
-    m "okay time to hide"
+    m "Хорошо, теперь пора это убрать."
     hide mas_bday_banners
     hide mas_bday_balloons
     hide mas_bday_cake

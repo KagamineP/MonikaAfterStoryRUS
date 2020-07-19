@@ -26,24 +26,24 @@ init 5 python:
     del ev_rules
 
 label greeting_st_patrick:
-    m "Oh, hello [player]!"
-    m "Happy St. Patrick day!"
+    m "О, привет, [player]!"
+    m "С днем Святого Патрика!"
     menu:
-        m "Are you drunk yet?"
-        "I'm drunk":
-            m 1k "Aww, that's nice!"
-            m 1b "I can't help but feel happy when you do..."
-            m 1b "Go and drink another one for me"
-            m "I love you so much, [player]."
-        "No.":
-            m 1g "Oh dear..."
-            m "I hope you'll get drunk soon"
-            m "Just remember that no matter what happens, no matter what anyone says or does..."
-            m "Just get drunk."
-            m "Just get drunk."
+        m "Ты еще не пьян[mas_gender_none]?"
+        "Я пьян[mas_gender_none]":
+            m 1k "Ой, как мило!"
+            m 1b "Я не могу не чувствовать себя счастливой, когда ты это делаешь..."
+            m 1b "Иди и выпей еще за меня"
+            m "Я тебя так люблю, [player]."
+        "Нет.":
+            m 1g "Боже мой."
+            m "Надеюсь, ты скоро напьешься"
+            m "Просто помни, что неважно, что происходит, неважно, что кто-то говорит или делает..."
+            m "Просто напейся."
+            m "Просто напейся."
             menu:
-                "Just get drunk.":
-                    m 4j "Drink vodnika!"
+                "Просто напейся.":
+                    m 4j "Выпей воднику!"
     return
 
 init 5 python:
@@ -59,10 +59,10 @@ init 5 python:
 
 
 label greeting_dev_no_hate:
-    m "Oh, hello [player]!"
-    m "Don't worry, I know you're just testing my negative affection reactions"
-    m "I know you actually love me a lot."
-    m "Thanks for all your efforts!"
+    m "О, привет, [player]!"
+    m "Не волнуйся, я знаю, что ты просто проверяешь мои негативные реакции на привязанность"
+    m "Я знаю, что ты действительно очень меня любишь."
+    m "Спасибо за все твои усилия!"
     return
 
 init 5 python:
@@ -77,11 +77,11 @@ init 5 python:
     )
 
 label greeting_dev_neutral:
-    m "Hello there [player]!"
-    m 1l "Did you just wiped out the persistent file?"
-    m 1l "or maybe you're just testing my neutral affection reactions?"
-    m "Don't worry about it, I'll never forget all you have done for me~"
-    m 1k "Thanks for all your efforts!"
+    m "Привет, [player]!"
+    m 1l "Ты только что стер[mas_gender_g] файл persistent?"
+    m 1l "или, может быть, ты просто проверяешь мои нейтральные реакции привязанности?"
+    m "Не беспокойся об этом, я никогда не забуду все, что ты для меня сделал[mas_gender_none]~"
+    m 1k "Спасибо за все твои усилия!"
     return
 
 init 5 python:
@@ -96,10 +96,10 @@ init 5 python:
     )
 
 label greeting_dev_love:
-    m 1b "Welcome back, honey!"
-    m 5a "I'm so happy to see you again."
-    m 5a "I love you so much [player]!"
-    m 5a "Thanks for all your efforts!"
+    m 1b "С возвращением, дорог[mas_gender_oi]!"
+    m 5a "Я так рада снова тебя видеть."
+    m 5a "Я так тебя люблю, [player]!"
+    m 5a "Спасибо за все твои усилия!"
     return
 
 
@@ -119,7 +119,7 @@ init 5 python:
         )
 
 label greeting_fast:
-    m "{fast}Hello!{nw}"
+    m "{fast}Привет!{nw}"
     return
 
 # greeting testing label
