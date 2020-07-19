@@ -124,20 +124,20 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel="mas_extra_menu_firsttime",
-            prompt="Can you explain the Extras menu?",
+            prompt="Можешь ли ты объяснить меню инструментов?",
             category=["misc"]
         )
     )
 
 label mas_extra_menu_firsttime:
     if not persistent._mas_opened_extra_menu:
-        m 1hua "Welcome to the Extras menu, [player]!"
+        m 1hua "Добро пожаловать, в меню инструментов, [player]!"
 
-    m 1eua "This is where I'll add things that aren't games, like special interactions you can do with your mouse."
-    m "You can also open this menu by pressing the 'e' key."
+    m 1eua "Здесь я добавлю вещи, которые не являются играми, например специальные взаимодействия, которые вы можете делать с помощью мыши."
+    m "Ты также можешь открыть это меню, нажав клавишу «э»."
 
     if not persistent._mas_opened_extra_menu:
-        m 1hua "Look forward to some neat things in this menu!"
+        m 1hua "С нетерпением ждем некоторых интересных вещей в этом меню!"
 
     python:
         this_ev = mas_getEV("mas_extra_menu_firsttime")
@@ -153,8 +153,8 @@ label mas_extra_menu_firsttime:
 # [EXM010]
 
 label mas_extra_menu_zoom_intro:
-    m 1eua "One thing I added is a way for you to adjust your field of view, so now you can sit closer or farther away from me."
-    m 1eub "You can adjust this using the slider in the 'Zoom' section of the Extras menu."
+    m 1eua "Одна вещь, которую я добавила, - это способ для вас настроить свое поле зрения,\nтак что теперь ты можешь сидеть ближе или дальше от меня."
+    m 1eub "Вы можете настроить это с помощью ползунка в разделе «масштаб» в меню «Дополнительно»."
     return
 
 default persistent._mas_pm_zoomed_out = False
@@ -200,23 +200,23 @@ label mas_extra_menu_zoom_callback:
     return
 
 label mas_extra_menu_zoom_out_first_time:
-    m 1ttu "Can't sit up straight for long?"
-    m "Or maybe you just want to see the top of my head?"
-    m 1hua "Ehehe~"
+    m 1ttu "Не можешь долго сидеть прямо?"
+    m "Или, может быть, ты просто хочешь увидеть мою макушку?"
+    m 1hua "Э-хе-хе~"
     return
 
 label mas_extra_menu_zoom_in_first_time:
-    m 1ttu "Sitting a bit closer?"
-    m 1hua "I don't mind."
+    m 1ttu "Сядешь чуть ближе?"
+    m 1hua "Я не против."
     return
 
 label mas_extra_menu_zoom_in_max_first_time:
     m 6wuo "[player]!"
-    m 6rkbfd "When your face is this close..."
-    m 6ekbfd "I feel..."
+    m 6rkbfd "Когда твое лицо так близко..."
+    m 6ekbfd "Я чувствую..."
     show monika 6hkbfa
     pause 2.0
-    m 6hubfa "Warm..."
+    m 6hubfa "Тепло..."
     return
 
 ################################# EXTRA MENU STUFF ############################
@@ -335,6 +335,10 @@ style mas_adjustable_button_text_dark is generic_button_text_dark:
 screen mas_extramenu_area():
     zorder 52
 
+    key "э" action Jump("mas_extra_menu_close")
+    key "Э" action Jump("mas_extra_menu_close")
+
+    # Setting for English keyboard
     key "e" action Jump("mas_extra_menu_close")
     key "E" action Jump("mas_extra_menu_close")
 

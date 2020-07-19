@@ -380,7 +380,7 @@ init -999 python in _mas_dm_dm:
 
             if _dm_fun is None:
                 raise Exception(
-                    "DATA MIGRATION FAILURE. {0} to {1}".format(
+                    "СБОЙ МИГРАЦИИ ДАННЫХ. {0} to {1}".format(
                         curr_ver, end_ver
                     )
                 )

@@ -1138,16 +1138,16 @@ init 5 python:
             low_cons_list = MASConsumable._getLowCons()
 
         START_TEXT = (
-            "Hi, [player],\n"
-            "Just letting you know I'm running low on a couple of things.\n"
-            "You wouldn't mind getting some more for me, would you?\n\n"
-            "Here's a list of what I'm running out of:\n"
+            "Привет, [player],\n"
+            "Просто сообщаю, что мне не хватает нескольких вещей.\n"
+            "Ты не против получить ещё немного вещей для меня, не так ли?\n\n"
+            "Вот список того, что у меня закончилось:\n"
         )
 
         MID_TEXT = ""
 
         END_TEXT = (
-            "Thanks, [player]~"
+            "Спасибо, [player]~"
         )
 
         for cons in low_cons_list:
@@ -1332,6 +1332,7 @@ label mas_get_food:
     call mas_consumables_generic_get(consumable=current_food)
     return
 #END: Generic food evs
+
 
 #START: Generic consumable labels
 label mas_consumables_generic_get(consumable):
@@ -1703,5 +1704,5 @@ label mas_consumables_remove_thermos:
         m 1hua "Back!{w=1.5}{nw}"
 
     else:
-        m "Okay, what else should we do today?"
+        m "Ладно, какие у нас ещё планы на сегодня?"
     return

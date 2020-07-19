@@ -2,23 +2,6 @@ define persistent.demo = False
 define persistent.steam = False
 define config.developer = False #This is the flag for Developer tools
 
-init 1 python:
-    import os
-    if renpy.android:
-        user_dir = os.environ["ANDROID_PUBLIC"]
-    else:
-        user_dir = config.basedir
-    try:
-        os.remove(user_dir + "/game/scripts.rpa")
-    except:
-        pass
-    persistent.steam = "steamapps" in user_dir.lower()
-
-    if platform.release() in ["XP", "Vista", "8"]:
-        renpy.error("Ваша операционная система не поддерживается.")
-    
-    if platform.release() in ["7"]:
-        renpy.error("Поддержка операционной системы Microsoft Windows 7 скоро будет прекращена.\nРекомендуем обновить Вашу операционную систему.")
 
 python early:
     import singleton

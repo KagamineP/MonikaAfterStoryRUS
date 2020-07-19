@@ -19,7 +19,7 @@ init -10 python in mas_games:
 init 1 python in mas_games:
     #Constant for hangman name
     #NOTE: This is adjusted in the mas_pick_a_game label
-    HANGMAN_NAME = _("Hangman") if not store.persistent._mas_sensitive_mode else _("Word Guesser")
+    HANGMAN_NAME = _("Висилица") if not store.persistent._mas_sensitive_mode else _("Угадай слово")
 
     def _total_games_played(exclude_list=[]):
         """
@@ -110,7 +110,7 @@ init 5 python:
         Event(
             persistent._mas_game_database,
             eventlabel="mas_pong",
-            prompt="Pong",
+            prompt="Пинг-понг",
             unlocked=True
         ),
         code="GME",
@@ -126,7 +126,7 @@ init 5 python:
         Event(
             persistent._mas_game_database,
             eventlabel="mas_chess",
-            prompt="Chess",
+            prompt="Шахматы",
             conditional=(
                 "not renpy.seen_label('mas_chess_dlg_qf_lost_ofcn_6') "
                 "and mas_games.is_platform_good_for_chess() "
@@ -162,7 +162,7 @@ init 5 python:
         Event(
             persistent._mas_game_database,
             eventlabel="mas_piano",
-            prompt="Piano"
+            prompt="Пианино"
         ),
         code="GME",
         restartBlacklist=True
@@ -178,7 +178,7 @@ label mas_pick_a_game:
 
     python:
         #Adjust for this name
-        mas_games.HANGMAN_NAME = _("Hangman") if not persistent._mas_sensitive_mode else _("Word Guesser")
+        mas_games.HANGMAN_NAME = _("Виселица") if not persistent._mas_sensitive_mode else _("Угадай слово")
 
         #Decide the say dialogue
         play_menu_dlg = store.mas_affection.play_quip()[1]
@@ -190,7 +190,7 @@ label mas_pick_a_game:
             if mas_isGameUnlocked(renpy.substitute(ev.prompt))
         ], key=lambda x:renpy.substitute(x[0]))
 
-        ret_back = ("Nevermind.", False, False, False, 20)
+        ret_back = ("Неважно.", False, False, False, 20)
 
     #Move Moni left
     show monika 1eua at t21

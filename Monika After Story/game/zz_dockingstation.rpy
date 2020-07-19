@@ -191,15 +191,15 @@ init -45 python:
         # 0 - message
         # 1 - docking station as str
         # 2 - exception (if applicable)
-        ERR = "[ERROR] {0} | {1} | {2}\n"
-        ERR_DEL = "Failure removing package '{0}'."
-        ERR_GET = "Failure getting package '{0}'."
-        ERR_OPEN = "Failure opening package '{0}'."
-        ERR_READ = "Failure reading package '{0}'."
-        ERR_SEND = "Failure sending package '{0}'."
-        ERR_SIGN = "Failure to request signature for package '{0}'."
-        ERR_SIGNP = "Package '{0}' does not match checksum."
-        ERR_CREATE = "Failed to create directory '{0}'"
+        ERR = "[ОШИБКА] {0} | {1} | {2}\n"
+        ERR_DEL = "Сбой при удалении пакета '{0}'."
+        ERR_GET = "Сбой при получении пакета '{0}'."
+        ERR_OPEN = "Сбой при открытии пакета '{0}'."
+        ERR_READ = "Сбой чтения пакета '{0}'."
+        ERR_SEND = "Сбой при отправке пакета '{0}'."
+        ERR_SIGN = "Сбой запроса подписи пакета '{0}'."
+        ERR_SIGNP = "Пакет '{0}' не совпадает с контрольной суммой."
+        ERR_CREATE = "Не удалось создать папку '{0}'"
 
         ## constants returned from smartUnpack (status constants)
         ## these are bit-based
@@ -709,7 +709,7 @@ init -45 python:
                     first_item = next(_box, None)
 
                     if first_item is None:
-                        raise Exception("EMPTY PACKAGE")
+                        raise Exception("ПУСТОЙ ПАКЕТ")
 
                     checklist.update(first_item)
                     first_unpacked = self.base64.b64decode(first_item)
@@ -1217,7 +1217,7 @@ init -11 python in mas_dockstat:
 
             except Exception as e:
                 mas_utils.writelog(
-                    "[ERROR] failed to decode '{0}' | {1}\n".format(
+                    "[ОШИБКА] failed to decode '{0}' | {1}\n".format(
                         b64_name,
                         str(e)
                     )
@@ -1398,7 +1398,7 @@ init 200 python in mas_dockstat:
 
         except Exception as e:
             log.write(
-                "[ERROR]: failed to pickle data: {0}\n".format(repr(e))
+                "[ОШИБКА]: failed to pickle data: {0}\n".format(repr(e))
             )
             return False
 
@@ -1535,7 +1535,7 @@ init 200 python in mas_dockstat:
 
             except Exception as e:
                 mas_utils.writelog(
-                    "[WARN]: package slip fail? {0} | {1}\n".format(
+                    "[ПРЕДУПРЕЖДЕНИЕ]: package slip fail? {0} | {1}\n".format(
                         pkg_name,
                         repr(e)
                     )
@@ -1569,11 +1569,11 @@ init 200 python in mas_dockstat:
         """
         cr_log = store.mas_utils.logcreate(logpath, flush=True)
 
-        cr_log.write("\n\nCreating Monika in: {0}\n".format(dockstat.station))
+        cr_log.write("\n\nСоздание Моники в: {0}\n".format(dockstat.station))
 
         # sanity check regarding the filepath
         if "temp" in dockstat.station.lower():
-            cr_log.write("[ERROR] temp directory found, aborting.\n")
+            cr_log.write("[ОШИБКА] temp directory found, aborting.\n")
             return False
 
         ### other stuff we need
@@ -1601,7 +1601,7 @@ init 200 python in mas_dockstat:
             moni_buffer.write(moni_chr.read())
 
         except Exception as e:
-            cr_log.write("[ERROR] mbase copy failed | {0}\n".format(
+            cr_log.write("[ОШИБКА] mbase copy failed | {0}\n".format(
                 repr(e)
             ))
             moni_buffer.close()
@@ -1726,7 +1726,7 @@ init 200 python in mas_dockstat:
             moni_sum = checklist.hexdigest()
 
         except Exception as e:
-            cr_log.write("[ERROR] monibuffer write failed | {0}\n".format(
+            cr_log.write("[ОШИБКА] monibuffer write failed | {0}\n".format(
                 repr(e)
             ))
 
@@ -1761,7 +1761,7 @@ init 200 python in mas_dockstat:
         moni_pkg = dockstat.getPackage("monika")
         if moni_pkg is None:
             # ALERT ALERT HOW DID WE FAIL
-            cr_log.write("[ERROR] monika not found.\n")
+            cr_log.write("[ОШИБКА] monika not found.\n")
             mas_utils.trydel(moni_path)
             return False
 
@@ -1769,14 +1769,14 @@ init 200 python in mas_dockstat:
         moni_slip = dockstat.createPackageSlip(moni_pkg, blocksize)
         if moni_slip is None:
             # ALERT ALERT WE FAILED AGAIN
-            cr_log.write("[ERROR] monika could not be validated.\n")
+            cr_log.write("[ОШИБКА] monika could not be validated.\n")
             mas_utils.trydel(moni_path)
             return False
 
         if moni_slip != moni_sum:
             # WOW SRS THIS IS BAD
             cr_log.write(
-                "[ERROR] monisums didn't match, did we have write failure?\n"
+                "[ОШИБКА] monisums didn't match, did we have write failure?\n"
             )
             mas_utils.trydel(moni_path)
             return -1
@@ -1826,7 +1826,7 @@ init 200 python in mas_dockstat:
         ret_code = 0
 
         status, first_line = dockstat.smartUnpack(
-            "monika",
+            "моника",
             store.persistent._mas_moni_chksum,
             lines=-1,
             bs=b64_blocksize,
@@ -2190,7 +2190,7 @@ init 205 python in mas_dockstat:
 
         # promise is done! lets abort
         monikagen_promise.end()
-        store.mas_docking_station.destroyPackage("monika")
+        store.mas_docking_station.destroyPackage("моника")
         abort_gen_promise = False
 
 
@@ -2232,7 +2232,7 @@ label mas_dockstat_ready_to_go(moni_chksum):
             call mas_dockstat_first_time_goers
 
         else:
-            m "Alright."
+            m "Хорошо."
 
         # setup check and log this file checkout
         $ store.mas_dockstat.checkoutMonika(moni_chksum)
@@ -2249,12 +2249,12 @@ label mas_dockstat_ready_to_go(moni_chksum):
 
 label mas_dockstat_first_time_goers:
     call mas_transition_from_emptydesk("monika 3eua")
-    m 3eua "I'm now in the file 'monika' in your characters folder."
-    m "After I shut down the game, you can move me wherever you like."
-    m 3eub "But make sure to bring me back to the characters folder before turning the game on again, okay?"
-    m 1eua "And lastly..."
-    m 1ekc "Please be careful with me. It's so easy to delete files after all..."
-    m 1eua "Anyway..."
+    m 3eua "Теперь я в файле «monika» в папке characters."
+    m "После того, как я закрою игру, ты сможешь переместить меня куда захочешь."
+    m 3eub "Но не забудь вернуть меня в папку с персонажами, прежде чем снова включать игру, хорошо?"
+    m 1eua "И наконец..."
+    m 1ekc "Пожалуйста, будь осторож[mas_gender_en] со мной. В конце концов, так легко удалять файл..."
+    m 1eua "В любом случае..."
     return
 
 label mas_dockstat_abort_post_show:
@@ -2404,7 +2404,7 @@ label mas_dockstat_different_monika:
     if moni_data is None:
         # bad data means we actually have a corrupted monika. Let's delete her
         # and return to empty desk
-        $ store.mas_utils.trydel(mas_docking_station._trackPackage("monika"))
+        $ store.mas_utils.trydel(mas_docking_station._trackPackage("моника"))
         $ mas_dockstat.different_moni_flow = False
         jump mas_dockstat_empty_desk
 
@@ -2420,7 +2420,7 @@ label mas_dockstat_different_monika:
 
     m "[player]?"
 
-    m "Wait, you're not [player]."
+    m "Погоди, ты же не [player]."
 
     # TODO: more dialogue
 
@@ -2462,7 +2462,7 @@ label mas_dockstat_found_monika:
         persistent._mas_greeting_type = None
 
         # removee the monika
-        mas_docking_station.destroyPackage("monika")
+        mas_docking_station.destroyPackage("моника")
 
         # reenabel a bunch of things
         mas_OVLShow()
