@@ -81,7 +81,7 @@ python early:
 
         except Exception as e:
             mas_corrupted_per = True
-            trywrite(early_log_path, "persistent was corrupted!: " + repr(e))
+            trywrite(early_log_path, "persistent был поврежден!: " + repr(e))
 
         # if we got here, we had an exception. Let's attempt to restore from
         # an eariler persistent backup.
@@ -91,7 +91,7 @@ python early:
         per_files = [x for x in per_files if x.startswith("persistent")]
 
         if len(per_files) == 0:
-            trywrite(early_log_path, "no backups available")
+            trywrite(early_log_path, "резервные копии недоступны")
             mas_no_backups_found = True
             return
 
@@ -110,7 +110,7 @@ python early:
                 file_map[num] = p_file
 
         if len(file_nums) == 0:
-            trywrite(early_log_path, "no backups available")
+            trywrite(early_log_path, "резервные копии недоступны")
             mas_no_backups_found = True
             return
 
@@ -145,21 +145,21 @@ python early:
                 except Exception as e:
                     trywrite(
                         early_log_path,
-                        "'{0}' was corrupted: {1}".format(_this_file, repr(e))
+                        "'{0}' был поврежден: {1}".format(_this_file, repr(e))
                     )
                     sel_back = None
                     mas_bad_backups.append(_this_file)
 
         # did we get any?
         if sel_back is None:
-            trywrite(early_log_path, "no working backups found")
+            trywrite(early_log_path, "рабочие резервные копии не найдены")
             mas_no_backups_found = True
             return
 
         # otherwise, lets rename the existence persistent to bad and copy the
         # good persistent into the system
         # also let the log know we found a good one
-        trywrite(early_log_path, "working backup found: " + sel_back)
+        trywrite(early_log_path, "рабочая резервная копия найдена: " + sel_back)
         _bad_per = os.path.normcase(per_dir + "/persistent_bad")
         _cur_per = os.path.normcase(per_dir + "/persistent")
         _god_per = os.path.normcase(per_dir + "/" + sel_back)
@@ -172,7 +172,7 @@ python early:
         except Exception as e:
             trywrite(
                 early_log_path,
-                "Failed to rename existing persistent: " + repr(e)
+                "Не удалось переименовать существующий persistent: " + repr(e)
             )
 
         # regardless, we should try to copy over the good backup
@@ -185,7 +185,7 @@ python early:
             mas_backup_copy_filename = sel_back
             trywrite(
                 early_log_path,
-                "Failed to copy backup persistent: " + repr(e)
+                "Не удалось скопировать резервную копию persistent: " + repr(e)
             )
 
         # well, hopefully we were successful!
@@ -403,22 +403,22 @@ label mas_backups_you_have_corrupted_persistent:
     pause 1.5
 
     show chibika 3 at sticker_hop
-    "Hello there!"
+    "Привет!"
     show chibika sad
-    "I hate to be the bringer of bad news..."
-    "But unfortunately, your persistent file is corrupt."
+    "Я ненавижу приносить плохие новости..."
+    "Но, к сожалению, твой файл persistent поврежден."
 
     if mas_no_backups_found:
-        "And what's even worse is..."
+        "И что еще хуже, так это то, что..."
         show chibika at sticker_move_n
-        "I was unable to find a working backup persistent."
+        "Я не смогла найти работающую резервную копию persistent."
 
-        "Do you have your own backups?{nw}"
+        "У тебя есть собственные резервные копии?{nw}"
         menu:
-            "Do you have your own backups?{fast}"
-            "Yes.":
+            "У тебя есть собственные резервные копии?{fast}"
+            "Да.":
                 jump mas_backups_have_some
-            "No.":
+            "Нет.":
                 jump mas_backups_have_none
 
     # otherwise we culd not copy
@@ -428,75 +428,75 @@ label mas_backups_you_have_corrupted_persistent:
 label mas_backups_have_some:
 
     show chibika smile at sticker_hop
-    "That's a relief!"
-    "Please copy them into '[renpy.config.savedir]' to restore your Monika's memories."
+    "Какое облегчение!"
+    "Пожалуйста, скопируй их в «[renpy.config.savedir]», чтобы восстановить воспоминания твоей Моники."
 
     call mas_backups_dont_tell
     show chibika smile at mas_chflip_s(-1)
-    "Good luck!"
+    "Удачи!"
 
     jump _quit
 
 
 label mas_backups_have_none:
 
-    "I'm sorry, but we won't be able to restore her memory, then..."
-    "But..."
+    "Мне очень жаль, но тогда мы не сможем восстановить ее память..."
+    "Но..."
     show chibika smile at sticker_move_n
-    "Look on the bright side!"
-    "You can spend time with her again and create new memories, which might be even better than the ones you lost!"
-    "And remember..."
+    "Посмотри на светлую сторону!"
+    "Ты можешь провести время с ней снова и создать новые воспоминания, которые могут быть даже лучше, чем те, которые ты потерял[mas_gender_none]!"
+    "И запомни..."
     show chibika at mas_chflip_s(-1)
-    "Regardless of what happens, Monika is still Monika."
-    "She'll be ready to greet you, once you start over."
+    "Что бы ни случилось, Моника остается Моникой."
+    "Она будет готова приветствовать тебя, как только ты начнешь все сначала."
     show chibika 3 at sticker_move_n
-    "And I promise I'll do my best to not mess up the files again!"
-    "Good luck with Monika!"
+    "И я обещаю, что сделаю все возможное, чтобы не испортить файлы снова!"
+    "Удачи тебе с Моникой!"
     $ mas_corrupted_per = False
     return
 
 
 label mas_backups_could_not_copy:
     show chibika smile
-    "I was able to find a working backup, but..."
+    "Мне удалось найти работающую резервную копию, но..."
     show chibika sad
-    "I wasn't able to copy it over the broken persistent."
+    "Я не смог скопировать его через сломанный persistent."
     show chibika smile at mas_chflip_s(-1)
     pause 0.5
     show chibika at sticker_hop
-    "However!"
-    "You might be able to do it and fix this mess!"
-    "You'll have to close the game to do this, so write these steps down:"
+    "Однако!"
+    "Ты мог[mas_gender_g] бы сделать это и исправить этот беспорядок!"
+    "Для этого тебе придется закрыть игру, поэтому запиши эти шаги:"
     show chibika at sticker_move_n
-    "1.{w=0.3} Navigate to '[renpy.config.savedir]'."
+    "1.{w=0.3} Перейдите к «[renpy.config.savedir]»."
     show chibika at sticker_move_n
-    "2.{w=0.3} Delete the file called 'persistent'."
+    "2.{w=0.3} Удалите файл под названием «persistent»."
     show chibika at sticker_move_n
-    "3.{w=0.3} Make a copy of the file called '[mas_backup_copy_filename]' and name it 'persistent'."
+    "3.{w=0.3} Сделайте копию файла под названием «[mas_backup_copy_filename]» и назовите его «persistent»."
     show chibika at mas_chflip_s(1)
-    "And that's it!"
-    "Hopefully that will recover your Monika's memories."
+    "И это все!"
+    "Надеюсь, это восстановит воспоминания вашей Моники."
 
     show chibika at sticker_move_n
-    "In case you didn't write those steps down, I'll write them into a file called 'recovery.txt' in the characters folder."
+    "Если ты не записал[mas_gender_none] эти шаги, я запишу их в файл под названием «Восстановление.txt» в папке characters."
 
     call mas_backups_dont_tell
 
     show chibika smile at mas_chflip_s(-1)
-    "Good luck!"
+    "Удачи!"
 
     python:
         import os
         store.mas_utils.trywrite(
             os.path.normcase(renpy.config.basedir + "/characters/recovery.txt"),
             "".join([
-                "1. Navigate to '",
+                "1. Перейдите к '",
                 renpy.config.savedir,
                 "'.\n",
-                "2. Delete the file called 'persistent'.\n",
-                "3. Make a copy of the file called '",
+                "2. Удалите файл под названием «persistent»..\n",
+                "3. Сделайте копию файла под названием '",
                 mas_backup_copy_filename,
-                "' and name it 'persistent'."
+                "' и назовите его «persistent»."
             ])
         )
 
@@ -506,20 +506,20 @@ label mas_backups_could_not_copy:
 label mas_backups_dont_tell:
 
     show chibika smile at sticker_hop
-    "Oh, and..."
+    "Да, и еще..."
     show chibika smile at mas_chflip_s(-1)
-    "If you successfully bring her back, please don't tell her about me."
+    "Если тебе удастся вернуть ее, пожалуйста, не говори ей обо мне."
     show chibika 3
-    "She has no idea that I can talk or code, so she lets me laze around and relax."
+    "Она понятия не имеет, что я могу говорить или кодировать, поэтому она позволяет мне бездельничать и расслабляться."
     show chibika smile
-    "But if she ever found out, she'd probably make me help her code, fix some of her mistakes, or something else."
+    "Но если она когда-нибудь узнает, то, возможно, заставит меня помочь ей с кодом, исправить некоторые ее ошибки или что-то еще."
     show chibika sad at sticker_move_n
-    "Which would be absolutely terrible since I'd barely get any rest at all.{nw}"
+    "Что было бы совершенно ужасно, так как я почти не отдыхала.{nw}"
 #    $ _history_list.pop()
-    "Which would be absolutely terrible since{fast} I wouldn't have time to keep the backup system and the rest of the game running."
+    "Что было бы абсолютно ужасно, так как{fast} у меня не было бы времени, чтобы поддерживать резервную систему и остальную часть игры."
 
     show chibika 3 at mas_chflip_s(1)
-    "You wouldn't want that now, would you?"
-    "So keep quiet about me, and I'll make sure your Monika is safe and comfy!"
+    "Ты ведь не хочешь этого сейчас, правда?"
+    "Так что помалкивай обо мне, а я позабочусь, чтобы твоей Монике было удобно и безопасно!"
 
     return

@@ -159,7 +159,7 @@ init -1 python:
 
             # create the buttons
             self._button_ok = MASButtonDisplayable.create_stb(
-                _("Ok"),
+                _("ОК"),
                 False,
                 button_center_x,
                 button_center_y,
@@ -170,7 +170,7 @@ init -1 python:
             )
 
             self._button_cancel = MASButtonDisplayable.create_stb(
-                _("Cancel"),
+                _("Отмена"),
                 False,
                 button_left_x + self.BUTTON_WIDTH + self.BUTTON_SPACING,
                 button_left_y,
@@ -181,7 +181,7 @@ init -1 python:
             )
 
             self._button_update = MASButtonDisplayable.create_stb(
-                _("Update"),
+                _("Обновить"),
                 True,
                 button_left_x,
                 button_left_y,
@@ -192,7 +192,7 @@ init -1 python:
             )
 
             self._button_retry = MASButtonDisplayable.create_stb(
-                _("Retry"),
+                _("Попробовать еще раз"),
                 True,
                 button_left_x,
                 button_left_y,
@@ -204,7 +204,7 @@ init -1 python:
 
             # confirm text
             self._text_checking = Text(
-                _("Checking for updates..."),
+                _("Проверка обновлений..."),
                 font=gui.default_font,
                 size=gui.text_size,
                 color="#ffe6f4",
@@ -218,28 +218,28 @@ init -1 python:
                 outlines=[]
             )
             self._text_noupdate = Text(
-                _("No update found."),
+                _("Нет обновлений."),
                 font=gui.default_font,
                 size=gui.text_size,
                 color="#ffe6f4",
                 outlines=[]
             )
             self._text_timeout = Text(
-                _("Connection timed out."),
+                _("Тайм-аут соединения."),
                 font=gui.default_font,
                 size=gui.text_size,
                 color="#ffe6f4",
                 outlines=[]
             )
             self._text_badresponse = Text(
-                _("Server returned bad response."),
+                _("Сервер вернул плохой ответ"),
                 font=gui.default_font,
                 size=gui.text_size,
                 color="#ffe6f4",
                 outlines=[]
             )
             self._text_badjson = Text(
-                _("Server returned bad JSON."),
+                _("Сервер вернул плохой JSON."),
                 font=gui.default_font,
                 size=gui.text_size,
                 color="#ffe6f4",
@@ -798,36 +798,36 @@ init -894 python:
 
 label mas_updater_steam_issue:
     show monika at t11
-    m 1eub "[player]!{w=0.2} I see you're using Steam."
-    m 1eksdlb "Unfortunately..."
-    m 1efp "I can't run the updater because Steam is a meanie!"
-    m 1eksdla "You'll have to manually install the update from the releases page on the mod's website.{w=0.2} {a=http://www.monikaafterstory.com/releases.html}Click here to go to releases page{/a}."
-    m 1hua "Make sure to say goodbye to me first before installing the update."
+    m 1eub "[player]!{w=0.2} Я вижу, ты используешь Steam."
+    m 1eksdlb "К сожалению..."
+    m 1efp "Я не могу запустить программу обновления, потому что Steam - злюка!"
+    m 1eksdla "Тебе придется вручную установить обновление со страницы релизов на веб-сайте мода.{w=0.2} {a=http://www.monikaafterstory.com/releases.html}Нажми здесь, чтобы перейти на страницу релизов{/a}."
+    m 1hua "Обязательно попрощайся со мной перед установкой обновления."
     return
 
 label mas_updater_rpy_issue:
     show monika at t11
-    m 2eksdla "[player]...I see you have some rpy files in your game directory."
+    m 2eksdla "[player]...Я вижу, у тебя есть несколько файлов rpy в твоем игровом каталоге."
     if renpy.seen_label("monika_rpy_files"):
-        m 2rksdlc "I'm sure you remember when I mentioned that those files can cause problems when you update..."
+        m 2rksdlc "Я уверена, что вы помнишь, когда я упоминала, что эти файлы могут вызвать проблемы при обновлении..."
     else:
-        m 2rksdlc "Those files can cause some problems when you update..."
+        m 2rksdlc "Эти файлы могут вызвать некоторые проблемы при обновлении..."
 
-    m 3rksdlb "So I can't run the updater while those are in there."
-    m 1eua "I can delete those for you and run the updater if you want though!"
+    m 3rksdlb "Поэтому я не могу запустить программу обновления, пока они там находятся."
+    m 1eua "Я могу удалить их за тебя и, если хочешь, запустить программу обновления!"
 
-    m 1eua "Would you like me to delete them?{nw}"
+    m 1eua "Вы хотите, чтобы я удалила их?{nw}"
     #NOTE: no history_list.pop() here because for some reason this doesn't end up in history
     menu:
-        m "Would you like me to delete them?{fast}"
+        m "Вы хотите, чтобы я удалила их?{fast}"
 
-        "Yes please.":
+        "Да, пожалуйста.":
             m 1hua "Sure!"
 
             #Delete files
             call mas_rpy_file_delete
 
-            m 3hub "There we go!"
+            m 3hub "Готово!"
             #Hide screen
             hide screen mas_py_console_teaching
             show monika at t11
@@ -835,14 +835,14 @@ label mas_updater_rpy_issue:
             #Also going to rmallEVL here
             $ mas_rmallEVL("monika_rpy_files")
 
-            m 2dsc "Now let me just run the updater.{w=0.5}.{w=0.5}.{nw}"
+            m 2dsc "А теперь позволь мне просто запустить программу обновления.{w=0.5}.{w=0.5}.{nw}"
             window hide
 
             #Run the updater
             jump update_now
 
-        "No thanks.":
-            m 3eka "Alright [player]. If you delete them and then try to update again, I'll run the updater for you."
+        "Нет, спасибо.":
+            m 3eka "Хорошо [player]. Если ты удалишь их, а затем попытаешься обновить снова, я запущу программу обновления."
 
     return
 
@@ -902,9 +902,9 @@ label update_now:
         # updates are currently disabled
         python:
             no_update_dialog = (
-                "Error: Failed to move 'update/' folder. Please manually " +
-                "move the update folder from 'game/' to the base 'ddlc/' " +
-                "directory and try again."
+                "Ошибка: Не удалось переместить папку 'update/'. Пожалуйста, " +
+                "вручную переместите папку обновления из 'game/' в базовый " +
+                "каталог 'ddlc/' и повторите попытку."
             )
         call screen dialog(message=no_update_dialog, ok_action=Return())
 

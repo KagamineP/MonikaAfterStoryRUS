@@ -421,11 +421,11 @@ init -10 python:
         """
 
         _ERR_PP_STR = (
-            "[ERROR] error in slice pp | {0}\n"
+            "[ОШИБКА] error in slice pp | {0}\n"
             "=====FROM: {1} -> {2}\n"
         )
         _ERR_PP_STR_G = (
-            "[ERROR] error in global slice pp | {0}\n"
+            "[ОШИБКА] error in global slice pp | {0}\n"
             "=====FROM: {1} -> {2}\n"
         )
 
@@ -1102,12 +1102,12 @@ init -10 python:
         """
 
         _ERR_PP_STR = (
-            "[ERROR] error in chunk pp | {0}\n\n"
+            "[ОШИБКА] error in chunk pp | {0}\n\n"
             "=====FROM:\n{1}\n\n"
             "=====TO\n{2}\n"
         )
         _ERR_PP_STR_G = (
-            "[ERROR] error in global chunk pp | {0}\n\n"
+            "[ОШИБКА] error in global chunk pp | {0}\n\n"
             "=====FROM:\n{1}\n\n"
             "=====TO\n{2}\n"
         )
@@ -1896,16 +1896,16 @@ init -10 python:
             """
             # sanity checks
             if background_id in self.mas_background.BACKGROUND_MAP:
-                raise Exception("duplicate background ID")
+                raise Exception("дубликат фонового идентификатора")
             if not isinstance(image_map, MASFilterWeatherMap):
                 raise TypeError(
-                    "Expected MASFilterWeatherMap, got {0}".format(
+                    "Ожидалось MASFilterWeatherMap, получено {0}".format(
                         type(image_map)
                     )
                 )
             if not isinstance(filter_man, MASBackgroundFilterManager):
                 raise TypeError(
-                    "Exepcted MASBackroundFilterManager, got {0}".format(
+                    "Ожидалось MASBackroundFilterManager, получено {0}".format(
                         type(filter_man)
                     )
                 )
@@ -2333,19 +2333,19 @@ init -10 python:
                         return
 
             if not img_found:
-                raise Exception("No images found for these filters")
+                raise Exception("Изображения для этих фильтров не найдены")
 
 
 #Helper methods and such
 init -20 python in mas_background:
     import store
     BACKGROUND_MAP = {}
-    BACKGROUND_RETURN = "Nevermind"
+    BACKGROUND_RETURN = "Неважно"
     dbg_log = False
     dbg_log_st = False
-    DBG_MSG_C = "\nCurrent: {0} | {1}\n"
-    DBG_MSG_N = "\nNew: ret: {0} | {1} | {2}\n"
-    DBG_MSG_NU = "\nNew: {0} | {1}\n"
+    DBG_MSG_C = "\Текущий: {0} | {1}\n"
+    DBG_MSG_N = "\nНовый: ret: {0} | {1} | {2}\n"
+    DBG_MSG_NU = "\nНовый: {0} | {1}\n"
 
     def build():
         """
@@ -2737,7 +2737,7 @@ init 5 python:
             persistent.event_database,
             eventlabel="monika_change_background",
             category=["location"],
-            prompt="Can we go somewhere else?",
+            prompt="Мы можем пойти куда-нибудь еще?",
             pool=True,
             unlocked=False,
             rules={"no unlock": None},
@@ -2747,7 +2747,7 @@ init 5 python:
     )
 
 label monika_change_background:
-    m 1hua "Sure!"
+    m 1hua "Конечно!"
 
     #FALL THROUGH
 
@@ -2755,7 +2755,7 @@ label monika_change_background_loop:
 
     show monika 1eua at t21
 
-    $ renpy.say(m, "Where would you like to go?", interact=False)
+    $ renpy.say(m, "Куда бы ты хотел[mas_gender_none] пойти?", interact=False)
 
     python:
         # build menu list
@@ -2794,8 +2794,8 @@ label monika_change_background_loop:
         return "prompt"
 
     if sel_background == mas_current_background:
-        m 1hua "We're here right now, silly."
-        m "Try again~"
+        m 1hua "Мы здесь прямо сейчас, глупышка."
+        m "Попробуй еще раз~"
         jump monika_change_background_loop
 
     call mas_background_change(sel_background, set_persistent=True)
@@ -2805,8 +2805,8 @@ label monika_change_background_loop:
 label mas_background_change(new_bg, skip_leadin=False, skip_outro=False, set_persistent=False):
     # otherwise, we can change the background now
     if not skip_leadin:
-        m 1eua "Alright!"
-        m 1hua "Let's go, [player]!"
+        m 1eua "Ладно!"
+        m 1hua "Поехали, [player]!"
 
     #Little transition
     hide monika
@@ -2847,6 +2847,6 @@ label mas_background_change(new_bg, skip_leadin=False, skip_outro=False, set_per
     call spaceroom(scene_change=True, dissolve_all=True)
 
     if not skip_outro:
-        m 1eua "Here we are!"
-        m "Let me know if you want to go somewhere else, okay?"
+        m 1eua "Готово!"
+        m "Дай мне знать, если захочешь пойти куда-нибудь еще, хорошо?"
     return
