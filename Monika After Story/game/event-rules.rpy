@@ -414,7 +414,7 @@ init -1 python:
 
             # setup_label must exist
             if setup_label is not None and not renpy.has_label(setup_label):
-                raise Exception("'{0}' does not exist.".format(setup_label))
+                raise Exception("'{0}' не существует.".format(setup_label))
 
             # return the tuple inside a dict
             rule = {
