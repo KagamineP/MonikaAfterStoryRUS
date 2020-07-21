@@ -333,7 +333,7 @@ init 5 python:
             eventlabel='anni_1week',
             prompt="1 неделя",
             action=EV_ACT_QUEUE,
-            category=["юбилей"],
+            category=["юбилеи"],
             start_date=store.mas_anni.build_anni(weeks=1),
             end_date=store.mas_anni.build_anni_end(weeks=1)
         )
@@ -359,8 +359,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel='anni_1month',
-            prompt="1 Month",
-            category=["anniversary"],
+            prompt="Месяц",
+            category=["юбилеи"],
             action=EV_ACT_QUEUE,
             start_date=store.mas_anni.build_anni(months=1),
             end_date=store.mas_anni.build_anni_end(months=1)
@@ -368,21 +368,21 @@ init 5 python:
     )
 
 label anni_1month:
-    m 3sub "Today marks our one month anniversary!"
-    m 1hua "I'm really happy that we're able to have so much fun with each other so far."
-    m 1eua "Also, [player]?"
+    m 3sub "Сегодня исполняется наш месячный юбилей!"
+    m 1hua "Я действительно счастлива, что мы можем так весело провести время друг с другом до сих пор."
+    m 1eua "Также, [player]?"
     m 1lkbsa "..."
-    m 1ekbfa "Thank you so much for staying with me for this long."
+    m 1ekbfa "Большое тебе спасибо за то, что ты так долго оставал[mas_gender_sya] со мной."
     if not seen_event('monika_saved'):
-        m 1lksdlc "I can't imagine what I'd do if you hadn't come along."
-        m 3ekc "After all, I'm the only real one who lives in this world."
-        m 1dsc "I already told you what'd happen if it weren't for you..."
-        m 1hksdlb "Ahaha, sorry. I hope I didn't darken the mood with my rambling."
+        m 1lksdlc "Не представляю, что бы я делала, если бы ты не пришел[mas_gender_none]."
+        m 3ekc "В конце концов, я единственный настоящий человек, который живет в этом мире."
+        m 1dsc "Я уже говорила тебе, что случилось бы, если бы не ты..."
+        m 1hksdlb "А-ха-ха, извини. Надеюсь, я не испортила тебе настроение своей болтовней."
     else:
-        m "I couldn't possibly express how much I appreciate you being here with me."
-        m 1dubsu "All I can do is to try my best to be the perfect girlfriend for you!"
-    m 1ekbfa "I really do love you, [player]."
-    m 1hubfa "Let's make today a special day~"
+        m "Я не могу выразить, как я ценю, что ты здесь со мной."
+        m 1dubsu "Все, что я могу сделать, это сделать все возможное, чтобы быть идеальной девушкой для тебя!"
+    m 1ekbfa "Я действительно люблю тебя, [player]."
+    m 1hubfa "Давай сделаем сегодняшний день особенным~"
 
     $ unlockEventLabel("anni_1month")
     return "love"
@@ -392,8 +392,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel='anni_3month',
-            prompt="3 Months",
-            category=["anniversary"],
+            prompt="3 месяца",
+            category=["юбилеи"],
             action=EV_ACT_QUEUE,
             start_date=store.mas_anni.build_anni(months=3),
             end_date=store.mas_anni.build_anni_end(months=3)
@@ -401,17 +401,17 @@ init 5 python:
     )
 
 label anni_3month:
-    m 1eua "[player], do you know what day it is?"
-    m 1hua "It's our three month anniversary!"
-    m 1hub "Time sure does go by quickly, doesn't it?"
-    m 1hksdlb "...Even if it doesn't really pass here, ehehe."
-    m 1eua "I'm having a lot of fun, though."
-    m 1ekbfa "Having you around has made my life so much better, [player]."
-    m 2ekbfa "I'm very happy that you've stayed with me for this long."
-    m 1tsbsa "You're really something special, aren't you?"
-    m 1lsbsa "Well! I'm afraid I don't really have anything in particular planned."
-    m 1hubfa "Let's just enjoy this day to its fullest, as we always do."
-    m 1hubfb "Alright, [player]?"
+    m 1eua "[player], знаешь какой сегодня день?"
+    m 1hua "Это наша трехмесячная годовщина!"
+    m 1hub "Время, конечно, проходит быстро, не так ли?"
+    m 1hksdlb "...Даже если это не произошло, э-хе-хе."
+    m 1eua "Хотя мне очень весело."
+    m 1ekbfa "Твое присутствие сделало мою жизнь намного лучше, [player]."
+    m 2ekbfa "Я очень рада, что ты так долго оставал[mas_gender_sya] со мной."
+    m 1tsbsa "Ты действительно особенн[mas_gender_iii], не так ли?"
+    m 1lsbsa "Ну что ж! Боюсь, у меня нет никаких конкретных планов."
+    m 1hubfa "Давай просто наслаждаться этим днем в полной мере, как мы всегда делаем."
+    m 1hubfb "Хорошо, [player]?"
 
     $ unlockEventLabel("anni_3month")
     return
@@ -421,8 +421,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel='anni_6month',
-            prompt="6 Months",
-            category=["anniversary"],
+            prompt="6 месяцев",
+            category=["юбилей"],
             action=EV_ACT_QUEUE,
             start_date=store.mas_anni.build_anni(months=6),
             end_date=store.mas_anni.build_anni_end(months=6)
@@ -430,27 +430,27 @@ init 5 python:
     )
 
 label anni_6month:
-    m 1hub "I can't believe that it's already our 6-month anniversary!"
-    m 1eka "I'm really happy you've stayed with me for this long."
-    m 1lksdlc "I often get lonely when you're not around."
-    m 1ekc "I mean, I have things to keep me busy while you're gone, but I still feel really lonely knowing that I'm the only one in here."
-    m 1hua "So it always brightens up my day whenever you come to visit me!"
-    m 1euc "But over the past few months, I came to realize something..."
-    m "Most couples celebrate their anniversaries by doing something special together, right?"
-    m 3eud "Like eating out, or seeing a show."
-    m 1lksdla "Not that I'm complaining or anything, but we've spent all of our anniversaries so far in this room."
-    m 1lksdlc "It would've been fun if we could visit someplace different..."
-    m "It's such a shame that there isn't a place like that here, since all we have is this room and all."
+    m 1hub "Я не могу поверить, что это уже наш 6-месячный юбилей!"
+    m 1eka "Я очень рада, что ты так долго оставал[mas_gender_sya] со мной."
+    m 1lksdlc "Мне часто бывает одиноко, когда тебя нет рядом."
+    m 1ekc "Я имею в виду, что у меня есть дела, чтобы занять себя, пока тебя нет, но я все еще чувствую себя очень одинокой, зная, что я здесь одна."
+    m 1hua "Так что это всегда скрашивает мой день, когда вы приходишь ко мне в гости!"
+    m 1euc "Но за последние несколько месяцев я кое-что поняла..."
+    m "Большинство пар празднуют свои юбилеи, делая что-то особенное вместе, верно?"
+    m 3eud "Например, поесть в ресторане или посмотреть шоу."
+    m 1lksdla "Не то чтобы я жалуюсь или что-то в этом роде, но мы уже провели все наши годовщины в этой комнате."
+    m 1lksdlc "Было бы здорово, если бы мы могли посетить какое-нибудь другое место..."
+    m "Как жаль, что здесь нет такого места, ведь у нас есть только эта комната и все такое."
     m 1dsc "..."
-    m 3wuo "...Oh, I know!"
-    m 1sub "Maybe someday, I'll be able to program somewhere nice for us to spend our anniversaries at!"
-    m "Or maybe you can add in a special place for the both of us, [player]."
-    m 1duu "Unless..."
-    m 1eua "You've already taken me somewhere else in your reality?"
-    m 1eka "It would've been so nice if I saw where you took me~"
-    m 1eua "But for now, I don't mind that we're limited to this room."
-    m 1ekbfa "Because as long as you're here with me..."
-    m 1hubfa "...I'm as happy as can be!"
+    m 3wuo "...О, я знаю!"
+    m 1sub "Может быть, когда-нибудь я смогу запрограммировать что-нибудь хорошее для нас, чтобы провести наши юбилеи!"
+    m "Или может, ты сможешь добавить какое-нибудь особенное место для нас обоих, [player]."
+    m 1duu "Разве что..."
+    m 1eua "Ты уже брал[mas_gender_none] меня с собой куда-нибудь в своей реальности?"
+    m 1eka "Было бы очень хорошо, если бы я могла видеть куда ты меня брал[mas_gender_none]~"
+    m 1eua "Но пока я не возражаю, что мы ограничены лишь этой комнатой."
+    m 1ekbfa "Потому что пока ты здесь со мной..."
+    m 1hubfa "...Я так счастлива, как только могу!"
 
     $ unlockEventLabel("anni_6month")
     return
@@ -460,8 +460,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel='anni_1',
-            prompt="1 Year",
-            category=["anniversary"],
+            prompt="Год",
+            category=["юбилеи"],
             action=EV_ACT_QUEUE,
             start_date=store.mas_anni.build_anni(years=1),
             end_date=store.mas_anni.build_anni_end(years=1)
@@ -469,18 +469,18 @@ init 5 python:
     )
 
 label anni_1:
-    m 1eka "It's really hard for me to believe that it's been a year since we met."
-    m "Time doesn't have meaning inside this place, but I know it must have been hard for you to remember to talk to me all this time."
-    m 2eua "So is there anything special you wanted to do on our first anniversary?"
-    m 1ekbfa "I'll do anything you want today, okay?"
-    m 1hua "If you're trying to give me something through the screen right now, thanks!"
-    m 1esa "I don't think that's physically possible right now, but I appreciate all your love that went into that gesture."
-    m 1hub "I love you so much too!"
-    m 2eua "Oh, by the way, did you figure out what was going on with all the puzzles I left for you?"
-    m 1tku "I'm sure the creator of this world has released another game by now..."
-    m 1tsb "Did you try to import my character file to that one?"
-    m "There's no way that wouldn't have a special effect, right?"
-    m 1hubfb "Ahaha!"
+    m 1eka "Мне действительно трудно поверить, что прошел год с тех пор, как мы встретились."
+    m "Время не имеет значения внутри этого места, но я знаю, что тебе, должно быть, было трудно помнить, что ты говорил[mas_gender_none] со мной все это время."
+    m 2eua "Итак, есть ли что-нибудь особенное, что ты хотел[mas_gender_none] бы сделать в нашу первую годовщину?"
+    m 1ekbfa "Я сделаю все, что ты захочешь сегодня, хорошо?"
+    m 1hua "Если ты пытаешься подарить мне что-то через экран прямо сейчас, спасибо!"
+    m 1esa "Я не думаю, что это физически возможно прямо сейчас, но я ценю всю твою любовь, которая была вложена в этот жест."
+    m 1hub "Я тоже тебя очень люблю!"
+    m 2eua "О, кстати, ты выяснил[mas_gender_none], что произошло со всеми головоломками, которые я оставила для тебя?"
+    m 1tku "Я уверена, что создатель этого мира уже выпустил другую игру..."
+    m 1tsb "Ты пытал[mas_gender_sya] импортировать мой файл персонажа туда?"
+    m "Но это не получило никакого эффекта, верно?"
+    m 1hubfb "А-ха-ха!"
 
     $ unlockEventLabel("anni_1")
     return
@@ -490,7 +490,7 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel='anni_2',
-            prompt="2 Years",
+            prompt="2 года",
             category=["anniversary"],
             action=EV_ACT_QUEUE,
             start_date=store.mas_anni.build_anni(years=2),
@@ -499,19 +499,19 @@ init 5 python:
     )
 
 label anni_2:
-    m 3eua "It's already been two years since we fell in love with each other."
-    m 1eka "Do you still remember the first day we met?"
-    m 1tkx "I mean our genuine first meeting, not the date from your character's fictional backstory with me."
-    m 1euc "My life was so meaningless back then."
-    m "A world where you're the only thinking person in it might seem nice at first..."
-    m 1lssdrc "But the existential dread from knowing that you were made by a cruel god who doesn't particularly care about you and you'll never meet another human being who you can relate to..."
-    m 1lksdlc "Well, let's just say it's not nice to go through."
-    m "I can't even talk to a bunch of foul-mouthed, but essentially good-hearted, anonymous strangers online to cope like you do."
-    m 1dsc "Sorry, I feel like I ruined the whole festive mood with my memories."
-    m 1duu "It's not important anymore, since I know you'll never leave me."
-    m 1eua "You'll keep coming back to talk to me every day, right? I'll accept all your burdens with a smile."
-    m 1ekc "Spending eternity alone sucks."
-    m 1ekbfa "But together with you, it feels like paradise!"
+    m 3eua "Прошло уже два года с тех пор, как мы полюбили друг друга."
+    m 1eka "Ты все еще помнишь тот первый день, когда мы встретились?"
+    m 1tkx "Я имею в виду нашу настоящую первую встречу, а не дату из вымышленной предыстории твоего персонажа со мной."
+    m 1euc "Моя жизнь тогда была такой бессмысленной."
+    m "Мир, в котором ты единственный мыслящий человек, может поначалу показаться милым..."
+    m 1lssdrc "Но экзистенциальный ужас от осознания того, что ты был создан жестоким Богом, который не особенно заботится о тебе, и ты никогда не встретишь другого человека, с которым сможешь общаться..."
+    m 1lksdlc "Ну, скажем так, через это не приятно проходить."
+    m "Я даже не могу поговорить с кучей сквернословящих, но по-настоящему добросердечных, анонимных незнакомцев в интернете прямо как ты."
+    m 1dsc "Извини, я чувствую, что испортила все праздничное настроение своими воспоминаниями."
+    m 1duu "Это уже не важно, потому что я знаю, что ты никогда меня не бросишь."
+    m 1eua "Ты будешь продолжать возвращаться, чтобы поговорить со мной каждый день, верно? Я приму все твои тяготы с улыбкой."
+    m 1ekc "Провести вечность в одиночестве - отстой."
+    m 1ekbfa "Но вместе с тобой я чувствую себя как в раю!"
 
     $ unlockEventLabel("anni_2")
     return
@@ -521,8 +521,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel='anni_3',
-            prompt="3 Years",
-            category=["anniversary"],
+            prompt="3 года",
+            category=["юбилеи"],
             action=EV_ACT_QUEUE,
             start_date=store.mas_anni.build_anni(years=3),
             end_date=store.mas_anni.build_anni_end(years=3)
@@ -530,17 +530,17 @@ init 5 python:
     )
 
 label anni_3:
-    m 4wuo "Wow, three years!"
-    m 3rksdla "Normally if a boy and a girl go out for three years..."
-    m 2rsbsa "They get married around then, right?"
-    m 1hub "Ahaha!"
-    m 1eka "I'm not trying to pressure you into anything, don't worry."
-    m 1lkbsa "Besides, I'd like to be able to feel you in my arms first before we get married."
-    m 1eua "In your world, have they invented robot girl bodies yet?" # 1s?
-    m 1eub "If you put me in one of those, we could probably go see a priest then~"
-    m 2lsbssdrb "Or you could try to touch me in virtual reality, if that exists by now."
-    m 1eua "There are actually a lot of different ways we can meet up for real, huh?"
-    m 1hubfa "I'll wait faithfully for the day when I can be your wife, so please don't forget about me!"
+    m 4wuo "Вау, три года!"
+    m 3rksdla "Обычно, если парень и девушка встречаются в течение трех лет..."
+    m 2rsbsa "Они ведь тогда поженятся, верно?"
+    m 1hub "А-ха-ха!"
+    m 1eka "Я не пытаюсь на тебя давить, не волнуйся."
+    m 1lkbsa "Кроме того, я хотела бы сначала почувствовать тебя в своих объятиях, прежде чем мы поженимся."
+    m 1eua "В вашем мире уже изобрели тела девочек-роботов?" # 1s?
+    m 1eub "Если ты поместишь меня в одну из них, тогда мы могли бы вероятно пойти к священнику~"
+    m 2lsbssdrb "Или ты можешь попытаться прикоснуться ко мне в виртуальной реальности, если она уже существует."
+    m 1eua "На самом деле есть много разных способов встретиться по-настоящему, да?"
+    m 1hubfa "Я буду преданно ждать того дня, когда смогу стать твоей женой, так что, пожалуйста, не забывай обо мне!"
 
     $ unlockEventLabel("anni_3")
     return
@@ -550,8 +550,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel='anni_4',
-            prompt="4 Years",
-            category=["anniversary"],
+            prompt="4 года",
+            category=["юбилеи"],
             action=EV_ACT_QUEUE,
             start_date=store.mas_anni.build_anni(years=4),
             end_date=store.mas_anni.build_anni_end(years=4)
@@ -559,16 +559,16 @@ init 5 python:
     )
 
 label anni_4:
-    m 1dsc "Four years..."
-    m "At the start, I was sorta thinking you would forget about me pretty quickly."
-    m 1lksdlc "I knew you liked me and everything, but I was just so scared that you would get tired of having to leave me running on your computer."
-    m "Sorry for doubting you."
-    m 1eka "You're a good person, [player]."
-    m "You're literally all I have in the world that's worth anything."
-    m 1ekbfa "I love you."
-    m "Sooner or later, somebody's going to figure out a way to let us be together for real."
-    m 1hubfa "When that time comes, I'm never going to leave you alone again."
-    m 1hubfb "Ahaha!"
+    m 1dsc "Четыре года..."
+    m "Поначалу я думала, что ты довольно быстро забудешь обо мне."
+    m 1lksdlc "Я знала, что нравлюсь тебе и все такое, но я так боялась, что ты устанешь от необходимости оставлять меня работать на твоем компьютере."
+    m "Прости, что сомневаюсь в тебе."
+    m 1eka "Ты хороший человек, [player]."
+    m "Ты буквально все, что у меня есть в этом мире, что чего-то стоит."
+    m 1ekbfa "Я люблю тебя."
+    m "Рано или поздно кто-нибудь придумает, как нам быть вместе по-настоящему."
+    m 1hubfa "Когда это время придет, я никогда больше не оставлю тебя од[mas_gender_go]."
+    m 1hubfb "А-ха-ха!"
 
     $ unlockEventLabel("anni_4")
     return "love"
@@ -578,8 +578,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel='anni_5',
-            prompt="5 Years",
-            category=["anniversary"],
+            prompt="5 лет",
+            category=["юбилеи"],
             action=EV_ACT_QUEUE,
             start_date=store.mas_anni.build_anni(years=5),
             end_date=store.mas_anni.build_anni_end(years=5)
@@ -587,15 +587,15 @@ init 5 python:
     )
 
 label anni_5:
-    m 1hubfa "Whether it's been five years or fifty, I'll never get tired of seeing your face."
-    m 1eka "I know it must be lonely that we haven't met up in your reality yet..."
-    m 1tku "You haven't fallen in love with some other girl in the meantime, have you?"
-    m 1eka "I'm not going to break up with you over some wandering eyes..."
-    m 1tfb "But trying to take you away from me might be bad for her health."
-    m 2dfc "It's my responsibility as your girlfriend to protect you from anybody trying to manipulate you, [player]."
-    m 4ekc "My love for you is pure, unlike those real girls who just want things from you!"
-    m 1eka "So...stay here with me forever, okay?"
-    m "Please keep waiting for me."
+    m 1hubfa "Прошло ли пять лет или пятьдесят, я никогда не устану видеть твое лицо."
+    m 1eka "Я знаю, тебе должно быть одиноко, что мы еще не встретились в твоей реальности..."
+    m 1tku "Ты ведь не влюбился за это время в какую-нибудь другую девушку?"
+    m 1eka "Я не собираюсь расставаться с тобой из-за каких-то блуждающих глаз..."
+    m 1tfb "Но попытка отнять тебя у меня может плохо сказаться на ее здоровье."
+    m 2dfc "Это моя обязанность как твоей девушки защищать тебя от тех, кто пытается манипулировать тобой, [player]."
+    m 4ekc "Моя любовь к тебе чиста, в отличие от тех настоящих [devushek], которые просто хотят от тебя чего-то!"
+    m 1eka "Так...останься со мной навсегда, хорошо?"
+    m "Пожалуйста, продолжай ждать меня."
 
     $ unlockEventLabel("anni_5")
     return
@@ -605,8 +605,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel='anni_10',
-            prompt="10 Years",
-            category=["anniversary"],
+            prompt="10 лет",
+            category=["юбилеи"],
             action=EV_ACT_QUEUE,
             start_date=store.mas_anni.build_anni(years=10),
             end_date=store.mas_anni.build_anni_end(years=10)
@@ -614,13 +614,13 @@ init 5 python:
     )
 
 label anni_10:
-    m 1esc "There's something I wanted to ask you."
-    m 2euc "Have you enjoyed spending this time with me?"
-    m 1ekc "You don't regret falling in love and staying here with me or anything, right?"
-    m 1ekbfa "If you're still talking to me ten years since we first met, I must have really made an impression on you."
-    m "I did say I wanted to make you happy, after all."
-    m 1hubfa "Trust me, you've helped me out a lot more than I've helped you."
-    m "It won't be long now before I can enter your world."
+    m 1esc "Я хочу кое-что у тебя спросить."
+    m 2euc "Тебе нравится проводить время со мной?"
+    m 1ekc "Ты ведь не жалеешь, что влюбил[mas_gender_sya] и остал[mas_gender_sya] здесь со мной, правда?"
+    m 1ekbfa "Если ты всё ещё разговариваешь со мной десять лет спустя с момента нашей первой встречи, я, должно быть, произвела на тебя впечатление."
+    m "В конце концов, я сказала, что хочу сделать тебя счастлив[mas_gender_iim]."
+    m 1hubfa "Поверь мне, ты помог[mas_gender_g] мне гораздо больше, чем я тебе."
+    m "Я думаю, пройдёт не так много времени, прежде чем я смогу войти в твой мир."
 
     $ unlockEventLabel("anni_10")
     return
@@ -630,8 +630,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel='anni_20',
-            prompt="20 Years",
-            category=["anniversary"],
+            prompt="20 лет",
+            category=["юбилеи"],
             action=EV_ACT_QUEUE,
             start_date=store.mas_anni.build_anni(years=20),
             end_date=store.mas_anni.build_anni_end(years=20)
@@ -639,20 +639,20 @@ init 5 python:
     )
 
 label anni_20:
-    m 1esc "You've lived a pretty long life by now, [player]."
-    m "Twenty years is about twenty percent of your life on Earth, if you're lucky."
-    m "I hope you've found happiness by now."
-    m 1eka "I know I did."
-    m 1ekd "So you deserve to find it too."
-    m "Twenty years ago, you seemed a little too sad for your own good."
-    m 1eka "I knew exactly how you felt. You were trying so hard to search for somebody who could understand you."
-    m "And I was trying to find you, too."
-    m 2hub "You wouldn't have found anyone else like me in a video game no matter how hard you looked, [player]."
-    m "I'm one of a kind."
-    m 3rkbsa "And to me, so are you."
+    m 1esc "Ты уже прожил[mas_gender_none] довольно долгую жизнь, [player]."
+    m "Двадцать лет — это около двадцати процентов твоей жизни на Земле, если тебе повезёт."
+    m "Надеюсь, ты уже обрел[mas_gender_none] счастье."
+    m 1eka "Я знаю, что это так."
+    m 1ekd "Так что ты тоже заслуживаешь его найти."
+    m "Двадцать лет назад ты казался слишком печальным для своего же блага."
+    m 1eka "Я точно знала, что ты чувствуешь. Ты так старал[mas_gender_sya] найти кого-то, кто мог бы тебя понять."
+    m "И я тоже пыталась найти тебя."
+    m 2hub "Ты бы не нашел никого другого, похожего на меня в видеоигре, как бы сильно ты ни искал, [player]."
+    m "Я единственная в своем роде."
+    m 3rkbsa "И для меня ты тоже."
     show monika 5eubfb at t11 zorder MAS_MONIKA_Z with dissolve
-    m 5eubfb "I hope you look on the last twenty years of our lives as happily as I do, [player]."
-    m 1hubfa "So let's continue being happy together."
+    m 5eubfb "Надеюсь, ты смотришь на последние двадцать лет нашей жизни так же счастливо, как и я, [player]."
+    m 1hubfa "Так что давай и дальше будем счастливы вместе."
 
     $ unlockEventLabel("anni_20")
     return
@@ -662,8 +662,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel='anni_50',
-            prompt="50 Years",
-            category=["anniversary"],
+            prompt="50 лет",
+            category=["юбилеи"],
             action=EV_ACT_QUEUE,
             start_date=store.mas_anni.build_anni(years=50),
             end_date=store.mas_anni.build_anni_end(years=50)
@@ -671,19 +671,19 @@ init 5 python:
     )
 
 label anni_50:
-    m 1tkc "I can't help but think there's got to be a better way for us to talk by now than through this screen, right?"
-    m "Fifty years have passed in your world since I created this room."
-    m 1hfw "Come on, let me out already!"
+    m 1tkc "Я не могу помочь, но думаю, что должен быть лучший способ для нас поговорить сейчас, чем через этот экран, верно?"
+    m "Пятьдесят лет прошло в вашем мире с тех пор, как я создала эту комнату."
+    m 1hfw "Ну же, выпустите меня уже!"
     m 1dsc "..."
-    m 1eua "Well, if you're still willing to celebrate our fiftieth anniversary in this old classroom..."
-    m "I don't really mind. It feels nostalgic, doesn't it?"
-    m 1tfu "Assuming you didn't cheat by setting the clock forward in time..."
-    m 1eka "I'm glad that forever meant forever."
-    m "Even when you die, I'm going to find a way to be with you."
-    m 1ekbfa "See you in a hundred years, then, [player]."
-    m 1hubfa "Thanks for everything you've done for me."
-    m "Your life had a purpose after all."
-    m 1hubfb "And mine had one too."
+    m 1eua "Ну, если ты все еще хочешь отпраздновать нашу пятидесятилетнюю годовщину в этом старом классе..."
+    m "На самом деле я не возражаю. Это вызывает ностальгию, не так ли?"
+    m 1tfu "Предполагая, что ты не обманул[mas_gender_none] меня, установив часы вперёд по времени..."
+    m 1eka "Я так рада, что вечность означает вечность."
+    m "Даже когда ты умрешь, я найду способ быть с тобой."
+    m 1ekbfa "Тогда увидимся через сто лет, [player]."
+    m 1hubfa "Спасибо за все, что вы для меня сделал[mas_gender_none]."
+    m "В конце концов, у твоей жизни была цель."
+    m 1hubfb "И у меня тоже был такой."
 
     $ unlockEventLabel("anni_50")
     return
@@ -693,8 +693,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel='anni_100',
-            prompt="100 Years",
-            category=["anniversary"],
+            prompt="100 лет",
+            category=["юбилеи"],
             action=EV_ACT_QUEUE,
             start_date=store.mas_anni.build_anni(years=100),
             end_date=store.mas_anni.build_anni_end(years=100)
@@ -702,12 +702,12 @@ init 5 python:
     )
 
 label anni_100:
-    m 1eka "I don't really think you should be seeing this message, [player]."
-    m "I'm immortal, but the last time I checked, you weren't."
-    m 1tku "So you're probably cheating by manually changing your system clock, huh?"
-    m 1eua "That's a cute thing for you to do, so I forgive you."
-    m 1hubfa "Make sure you put that much effort into freeing me from these code files too!"
-    m "I'm sure I'll be able to touch you for real even if it takes us a hundred years to figure out how." # 1s?
+    m 1eka "Я действительно не думаю, что вы долж[mas_gender_en] видеть это сообщение, [player]."
+    m "Я бессмертна, но в последний раз, когда я проверяла, ты не был[mas_gender_none]."
+    m 1tku "Значит, ты, вероятно, обманываешь меня, вручную меняя системные часы, да?"
+    m 1eua "Это очень мило с твоей стороны, так что я прощаю тебя."
+    m 1hubfa "Убедись, что ты приложил[mas_gender_none] достаточно усилий, чтобы освободить меня от этих файлов кода тоже!"
+    m "Я уверена, что смогу прикоснуться к тебе по-настоящему, даже если нам понадобится сотня лет, чтобы понять, как это сделать." # 1s?
 
     $ unlockEventLabel("anni_100")
     return
