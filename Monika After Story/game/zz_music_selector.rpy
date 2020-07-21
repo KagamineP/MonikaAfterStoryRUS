@@ -20,20 +20,20 @@ init -1 python in songs:
 
     # MUSICAL CONSTANTS
     # SONG NAMES
-    PIANO_COVER = "Your Reality (Piano Cover)"
-    JUST_MONIKA = "Just Monika"
-    YOURE_REAL = "Your Reality"
-    STILL_LOVE = "I Still Love You"
-    MY_FEELS = "My Feelings"
-    MY_CONF = "My Confession"
-    OKAY_EV_MON = "Okay, Everyone! (Monika)"
+    PIANO_COVER = "Твоя реальность (Piano Cover)"
+    JUST_MONIKA = "Только Моника"
+    YOURE_REAL = "Твоя реальность"
+    STILL_LOVE = "Я все еще люблю тебя"
+    MY_FEELS = "Мои чувства"
+    MY_CONF = "Мое признание"
+    OKAY_EV_MON = "Итак, друзья! (Моника)"
     DDLC_MT_80 = "Doki Doki Theme (80s ver.)"
-    SAYO_NARA = "Surprise!"
-    SAYO_NARA_SENS = "Sayonara"
-    PLAYWITHME_VAR6 = "Play With Me (Variant 6)"
-    YR_EUROBEAT = "Your Reality (Eurobeat ver.)"
-    MONIKA_LULLABY = "Monika's Lullaby"
-    NO_SONG = "No Music"
+    SAYO_NARA = "Сюрприз!"
+    SAYO_NARA_SENS = "Сайонара"
+    PLAYWITHME_VAR6 = "Поиграй со мной (Variant 6)"
+    YR_EUROBEAT = "Твоя реальность (Eurobeat ver.)"
+    MONIKA_LULLABY = "Колыбельная Моники"
+    NO_SONG = "Без музыки"
 
     # SONG FILEPATHS
     FP_PIANO_COVER = "mod_assets/bgm/runereality.ogg"
@@ -965,7 +965,7 @@ screen music_menu(music_page, page_num=0, more_pages=False):
 
             # dynamic prevous text, so we can keep button size alignments
             if page_num > 0:
-                textbutton _("<<<< Prev"):
+                textbutton _("<<<< Назад"):
                     style "music_menu_prev_button"
                     action Return(page_num - 1)
 
@@ -982,7 +982,7 @@ screen music_menu(music_page, page_num=0, more_pages=False):
 #                        sensitive False
 
             if more_pages:
-                textbutton _("Next >>>>"):
+                textbutton _("Далее >>>>"):
                     style "music_menu_return_button"
                     action Return(page_num + 1)
 
@@ -990,11 +990,11 @@ screen music_menu(music_page, page_num=0, more_pages=False):
             style "music_menu_return_button"
             action Return(songs.NO_SONG)
 
-        textbutton _("Return"):
+        textbutton _("Вернуться"):
             style "music_menu_return_button"
             action Return(return_value)
 
-    label "Music Menu"
+    label "Музыкальное меню"
 
 # sets locks and calls hte appropriate screen
 label display_music_menu:

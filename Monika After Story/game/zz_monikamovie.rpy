@@ -11,7 +11,7 @@ label mas_monikamovie:
         MOVIE_H = 640
         MOVIE_XALIGN = -0.05
         MOVIE_AREA = (MOVIE_X, MOVIE_Y, MOVIE_W, MOVIE_H)
-        MOVIE_RETURN = "I changed my mind"
+        MOVIE_RETURN = "Я передумал[mas_gender_none]."
 
 
         gamedir = os.path.normpath(config.gamedir)
@@ -200,11 +200,11 @@ label mas_monikamovie:
 
     $ listMovies = AvaiableMovies()
 
-    m 1eub "You want to see a movie?"
+    m 1eub "Хочешь посмотреть кино?"
 
     label mm_choose_movie:
 
-        m "Which movie would you like to watch?"
+        m "Какой фильм вы хотели бы посмотреть?"
 
         # move Monika to the left
         show monika at t21
@@ -233,17 +233,17 @@ label mas_monikamovie:
                 emotion, what =  movieInformation.popDescription()
                 updateEmotionMonika(emotion)
                 renpy.say(eval("m"), what)
-        m 3eub "Let's synchronize the start of the film."
-        m 1hub "Get ready to start the film, I'll do the countdown!"
+        m 3eub "Давай синхронизируем начало фильма."
+        m 1hub "Приготовься к началу фильма, Я сделаю обратный отсчет!"
 
         menu:
-            "Ready?"
-            "Yes.":
+            "Готов[mas_gender_none]?"
+            "Да.":
                 label mm_movie_resume:
                     $ mas_RaiseShield_dlg()
-                    m 1eua "Three...{w=1}{nw}"
-                    m  "Two...{w=1}{nw}"
-                    m  "One...{w=1}{nw}"
+                    m 1eua "Три...{w=1}{nw}"
+                    m  "Два...{w=1}{nw}"
+                    m  "Один...{w=1}{nw}"
                     # Movie loop
                     $ watchingMovie = True
                     label movie_loop:
@@ -260,15 +260,15 @@ label mas_monikamovie:
                         if movieInformation.reactionsAreFinished():
                             hide countdown
                             $ MovieOverlayHideButtons()
-                            m 1eua "Just ended for me! Did you like it?"
+                            m 1eua "Только что закончилось для меня! Тебе понравилось?"
                             jump mm_movie_closure
 
                         jump movie_loop
 
-            "No.":
+            "Нет.":
                 hide countdown # Dupicated code, call function?
                 $ MovieOverlayHideButtons()
-                m 1eua "Oh, okay! I will just wait for you then~"
+                m 1eua "О, хорошо! Тогда я просто подожду тебя~"
                 jump mm_movie_loop_end
 
         label mm_movie_closure:
@@ -291,23 +291,23 @@ label mas_monikamovie:
 
     label mm_movie_pausefilm:
         $ watchingMovie = False
-        m 1eub "Oh, you just paused the movie, [player]."
+        m 1eub "О, ты только что поставил[mas_gender_none] фильм на паузу, [player]."
         menu:
-            "Do want to continue?"
-            "Yes.":
-                m 1hua "Okay, [player]."
+            "Хочешь продолжить?"
+            "Да.":
+                m 1hua "Хорошо, [player]."
                 jump mm_movie_resume
-            "No.":
-                m 1eua "Oh, alright then, [player]."
+            "Нет.":
+                m 1eua "О, тогда ладно, [player]."
                 jump mm_movie_loop_end
 
     label mm_movie_settime:
         $ watchingMovie = False
-        m 1eub "You want to synchronize the time?"
+        m 1eub "Ты хочешь синхронизировать время?"
         label mm_movie_repeattime:
-            m 1eub "Tell me in the format HH:MM:SS, [player]."
+            m 1eub "Скажи мне в формате ЧЧ:ММ:СС, [player]."
             python:
-                player_dialogue = renpy.input('What time should I set the movie to? ',default='',pixel_width=720,length=50)
+                player_dialogue = renpy.input('На какое время я должна установить фильм? ',default='',pixel_width=720,length=50)
                 splittedTime = player_dialogue.split(":",2)
                 bad_format = len(splittedTime) != 3
                 if not bad_format:
@@ -318,17 +318,17 @@ label mas_monikamovie:
                     if not bad_format:
                         bad_format = int(minutes) >= 60 or int(seconds) >= 60
             if bad_format:
-                m 1lksdlc "Erm..."
-                m 1lksdlb "Sorry, I can't understand that, [player]."
-                m 1eka "Remember to set it in the format of HH:MM:SS."
-                m 3eua "That's 'Hours:Minutes:Seconds.'"
-                m "Here's an example for you, [player]."
+                m 1lksdlc "Э..."
+                m 1lksdlb "Извини, я не могу этого понять, [player]."
+                m 1eka "Не забудь установить его в формате HH:MM:SS."
+                m 3eua "Это «Часы:Минуты:Секунды.»"
+                m "Вот пример для тебя, [player]."
                 m "01:05:32"
-                m 1eub "That's 1 hour, 5 minutes, and 32 seconds."
-                m 3hua "So try again!"
+                m 1eub "Это 1 час, 5 минут и 32 секунды."
+                m 3hua "Так что попробуй еще раз!"
                 jump mm_movie_repeattime
             else:
                 $ timer.setFormattedTime(splittedTime[0],splittedTime[1],splittedTime[2])
                 $ movieInformation.resynchronizeIndex(timer)
-        m 1eua "Done! Let's keep watching it!"
+        m 1eua "Готово! Давай продолжим смотреть его!"
         jump mm_movie_resume

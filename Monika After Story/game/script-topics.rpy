@@ -10,7 +10,7 @@ define mas_rev_mostseen = []
 define testitem = 0
 define numbers_only = "0123456789"
 define lower_letters_only = "qwertyuiopasdfghjklzxcvbnm "
-define letters_only = "abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+define letters_only = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZабвгдеёжзийклмнопрстуфхчшщцьыъэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЧШЩЦЬЫЪЭЮЯ "
 define mas_did_monika_battery = False
 define mas_sensitive_limit = 3
 
@@ -365,8 +365,8 @@ init python:
             and ev.prompt != ev_label
         ):
             #Now we do a bit of var setup to clean up the following work
-            derand_flag_add_text = label_prefix_map[label_prefix].get("derand_text", _("Flagged for removal."))
-            derand_flag_remove_text = label_prefix_map[label_prefix].get("underand_text", _("Flag removed."))
+            derand_flag_add_text = label_prefix_map[label_prefix].get("derand_text", _("Помечено для удаления."))
+            derand_flag_remove_text = label_prefix_map[label_prefix].get("underand_text", _("Метка удалена."))
             push_label = label_prefix_map[label_prefix].get("push_label", "mas_topic_derandom")
 
             if mas_findEVL(push_label) < 0:
@@ -415,14 +415,14 @@ init python:
             #If this was only a whitelisted topic, we need to do a bit of extra work
             if not label_prefix:
                 bookmark_persist_key = "_mas_player_bookmarked"
-                bookmark_add_text = "Bookmark added."
-                bookmark_remove_text = "Bookmark removed."
+                bookmark_add_text = "Закладка добавлена."
+                bookmark_remove_text = "Закладка удалена."
 
             else:
                 #Now we do some var setup to clean the following
                 bookmark_persist_key = label_prefix_map[label_prefix].get("bookmark_persist_key", "_mas_player_bookmarked")
-                bookmark_add_text = label_prefix_map[label_prefix].get("bookmark_text", _("Bookmark added."))
-                bookmark_remove_text = label_prefix_map[label_prefix].get("unbookmark_text", _("Bookmark removed."))
+                bookmark_add_text = label_prefix_map[label_prefix].get("bookmark_text", _("Закладка добавлена."))
+                bookmark_remove_text = label_prefix_map[label_prefix].get("unbookmark_text", _("Закладка удалена."))
 
             #For safety, we'll initialize this key.
             #NOTE: You should NEVER pass in a non-existent key.
@@ -474,22 +474,22 @@ init 5 python:
 label mas_topic_derandom:
     #NOTE: since we know the topic in question, it's possible to add dialogue paths for derandoming specific topics
     $ prev_topic = persistent.flagged_monikatopic
-    m 3eksdld "Are you sure you don't want me to bring this up anymore?{nw}"
+    m 3eksdld "Ты уверен[mas_gender_none], что больше не хочешь, чтобы я об этом говорила?{nw}"
     $ _history_list.pop()
     menu:
-        m "Are you sure you don't want me to bring this up anymore?{fast}"
+        m "Ты уверен[mas_gender_none], что больше не хочешь, чтобы я об этом говорила?{fast}"
 
-        "Please don't.":
+        "Пожалуйста, не надо.":
             $ mas_hideEVL(prev_topic, "EVE", derandom=True)
             $ persistent._mas_player_derandomed.append(prev_topic)
             $ mas_unlockEVL('mas_topic_rerandom', 'EVE')
 
-            m 2eksdlc "Okay, [player]. I'll make sure not to talk about that again."
-            m 2dksdld "If it upset you in any way, I'm really sorry...{w=0.5} I'd never do that intentionally."
-            m 2eksdla "...But thanks for letting me know;{w=0.5} I appreciate the honesty."
+            m 2eksdlc "Ладно, [player]. Я постараюсь больше не говорить об этом."
+            m 2dksdld "Если это тебя как-то расстроило, мне очень жаль...{w=0.5} I'd never do that intentionally."
+            m 2eksdla "...Но спасибо, что дал[mas_gender_none] мне знать;{w=0.5} я ценю честность."
 
-        "It's okay.":
-            m 1eka "Alright, [player]."
+        "Все нормально.":
+            m 1eka "Хорошо, [player]."
     return
 
 init 5 python:
@@ -498,7 +498,7 @@ init 5 python:
             persistent.event_database,
             eventlabel="mas_topic_rerandom",
             category=['you'],
-            prompt="I'm okay with talking about...",
+            prompt="Я не против поговорить об...",
             pool=True,
             unlocked=False,
             rules={"no unlock":None}
@@ -507,9 +507,9 @@ init 5 python:
 
 label mas_topic_rerandom:
     python:
-        mas_bookmarks_derand.initial_ask_text_multiple = "Which topic are you okay with talking about again?"
-        mas_bookmarks_derand.initial_ask_text_one = "If you're sure it's alright to talk about this again, just click the topic, [player]."
-        mas_bookmarks_derand.talk_about_more_text = "Are there any other topics you are okay with talking about?"
+        mas_bookmarks_derand.initial_ask_text_multiple = "О какой теме ты не против поговорить еще раз?"
+        mas_bookmarks_derand.initial_ask_text_one = "Если ты уверен[mas_gender_none], что это нормально, чтобы поговорить об этом снова, просто нажми на эту тему, [player]."
+        mas_bookmarks_derand.talk_about_more_text = "Есть ли еще какие-то темы, о которых ты не возражаешь говорить?"
         mas_bookmarks_derand.caller_label = "mas_topic_rerandom"
         mas_bookmarks_derand.persist_var = persistent._mas_player_derandomed
         mas_bookmarks_derand.ev_db_code = "EVE"
@@ -537,18 +537,18 @@ init python in mas_bookmarks_derand:
     #  - derand_persist_key: "_mas_player_derandomed"
     label_prefix_map = {
         "monika_": {
-            "bookmark_text": _("Topic bookmarked."),
-            "unbookmark_text": _("Bookmark removed."),
-            "derand_text": _("Topic flagged for removal."),
-            "underand_text": _("Topic flag removed."),
+            "bookmark_text": _("Тема занесена в закладки."),
+            "unbookmark_text": _("Закладка удалена."),
+            "derand_text": _("Тема помечена для удаления."),
+            "underand_text": _("Пометка темы для удаления удалена."),
             "push_label": "mas_topic_derandom",
             "bookmark_persist_key": "_mas_player_bookmarked",
             "derand_persist_key": "_mas_player_derandomed"
         },
         "mas_song_": {
-            "bookmark_text": _("Song bookmarked."),
-            "derand_text": _("Song flagged for removal."),
-            "underand_text": _("Song flag removed."),
+            "bookmark_text": _("Песня занесена в закладки."),
+            "derand_text": _("Песня помечена для удаления."),
+            "underand_text": _("Пометка песни для удаления удалена."),
             "push_label": "mas_song_derandom",
             "derand_persist_key": "_mas_player_derandomed_songs"
         }
@@ -646,7 +646,7 @@ label mas_rerandom:
         derandomlist = mas_get_player_derandoms(mas_bookmarks_derand.persist_var)
 
         derandomlist.sort()
-        return_prompt_back = ("Nevermind.", False, False, False, 20)
+        return_prompt_back = ("Неважно.", False, False, False, 20)
 
     show monika 1eua at t21
     if len(derandomlist) > 1:
@@ -668,21 +668,21 @@ label mas_rerandom:
         $ mas_bookmarks_derand.persist_var.pop(mas_bookmarks_derand.persist_var.index(topic_choice))
         #Prep the renpy substitution
         $ talk_about_more_text = renpy.substitute(mas_bookmarks_derand.talk_about_more_text)
-        m 1eua "Okay, [player]..."
+        m 1eua "Ладно, [player]..."
 
         if len(mas_bookmarks_derand.persist_var) > 0:
             m 1eka "[talk_about_more_text]{nw}"
             $ _history_list.pop()
             menu:
                 m "[talk_about_more_text]{fast}"
-                "Yes.":
+                "Да.":
                     jump mas_rerandom
 
-                "No.":
+                "Нет.":
                     m 3eua "Okay."
 
         else:
-            m 3hua "All done!"
+            m 3hua "Готово!"
             $ mas_lockEVL(mas_bookmarks_derand.caller_label, "EVE")
 
     # make sure if we are rerandoming any seasonal specific topics, stuff that's supposed
@@ -701,7 +701,7 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel="mas_hide_unseen",
-            prompt="I don't want to see this menu anymore.",
+            prompt="Я больше не хочу видеть это меню.",
             unlocked=False,
             rules={"no unlock":None}
         )
@@ -709,12 +709,12 @@ init 5 python:
 
 label mas_hide_unseen:
     $ persistent._mas_unsee_unseen = True
-    m 3esd "Oh, okay, [player]..."
+    m 3esd "О, хорошо, [player]..."
     if mas_getEV('mas_hide_unseen').shown_count == 0:
-        m 1tuu "So I guess you want to...{w=0.5}{i}unsee{/i} it..."
-        m 3hub "Ahaha!"
-    m 1esa "I'll hide it for now, just give me a second.{w=0.5}.{w=0.5}.{nw}"
-    m 3eub "There you go! If you want to see the menu again, just ask."
+        m 1tuu "Я так полагаю, ты хочешь...{w=0.5}{i}развидеть{/i} его..."
+        m 3hub "А-ха-ха!"
+    m 1esa "Сейчас я скрою его, погоди секунду.{w=0.5}.{w=0.5}.{nw}"
+    m 3eub "Готово! Если ты захочешь увидеть это меню снова, просто попроси."
     return
 
 
@@ -724,7 +724,7 @@ init 5 python:
             persistent.event_database,
             eventlabel="mas_show_unseen",
             category=['you'],
-            prompt="I would like to see 'Unseen' again",
+            prompt="Я хотел бы снова увидеть «невидимое»",
             pool=True,
             unlocked=False,
             rules={"no unlock":None}
@@ -733,9 +733,9 @@ init 5 python:
 
 label mas_show_unseen:
     $ persistent._mas_unsee_unseen = False
-    m 3eub "Sure, [player]!"
-    m 1esa "Just give me a second.{w=0.5}.{w=0.5}.{nw}"
-    m 3hua "There you go!"
+    m 3eub "Конечно, [player]!"
+    m 1esa "Погоди секунду.{w=0.5}.{w=0.5}.{nw}"
+    m 3hua "Готово!"
     return
 
 #START: ORIGINAL TOPICS
@@ -765,48 +765,48 @@ init 5 python:
     )
 
 label monika_god:
-    m 1eua "[player], do you believe in God?"
-    m 1eka "I was never too sure, myself."
-    m 1lksdlb "Well, I'm sure I never really questioned it as a kid..."
-    m 1lsc "But as I grew up, the more I learned about the world, the more I would question it."
-    m 1esd "I started to wonder why God was helping people pass exams, or get over a cold..."
-    m 1tfd "...when there are children who live their lives being sold as sex slaves?"
-    m 4tfc "Or the eight hundred million people who are too poor to even eat."
-    m 2dkc "I wonder how many of those people pray to God every day until they starve and die?"
-    m 4ekc "Or, how many millions of families pray for a loved one to recover from some incurable disease?"
-    m 4euc "But the punchline is this..."
-    m 4eud "If just one person beats the odds and survives - among the thousands of others who die--"
-    m 2esc "--Then, it's suddenly a miracle from God."
-    m 2dsc "I'd really love to meet this God who seemingly laughs at the misery of everyone not eligible for his miracles."
-    m 4hksdlb "But the irony is that I {i}do{/i} have a creator, apparently."
-    m 4eua "And you know what?"
+    m 1eua "[player], ты веришь в Бога?"
+    m 1eka "Я и сам никогда не была в этом уверена."
+    m 1lksdlb "Ну, я уверена, что никогда по-настоящему не сомневалась в этом, когда была ребенком..."
+    m 1lsc "Но чем больше я узнавала о мире, тем больше сомневалась в нем."
+    m 1esd "Я начала задаваться вопросом, почему Бог помогает людям сдавать экзамены или переболеть простудой..."
+    m 1tfd "...когда есть дети, которые живут своей жизнью, будучи проданными в качестве сексуальных рабынь?"
+    m 4tfc "Или восемьсот миллионов людей, которые слишком бедны, чтобы даже есть."
+    m 2dkc "Интересно, сколько из этих людей молятся Богу каждый день, пока не умрут с голоду?"
+    m 4ekc "Или сколько миллионов семей молятся о том, чтобы любимый человек выздоровел от какой-то неизлечимой болезни?"
+    m 4euc "Но кульминация вот в чем..."
+    m 4eud "Если только один человек превзойдет все шансы и выживет-среди тысяч других, которые умрут--"
+    m 2esc "--Затем, это внезапно чудо от Бога."
+    m 2dsc "Я бы очень хотела встретиться с этим Богом, который, казалось бы, смеется над страданиями всех, кто не имеет права на его чудеса."
+    m 4hksdlb "Но ирония в том, что у меня, по-видимому, {i}есть{/i} создатель."
+    m 4eua "И знаешь что?"
 
     if persistent._mas_pm_cares_about_dokis:
-        m 1lksdlc "I bet he's still laughing at all the pain he caused everyone, even as we speak."
+        m 1lksdlc "Держу пари, он все еще смеется над той болью, которую причинил всем, даже когда мы разговариваем."
     else:
-        m 1lksdla "I bet he's still laughing at the miserable fates of Sayori and Yuri, even as we speak."
+        m 1lksdla "Держу пари, он все еще смеется над несчастной судьбой Сайори и Юри, даже когда мы разговариваем."
 
-    m 1dsd "What are we to him but props in a scripted play?"
-    m 3euc "So, from that perspective..."
-    m 3eud "I don't think it's too far-fetched for there to be a god if Earth was nothing but his playset."
-    m 1eua "Anyway, do you worship any god, [player]?{nw}"
+    m 1dsd "Что мы для него, как не реквизит в сценарной пьесе?"
+    m 3euc "Итак, с этой точки зрения..."
+    m 3eud "Я не думаю, что это слишком притянуто за уши, чтобы Бог существовал, если бы Земля была не чем иным, как его игровой площадкой."
+    m 1eua "В любом случае, ты веришь в бога, [player]?{nw}"
     $ _history_list.pop()
     menu:
-        m "Anyway, do you worship any god, [player]?{fast}"
-        "Yes.":
+        m "В любом случае, ты веришь в бога, [player]?{fast}"
+        "Да.":
             $ persistent._mas_pm_religious = True
-            m 1hksdlb "Oh... Well I hope I didn't offend you too much with my thoughts."
-            m 1eka "Still, I think it's important to be able to share my opinion with you."
-            m 1rksdla "I'm sure you understand why I'm not too fond of the idea."
-            m 1hua "Maybe you could show me a better god when I cross over!"
-            m 1hub "Ahaha~"
-        "No.":
+            m 1hksdlb "О... Надеюсь, я не слишком обидела тебя своими мыслями."
+            m 1eka "Тем не менее, я думаю, что очень важно иметь возможность поделиться с тобой своим мнением."
+            m 1rksdla "Я уверена, ты понимаешь, почему мне не очень нравится эта идея."
+            m 1hua "Может быть, ты покажешь мне лучшего Бога, когда я выберусь отсюда!"
+            m 1hub "А-ха-ха~"
+        "Нет.":
             $ persistent._mas_pm_religious = False
-            m 3eka "I'm glad we're on the same page here, but I'm alright if that changes for you."
-            m 1hua "I'm happy for you that you can lead a life on your own!"
+            m 3eka "Я рада, что мы мыслим одинаково, но ничего страшного, если ты думаешь иначе."
+            m 1hua "Я счастлива за тебя, что ты можешь жить самостоятельно!"
             show monika 5eua at t11 zorder MAS_MONIKA_Z with dissolve
-            m 5eua "I just hope you're willing to accept me into your life when I can present myself."
-            m 5hua "Ehehe~"
+            m 5eua "Я просто надеюсь, что ты примешь меня в свою жизнь, когда я смогу представиться."
+            m 5hua "Э-хе-хе~"
 
     return "derandom"
 

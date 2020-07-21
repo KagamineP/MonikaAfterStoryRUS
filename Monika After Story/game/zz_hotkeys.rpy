@@ -275,10 +275,10 @@ init python:
         #   config.keymap
         #   config.underlay
         #Add keys for new functions
-        config.keymap["open_dialogue"] = ["t","T"]
-        config.keymap["mas_extra_menu"] = ["e", "E"]
+        config.keymap["open_dialogue"] = ["t","T", "п", "П"]
+        config.keymap["mas_extra_menu"] = ["e", "E", "э", "Э"]
         config.keymap["change_music"] = ["noshift_m","noshift_M"]
-        config.keymap["play_game"] = ["p","P"]
+        config.keymap["play_game"] = ["p","P", "и", "И"]
         config.keymap["mute_music"] = ["shift_m","shift_M"]
         config.keymap["inc_musicvol"] = [
             "shift_K_PLUS","K_EQUALS","K_KP_PLUS"
@@ -286,8 +286,8 @@ init python:
         config.keymap["dec_musicvol"] = [
             "K_MINUS","shift_K_UNDERSCORE","K_KP_MINUS"
         ]
-        config.keymap["derandom_topic"] = ["x","X"]
-        config.keymap["bookmark_topic"] = ["b","B"]
+        config.keymap["derandom_topic"] = ["x","X", "х", "Х"]
+        config.keymap["bookmark_topic"] = ["b","B", "з", "З"]
 
         # get replace the game menu with our version (to block certain
         # workflows correctly)
