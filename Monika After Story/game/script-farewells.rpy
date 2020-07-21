@@ -392,12 +392,17 @@ label bye_prompt_to_class:
             m "До скорой встречи!"
         elif session_time < datetime.timedelta(hours=6):
             m 1hua "Учись усердно, [player]!"
-            m 1eua "Нет ничего более привлекательного, чем [guy] с хорошими оценками."
+            if persistent.gender == "M":
+                m 1eua "Нет ничего привлекательнее, чем парень с хорошими оценками."
+            elif persistent.gender == "F":
+                m 1eua "Нет ничего привлекательнее, чем девушка с хорошими оценками."
+            else:
+                m 1eua "Нет ничего привлекательнее, чем партнёр с хорошими оценками."
             m 1hua "Увидимся позже!"
         else:
             m 2ekc "Эмм...ты был[mas_gender_none] здесь со мной довольно долгое время, [player]."
             m 2ekd "Ты увер[mas_gender_en], что достаточно отдохнул[mas_gender_none] для этого?"
-            m 2eka "Make sure you take it easy, okay?"
+            m 2eka "Но не принимай это близко к сердцу, хорошо?"
             m "Если ты не очень хорошо себя чувствуешь, я уверена, что {i}один выходной{/i} день не повредит."
             m 1hka "Я буду ждать, когда ты вернешься. Оставайся в безопасности."
 
@@ -1336,26 +1341,26 @@ label bye_prompt_eat:
     if mas_isMNtoSR(_now):
         $ persistent._mas_pm_ate_late_times += 1
         if mas_isMoniNormal(higher=True):
-            m 1hksdlb "Uh, [player]?"
-            m 3eka "It's the middle of the night."
-            m 1eka "Are you planning on having a midnight snack?"
-            m 3rksdlb "If I were you, I'd find something to eat a little earlier, ahaha..."
-            m 3rksdla "Of course...{w=1}I'd also try to be in bed by now..."
+            m 1hksdlb "Э, [player]?"
+            m 3eka "Сейчас середина ночи."
+            m 1eka "Ты планируешь перекусить в полночь?"
+            m 3rksdlb "На твоем месте я бы нашла что-нибудь поесть пораньше, а-ха-ха..."
+            m 3rksdla "Конечно...{w=1}Я бы тоже постаралась сейчас быть в постели..."
             if mas_is18Over() and mas_isMoniLove(higher=True) and renpy.random.randint(1,25) == 1:
-                m 2tubfu "You know, if I were there, maybe we could have a bit of both..."
+                m 2tubfu "Знаешь, если бы я была там, может быть, у нас было бы немного и того, и другого..."
                 show monika 5ksbfu at t11 zorder MAS_MONIKA_Z with dissolve
-                m 5ksbfu "We could go to bed, and then - {w=1}you know what, nevermind..."
-                m 5hubfb "Ehehe~"
+                m 5ksbfu "Мы могли бы лечь спать, а потом - {w=1}знаешь что, неважно..."
+                m 5hubfb "Э-хе-хе~"
             else:
-                m 1hua "Well, I hope your snack helps you sleep."
-                m 1eua "...And don't worry about coming back to say goodnight to me..."
-                m 3rksdla "I'd much rather you get to sleep sooner."
-                m 1hub "Goodnight, [player]. Enjoy your snack and see you tomorrow~"
+                m 1hua "Ну, я надеюсь, что твой перекус поможет тебе уснуть."
+                m 1eua "...И не беспокойся о том, чтобы вернуться и пожелать мне спокойной ночи..."
+                m 3rksdla "Я бы предпочла, чтобы ты заснул пораньше."
+                m 1hub "Спокойной ночи, [player]. Приятного аппетита и увидимся завтра~~"
         else:
-            m 2euc "But it's the middle of the night..."
-            m 4ekc "You should really go to bed, you know."
-            m 4eud "...Try to go straight to bed when you're finished."
-            m 2euc "Anyway, I guess I'll see you tomorrow..."
+            m 2euc "Но сейчас середина ночи..."
+            m 4ekc "Знаешь, ты долж[mas_gender_en] идти спать."
+            m 4eud "...Постарайся сразу же лечь спать, когда закончишь."
+            m 2euc "В любом случае, думаю, увидимся завтра..."
 
         #NOTE: Due to the greet of this having an 18 hour limit, we use a 20 hour cap
         $ persistent._mas_greeting_type_timeout = datetime.timedelta(hours=20)
@@ -1365,85 +1370,85 @@ label bye_prompt_eat:
         #NOTE: Since everything but snack uses the same time, we'll set it here
         $ persistent._mas_greeting_type_timeout = datetime.timedelta(hours=3)
         menu:
-            "Breakfast.":
+            "Завтрак.":
                 if mas_isSRtoN(_now):
                     $ persistent._mas_pm_ate_breakfast_times[0] += 1
                     if mas_isMoniNormal(higher=True):
-                        m 1eub "Alright!"
-                        m 3eua "It's the most important meal of the day after all."
-                        m 1rksdla "I wish you could stay, but I'm fine as long as you're getting your breakfast."
-                        m 1hua "Anyway, enjoy your meal, [player]~"
+                        m 1eub "Хорошо!"
+                        m 3eua "В конце концов, это самый важный прием пищи за день."
+                        m 1rksdla "Жаль, что ты не можешь остаться, но я в порядке, пока ты завтракаешь."
+                        m 1hua "В любом случае, приятного аппетита, [player]~"
                     else:
-                        m 2eud "Oh, right, you should probably get breakfast."
-                        m 2rksdlc "I wouldn't want you to have an empty stomach..."
-                        m 2ekc "I'll be here when you get back."
+                        m 2eud "Да, пожалуй, тебе стоит позавтракать."
+                        m 2rksdlc "Я бы не хотела, чтобы у тебя был пустой желудок..."
+                        m 2ekc "Я буду здесь, когда ты вернешься."
                 elif mas_isNtoSS(_now):
                     $ persistent._mas_pm_ate_breakfast_times[1] += 1
-                    m 3euc "But...{w=1}it's the afternoon..."
+                    m 3euc "Но...{w=1}уже полдень..."
                     if mas_isMoniNormal(higher=True):
-                        m 3ekc "Did you miss breakfast?"
-                        m 1rksdla "Well... I should probably let you go eat before you get too hungry..."
-                        m 1hksdlb "I hope you enjoy your late breakfast!"
+                        m 3ekc "Ты пропустил[mas_gender_none] завтрак?"
+                        m 1rksdla "Что ж... Наверное, мне следует отпустить тебя поесть, пока ты не проголодал[mas_gender_sya]..."
+                        m 1hksdlb "Надеюсь, тебе понравится ваш поздний завтрак!"
                     else:
-                        m 2ekc "You missed breakfast, didn't you?"
-                        m 2rksdld "{i}*sigh*{/i}... You should probably go get something to eat."
-                        m 2ekd "Go on... I'll be here when you get back."
+                        m 2ekc "Ты пропустил[mas_gender_none] завтрак, не так ли?"
+                        m 2rksdld "{i}*вздох*{/i}... Тебе, наверное, стоит пойти перекусить."
+                        m 2ekd "Иди... Я буду здесь, когда ты вернешься."
                 #SStoMN
                 else:
                     $ persistent._mas_pm_ate_breakfast_times[2] += 1
                     if mas_isMoniNormal(higher=True):
-                        m 1hksdlb "Ahaha..."
-                        m 3tku "There's no way you're just having breakfast now, [player]."
-                        m 3hub "It's the evening!"
-                        m 1eua "Or maybe you're just having breakfast for dinner; I know some people do that occasionally."
-                        m 1tsb "Well, either way, I hope you enjoy your 'breakfast,' ehehe~"
+                        m 1hksdlb "А-ха-ха..."
+                        m 3tku "Не может быть, чтобы ты просто завтракал сейчас, [player]."
+                        m 3hub "Уже вечер!"
+                        m 1eua "Или, может быть, ты просто завтракаешь на ужин; я знаю, что некоторые люди делают это время от времени."
+                        m 1tsb "Ну, в любом случае, я надеюсь, что вам понравится твой «завтрак», э-хе-хе~"
                     else:
                         m 2euc "..."
-                        m 4eud "So...you're having a snack."
-                        m 2rksdla "Alright, I won't judge."
-                        m 2eka "Enjoy your food."
-            "Lunch.":
+                        m 4eud "Итак...ты сейчас перекусываешь."
+                        m 2rksdla "Ладно, не буду судить."
+                        m 2eka "Наслаждайся едой."
+            "Обед.":
                 if mas_isSRtoN(_now):
                     $ persistent._mas_pm_ate_lunch_times[0] += 1
                     if mas_isMoniNormal(higher=True):
-                        m 1eua "Having an early lunch, [player]?"
-                        m 3hua "Nothing wrong with that. If you're hungry, you're hungry."
-                        m 1hub "I hope you enjoy your lunch!"
+                        m 1eua "Ранний обед, [player]?"
+                        m 3hua "В этом нет ничего плохого. Если ты голод[mas_gender_en], значит, ты голод[mas_gender_en]."
+                        m 1hub "Надеюсь, тебе понравится твой обед!"
                     else:
-                        m 2rksdlc "It's a bit early for lunch..."
-                        m 4ekc "If you're hungry, are you sure you're eating well?"
-                        m 2eka "I hope you enjoy your meal, at least."
+                        m 2rksdlc "Для обеда еще рановато..."
+                        m 4ekc "Если ты голод[mas_gender_en], ты увер[mas_gender_en], что хорошо кушаешь?"
+                        m 2eka "Надеюсь, тебе хотя бы понравится твоя еда."
                 elif mas_isNtoSS(_now):
                     $ persistent._mas_pm_ate_lunch_times[1] += 1
                     if mas_isMoniNormal(higher=True):
-                        m 1eud "Oh, I guess it's lunch time for you, isn't it?"
-                        m 3eua "I wouldn't want to keep you from eating."
-                        m 3hub "Maybe one day, we could go out for lunch together!"
-                        m 1hua "For the time being though, enjoy your lunch, [player]~"
+                        m 1eud "О, я думаю, что для тебя настало время обеда, не так ли?"
+                        m 3eua "Я бы не хотела мешать тебе есть."
+                        m 3hub "Может быть, когда-нибудь мы вместе пойдем куда-нибудь пообедать!"
+                        m 1hua "А пока наслаждайся своим обедом, [player]~"
                     else:
-                        m 2eud "Oh, it's lunch time, isn't it?"
-                        m 2euc "Enjoy your lunch."
+                        m 2eud "О, сейчас время обеда, не так ли?"
+                        m 2euc "Наслаждайся своим обедом."
                 #SStoMN
                 else:
                     $ persistent._mas_pm_ate_lunch_times[2] += 1
-                    m 1euc "Lunch?"
-                    m 1rksdlc "It's a little late for lunch if you ask me."
-                    m 3ekd "Still, if you haven't had it yet, you should go get some."
+                    m 1euc "Обед?"
+                    m 1rksdlc "По-моему, уже поздновато для ланча."
+                    m 3ekd "Тем не менее, если ты не пообедал[mas_gender_none], ты долж[mas_gender_en] пообедать сейчас."
                     if mas_isMoniNormal(higher=True):
-                        m 1hua "I'd make you something if I were there, but until then, I hope you enjoy your meal~"
+                        m 1hua "Я бы приготовила тебе что-нибудь, если бы была там,\nно до тех пор, я надеюсь, тебе понравится твоя еда~"
                     else:
-                        m 2ekc "But...{w=1}maybe eat a little earlier next time..."
-            "Dinner.":
+                        m 2ekc "Но...{w=1}может быть, в следующий раз поешь немного раньше..."
+            "Ужин.":
                 if mas_isSRtoN(_now):
                     $ persistent._mas_pm_ate_dinner_times[0] += 1
-                    m 2ekc "Dinner?{w=2} Now?"
+                    m 2ekc "Ужин?{w=2} Сейчас?"
                     if mas_isMoniNormal(higher=True):
-                        m 2hksdlb "Ahaha, but [player]! It's only the morning!"
-                        m 3tua "You can be adorable sometimes, you know that?"
-                        m 1tuu "Well, I hope you enjoy your '{i}dinner{/i}' this morning, ehehe~"
+                        m 2hksdlb "А-ха-ха, но, [player]! Еще только утро!"
+                        m 3tua "Иногда ты можешь быть очаровательн[mas_gender_iim], ты это знаешь?"
+                        m 1tuu "Ну, я надеюсь, тебе понравится твой «{i}ужин{/i}» этим утром, э-хе-хе~"
                     else:
-                        m 2rksdld "You can't be serious, [player]..."
-                        m 2euc "Well, whatever you're having, I hope you enjoy it."
+                        m 2rksdld "Ты же не всерьез, [player]..."
+                        m 2euc "Ну, что бы вы ни ел[mas_gender_none], надеюсь, тебе понравится."
                 elif mas_isNtoSS(_now):
                     $ persistent._mas_pm_ate_dinner_times[1] += 1
                     # use the same dialogue from noon to midnight to account for
@@ -1454,38 +1459,38 @@ label bye_prompt_eat:
                 else:
                     $ persistent._mas_pm_ate_dinner_times[2] += 1
                     call bye_dinner_noon_to_mn
-            "A snack.":
+            "Перекус.":
                 if mas_isSRtoN(_now):
                     $ persistent._mas_pm_ate_snack_times[0] += 1
                     if mas_isMoniNormal(higher=True):
-                        m 1hua "Ehehe, breakfast not enough for you today, [player]?"
-                        m 3eua "It's important to make sure you satisfy your hunger in the morning."
-                        m 3eub "I'm glad you're looking out for yourself~"
-                        m 1hua "Have a nice snack~"
+                        m 1hua "Э-хе-хе, сегодня тебе не хватит завтрака, [player]?"
+                        m 3eua "Важно убедиться, что ты утолил[mas_gender_none] свой голод утром."
+                        m 3eub "Я рада что ты заботишься о себе~"
+                        m 1hua "Приятного аппетита~"
                     else:
-                        m 2tsc "Didn't eat enough breakfast?"
-                        m 4esd "You should make sure you get enough to eat, you know."
-                        m 2euc "Enjoy your snack, [player]."
+                        m 2tsc "Не съел[mas_gender_none] достаточно завтрака?"
+                        m 4esd "Знаешь, ты долж[mas_gender_en] убедиться, что у тебя достаточно еды."
+                        m 2euc "Приятного аппетита, [player]."
                 elif mas_isNtoSS(_now):
                     $ persistent._mas_pm_ate_snack_times[1] += 1
                     if mas_isMoniNormal(higher=True):
-                        m 3eua "Feeling a bit hungry?"
-                        m 1eka "I'd make you something if I could..."
-                        m 1hua "Since I can't exactly do that yet, I hope you get something nice to eat~"
+                        m 3eua "Чувствуешь себя немного голодн[mas_gender_iim]?"
+                        m 1eka "Я бы приготовила тебе что-нибудь, если бы могла..."
+                        m 1hua "Поскольку я пока не могу этого сделать, надеюсь, ты найдешь что-нибудь вкусненькое~"
                     else:
-                        m 2euc "Do you really need to leave to get a snack?"
-                        m 2rksdlc "Well... {w=1}I hope it's a good one at least."
+                        m 2euc "Тебе действительно нужно уйти, чтобы перекусить?"
+                        m 2rksdlc "Что ж... {w=1}По крайней мере, я надеюсь, что он хороший."
                 #SStoMN
                 else:
                     $ persistent._mas_pm_ate_snack_times[2] += 1
                     if mas_isMoniNormal(higher=True):
-                        m 1eua "Having an evening snack?"
-                        m 1tubfu "Can't you just feast your eyes on me?"
-                        m 3hubfb "Ahaha, I hope you enjoy your snack, [player]~"
-                        m 1ekbfb "Just make sure you still have room for all of my love!"
+                        m 1eua "Хочешь перекусить вечером?"
+                        m 1tubfu "Неужели ты не можешь просто любоваться мной?"
+                        m 3hubfb "А-ха-ха, Надеюсь тебе понравится твой перекус, [player]~"
+                        m 1ekbfb "Просто убедись, что у тебя все еще есть место для всей моей любви!"
                     else:
-                        m 2euc "Feeling hungry?"
-                        m 2eud "Enjoy your snack."
+                        m 2euc "Чувствуешь голод?"
+                        m 2eud "Приятного аппетита."
 
                 #Snack gets a shorter time than full meal
                 $ persistent._mas_greeting_type_timeout = datetime.timedelta(minutes=30)
@@ -1494,13 +1499,13 @@ label bye_prompt_eat:
 
 label bye_dinner_noon_to_mn:
     if mas_isMoniNormal(higher=True):
-        m 1eua "Is it dinner time for you, [player]?"
-        m 1eka "I wish I could be there to eat with you, even if it's nothing special."
-        m 3dkbsa "After all, just being there with you would make anything special~"
-        m 3hubfb "Enjoy your dinner. I'll be sure to try and put some love into it from here, ahaha!"
+        m 1eua "Тебе уже пора обедать, [player]?"
+        m 1eka "Жаль, что я не могу быть там, чтобы поесть с тобой, даже если это ничего особенного."
+        m 3dkbsa "В конце концов, просто быть там с тобой было бы чем-то особенным~"
+        m 3hubfb "Приятного аппетита. Я обязательно постараюсь вложить в него немного любви отсюда, а-ха-ха!"
     else:
-        m 2euc "I guess it's dinner time for you."
-        m 2esd "Well...{w=1}enjoy."
+        m 2euc "Думаю, тебе пора ужинать."
+        m 2esd "Ну...{w=1}приятного."
     return
 
 init 5 python:
@@ -1509,7 +1514,7 @@ init 5 python:
             persistent.farewell_database,
             eventlabel="bye_prompt_housework",
             unlocked=True,
-            prompt="I'm going to do some housework.",
+            prompt="Я собираюсь немного поработать по дому.",
             pool=True
         ),
         code="BYE"
@@ -1517,21 +1522,21 @@ init 5 python:
 
 label bye_prompt_housework:
     if mas_isMoniNormal(higher=True):
-        m 1eub "Doing your chores, [player]?"
-        m 1ekc "I would like to help you out, but there's not really much I can do since I'm stuck in here..."
-        m 3eka "Just make sure to come back as soon as you're done, okay?"
-        m 3hub "I'll be waiting here for you~"
+        m 1eub "Занимаешься своими делами, [player]?"
+        m 1ekc "Я бы хотела помочь тебе, но я не могу сделать ничего особенного, так как застряла здесь..."
+        m 3eka "Просто не забудь вернуться, как только закончишь, ладно?"
+        m 3hub "Я буду ждать тебя здесь~"
     elif mas_isMoniUpset():
-        m 2esc "Fine."
-        m 2tsc "At least you're doing something responsible."
-        m 2tfc "{cps=*2}...For once.{/cps}{nw}"
+        m 2esc "Хорошо."
+        m 2tsc "По крайней мере, ты делаешь что-то ответственное."
+        m 2tfc "{cps=*2}...В кои-то веки.{/cps}{nw}"
         $ _history_list.pop()
-        m 2esc "Goodbye."
+        m 2esc "Пока."
     elif mas_isMoniDis():
-        m 6ekc "I see..."
-        m 6rkc "I don't want to keep you from completing your household responsibilities."
-        m 6dkd "I just hope you're actually busy and not saying that just to get away from me..."
-        m 6ekc "Goodbye, [player]."
+        m 6ekc "Ясно..."
+        m 6rkc "Я не хочу мешать тебе выполнять твои домашние обязанности."
+        m 6dkd "Я просто надеюсь, что ты действительно занят[mas_gender_none] и не говоришь это только для того, чтобы уйти от меня..."
+        m 6ekc "Пока, [player]."
     else:
         m 6ckc "..."
     $ persistent._mas_greeting_type = store.mas_greetings.TYPE_CHORES
@@ -1544,7 +1549,7 @@ init 5 python:
             persistent.farewell_database,
             eventlabel="bye_prompt_restart",
             unlocked=True,
-            prompt="I'm going to restart.",
+            prompt="Я собираюсь перезагрузиться.",
             pool=True
         ),
         code="BYE"
@@ -1552,12 +1557,12 @@ init 5 python:
 
 label bye_prompt_restart:
     if mas_isMoniNormal(higher=True):
-        m 1eua "Alright, [player]."
-        m 1eub "See you soon!"
+        m 1eua "Ладно, [player]."
+        m 1eub "До скорой встречи!"
     elif mas_isMoniBroken():
         m 6ckc "..."
     else:
-        m 2euc "Alright."
+        m 2euc "Хорошо."
 
     $ persistent._mas_greeting_type_timeout = datetime.timedelta(minutes=20)
     $ persistent._mas_greeting_type = store.mas_greetings.TYPE_RESTART
