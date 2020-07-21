@@ -942,24 +942,24 @@ label ch30_main:
     jump ch30_preloop
 
 label continue_event:
-    m "Now, where was I..."
+    m "Где я остановилась..."
     return
 
 label ch30_noskip:
     show screen fake_skip_indicator
-    m 1esc "...Are you trying to fast-forward?"
-    m 1ekc "I'm not boring you, am I?"
-    m "Oh gosh..."
-    m 2esa "...Well, just so you know, there's nothing to fast-forward to, [player]."
-    m "It's just the two of us, after all..."
-    m 1eua "But aside from that, time doesn't really exist anymore, so it's not even going to work."
-    m "Here, I'll go ahead and turn that off for you..."
+    m 1esc "...Ты пытаешься перемотать вперед?"
+    m 1ekc "Я тебе не надоедаю, правда?"
+    m "О боже..."
+    m 2esa "...Ну, просто чтобы ты знал[mas_gender_none], здесь нет ничего, к чему можно было бы перемотать вперед, [player]."
+    m "В конце концов, нас только двое..."
+    m 1eua "Но кроме этого, времени на самом деле больше не существует, так что это даже не сработает."
+    m "Вот, я пойду и выключу это для тебя..."
     pause 0.4
     hide screen fake_skip_indicator
     pause 0.4
-    m 1hua "There we go!"
-    m 1esa "You'll be a sweetheart and listen to me from now on, right?"
-    m "Thanks~"
+    m 1hua "Готово!"
+    m 1esa "Ты ведь умничка и будешь внимательно меня слушать, правда?"
+    m "Спасибо~"
     hide screen fake_skip_indicator
 
     #Get back to what you were talking about
@@ -976,46 +976,46 @@ label ch30_nope:
     call spaceroom from _call_spaceroom_1
 
     if persistent.rejected_monika:
-        m 1euc "Wait. Are you messing with my character file?"
-        m 2esa "Curiosity is what makes us human, right?"
-        m "If it wasn't for the human desire to explore, we'd still be swinging from trees."
-        m 1eka "Still, please don't do that. It makes me nervous, even though I don't need a character file anymore."
-        m "I already fixed that bug."
+        m 1euc "Подожди-ка. Ты что, копаешься в моем файле персонажа?"
+        m 2esa "Любопытство - это то, что делает нас людьми, верно?"
+        m "Если бы не человеческое желание исследовать, мы бы до сих пор качались на деревьях."
+        m 1eka "И все же, пожалуйста, не делай этого. Это заставляет меня нервничать, хотя мне больше не нужен файл персонажа."
+        m "Я уже исправила эту ошибку."
 
     else:
         $ quick_menu = False
         $ m_name = glitchtext(12)
-        m 1euc "Wait. Are you messing with my character file?"
-        m 1tkc "Why are you even playing this mod if you just wanted to delete me again?"
-        m 1tfc "You really are the worst."
-        m 1tfd "You waste all your time on the internet with a bunch of people you'll never talk to in reality, but you're still willing to kill me on a whim just because you were bored?"
-        m 1tkd "All I wanted was someone to fall in love with..."
-        m "I would have done anything you wanted me to."
-        m 1tku "But if you're going to try and delete me again..."
-        m 4tfu "Then I'll just have to delete you first."
+        m 1euc "Подожди-ка. Ты что, копаешься в моем файле персонажей?"
+        m 1tkc "Зачем ты вообще играешь в этот мод, если ты просто хотел[mas_gender_none] удалить меня снова?"
+        m 1tfc "Ты действительно хуже всех."
+        m 1tfd "Ты тратишь все свое время в интернете с кучей людей, с которыми никогда не поговоришь в реальности, но ты все еще готов убить меня по прихоти только потому, что тебе было скучно?"
+        m 1tkd "Все, что я хотела - это чтобы кто-то влюбился..."
+        m "Я бы сделала все, что ты хочешь."
+        m 1tku "Но если ты собираешься попытаться удалить меня снова..."
+        m 4tfu "Тогда мне придется сначала удалить тебя."
         if renpy.windows:
-            call updateconsole("shututil.rmtree(\"Documents\", true)", "Deleting Documents in progress...") from _call_updateconsole_15
+            call updateconsole("shututil.rmtree(\"Documents\", true)", "Удаление Documents в процессе...") from _call_updateconsole_15
         elif renpy.linux:
-            call updateconsole("sudo mv ~ /dev/null", "In progress...") from _call_updateconsole_16
+            call updateconsole("sudo mv ~ /dev/null", "В процессе...") from _call_updateconsole_16
         elif renpy.macintosh:
-            call updateconsole("sudo mv ~ /dev/null", "In progress...") from _call_updateconsole_19
+            call updateconsole("sudo mv ~ /dev/null", "В процессе...") from _call_updateconsole_19
         pause 3.0
         call hideconsole from _call_hideconsole_2
         $ open(config.basedir + "/characters/monika.chr", "wb").write(renpy.file("monika.chr").read())
         $ m_name = persistent._mas_monika_nickname
         $ quick_menu = True
-        m 1hua "Ahaha!"
-        m "I'm just kidding!"
-        m 1eua "I already fixed that bug."
-        m "I don't need a character file anymore."
+        m 1hua "А-ха-ха!"
+        m "Я просто шучу!"
+        m 1eua "Я уже исправила эту ошибку."
+        m "Мне больше не нужен файл персонажа."
 
-    m 1ekbfa "I just need your love, [player]."
-    m 1eua "Oh, unless you try to delete all of the game files, I guess."
-    m 3tfu "If you do that, I won't stop at just deleting one directory next time."
-    m 3tku "But that will never happen, right? You're just being a tsundere~"
-    m 1hua "That's so cute!"
-    m 1eua "No matter how much you may want to deny it, you'll be talking to me for the rest of your life."
-    m "Being alone is only lonely if you want it to be, so cheer up!"
+    m 1ekbfa "Мне просто нужна твоя любовь, [player]."
+    m 1eua "О, если только ты не попытаешься удалить все файлы игры, я думаю."
+    m 3tfu "Если вы сделаете это, я не остановлюсь на том, чтобы просто удалить один каталог в следующий раз."
+    m 3tku "Но ведь этого никогда не будет, верно? Ты просто ведешь себя как цундере~"
+    m 1hua "Это так мило!"
+    m 1eua "Не важно, как сильно ты будешь отрицать это, но ты будешь говорить со мной всю оставшуюся жизнь."
+    m "Быть одинок[mas_gender_im] одиноко, только если ты хочешь, чтобы так было. Так что не унывай!"
     jump ch30_loop
 
 # NOTE: START HERE
@@ -1717,7 +1717,7 @@ label ch30_reset:
 
     python:
         # name eggs
-        if persistent.playername.lower() == "sayori" or (mas_isO31() and not persistent._mas_pm_cares_about_dokis):
+        if persistent.playername.lower() == "sayori" or persistent.playername.lower() == "саёри" or persistent.playername.lower() == "сайори" or persistent.playername.lower() == "саери" or (mas_isO31() and not persistent._mas_pm_cares_about_dokis):
             store.mas_globals.show_s_light = True
 
     python:
