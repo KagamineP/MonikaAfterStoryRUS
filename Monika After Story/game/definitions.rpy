@@ -360,11 +360,11 @@ python early:
 
             # setting up defaults
             if not eventlabel:
-                raise EventException("'_eventlabel' cannot be None")
+                raise EventException("'_eventlabel' не может быть None")
             if per_eventdb is None:
-                raise EventException("'per_eventdb' cannot be None")
+                raise EventException("'per_eventdb' не может быть None")
             if action is not None and action not in EV_ACTIONS:
-                raise EventException("'" + action + "' is not a valid action")
+                raise EventException("'" + action + "' не является верным action")
 #            if diary_entry is not None and len(diary_entry) > self.DIARY_LIMIT:
 #                raise Exception(
 #                    (
@@ -373,7 +373,7 @@ python early:
 #                )
             if rules is None:
                 raise Exception(
-                    "'{0}' - rules property cannot be None".format(eventlabel)
+                    "'{0}' - свойства правил не может быть None".format(eventlabel)
                 )
             if (
                     start_date is not None
@@ -381,7 +381,7 @@ python early:
                     and type(start_date) is not datetime.date
                 ):
                 raise Exception(
-                    "'{0}' - invalid start date.".format(eventlabel)
+                    "'{0}' - неверная начальная дата.".format(eventlabel)
                 )
             if (
                     end_date is not None
@@ -389,11 +389,11 @@ python early:
                     and type(end_date) is not datetime.date
                 ):
                 raise Exception(
-                    "'{0}' - invalid end date.".format(eventlabel)
+                    "'{0}' - невереная конечная дата.".format(eventlabel)
                 )
             if years is not None and type(years) is not list:
                 raise Exception(
-                    "'{0}' - invalid years.".format(eventlabel)
+                    "'{0}' - неверные годы.".format(eventlabel)
                 )
 
             # we'll simplify aff_range so we dont have to deal with extra
@@ -411,7 +411,7 @@ python early:
                 ))
 
             if not isinstance(flags, int):
-                raise Exception("'{0}' - invalid flags".format(eventlabel))
+                raise Exception("'{0}' - неверные метки".format(eventlabel))
 
             self.eventlabel = eventlabel
             self.per_eventdb = per_eventdb
@@ -552,7 +552,7 @@ python early:
                     if not data_row:
                         # couldnt find this event, raise excp
                         raise EventException(
-                            self.eventlabel + " not found in eventdb"
+                            self.eventlabel + " не найдено в eventdb"
                         )
 
                     # if we are dealing with start/end dates, we need to
@@ -578,7 +578,7 @@ python early:
 
                 else:
                     raise EventException(
-                        "'{0}' is not a valid attribute for Event".format(name)
+                        "'{0}' не является верным аттрибутом для Event".format(name)
                     )
 
         # get attribute ovverride
@@ -592,7 +592,7 @@ python early:
                 if not data_row:
                     # couldnt find this event, raise exp
                     raise EventException(
-                        self.eventlabel + " not found in db"
+                        self.eventlabel + " не найдено в базе данных"
                     )
 
                 # otherwise return the attribute
@@ -2552,7 +2552,7 @@ python early:
                     ASSUMES THAT THIS IS SORTED IN ORDER
             """
             if len(corners) <= 0:
-                raise Exception("Clickzone cannot be built with empty corners")
+                raise Exception("Зона щелчка не может быть построена с пустыми углами")
 
             super(renpy.Displayable, self).__init__()
 
@@ -2903,7 +2903,7 @@ python early:
 
             else:
                 self.__throwError(
-                    "Glitchtext cannot be added to this MASQuipList"
+                    "Glitchtext не может быть добавлено к этому MASQuipList"
                 )
                 return -1
 
@@ -2925,7 +2925,7 @@ python early:
                 if not renpy.has_label(label_name):
                     # okay throw an error and reutrn -1
                     self.__throwError(
-                        "Label '{0}' does not exist".format(label_name)
+                        "Метка '{0}' не существует".format(label_name)
                     )
                     return -1
 
@@ -2936,7 +2936,7 @@ python early:
 
             else:
                 self.__throwError(
-                    "Labels cannot be added to this MASQuipList"
+                    "Метки не могут быть добавлены к этому MASQuipList"
                 )
                 return -1
 
@@ -3471,7 +3471,7 @@ init -991 python in mas_utils:
     # LOG messges
     _mas__failrm = "[ОШИБКА] Не удалось удалить: '{0}' | {1}\n"
     _mas__failcp = "[ОШИБКА] Не удалось скопировать: '{0}' -> '{1}' | {2}\n"
-    _mas__faildir = "[ERROR] Failed to check if dir: {0} | {1}\n"
+    _mas__faildir = "[ERROR] Не удалось проверить, если dir: {0} | {1}\n"
 
     # bad text dict
     BAD_TEXT = {
@@ -3952,7 +3952,7 @@ init -991 python in mas_utils:
 
     mas_log_open = mas_log.open()
     mas_log.raw_write = True
-    mas_log.write("VERSION: {0}\n".format(store.persistent.version_number))
+    mas_log.write("ВЕРСИЯ: {0}\n".format(store.persistent.version_number))
 
     def weightedChoice(choice_weight_tuple_list):
         """
