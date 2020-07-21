@@ -7412,6 +7412,7 @@ init -100 python:
         mas_gender_hes = "она"
         mas_gender_oim = "оем"
         mas_gender_friend = "подруга"
+        devushka = "парней"
     else:
         persistent.mas_gender_female = False
         mas_gender_ot = "от"
@@ -7449,6 +7450,7 @@ init -100 python:
         mas_gender_hes = "он"
         mas_gender_oim = "оим"
         mas_gender_friend = "друг"
+        devushka = "девушек"
 
 label mas_set_gender:
     if persistent.gender == "F":
