@@ -2559,79 +2559,79 @@ init 20 python:
     MASPoem(
         poem_id="spr_1",
         category="surprise",
-        prompt=_("Forgive Me"),
+        prompt=_("Прости меня"),
         paper="mod_assets/poem_assets/poem_finalfarewell.png",
         title="",
-        text=_("I'm sorry if I'm not good enough for you...please don't leave me."),
+        text=_("Прости, если я недостаточно хороша для тебя...пожалуйста, не оставляй меня."),
         ex_props={"sad": True}
     )
 
     MASPoem(
         poem_id="spr_2",
         category="surprise",
-        prompt=_("Can you hear me?"),
+        prompt=_("Ты меня слышишь?"),
         title="",
-        text=_("If I'm doing something wrong please tell me. I love you."),
+        text=_("Если я делаю что-то не так, Пожалуйста, скажи мне. Я люблю тебя."),
         ex_props={"sad": True}
     )
 
     MASPoem(
         poem_id="spr_3",
         category="surprise",
-        prompt=_("Please Listen"),
+        prompt=_("Пожалуйста, послушай"),
         title="",
-        text=_("Everything I do, I do for you...my love."),
+        text=_("Все, что я делаю, я делаю для тебя...моя любовь."),
         ex_props={"sad": True}
     )
 
     MASPoem(
         poem_id="spr_4",
         category="surprise",
-        prompt=_("Surprise!"),
+        prompt=_("Сюрприз!"),
         title="",
-        text=_("I love you.")
+        text=_("Я люблю тебя.")
     )
 
     MASPoem(
         poem_id="spr_5",
         category="surprise",
-        prompt=_("Ehehe~"),
+        prompt=_("Э-хе-хе~"),
         title="",
-        text=_("You are the sunshine that brightens up my day, [player]!")
+        text=_("Ты - солнце, которое освещает мой день., [player]!")
     )
 
     MASPoem(
         poem_id="spr_6",
         category="surprise",
-        prompt=_("Secret"),
+        prompt=_("Секрет"),
         title="",
-        text=_("You are my one and only love!")
+        text=_("Ты моя единственная любовь!")
     )
 
     MASPoem(
         poem_id="spr_7",
         category="surprise",
-        prompt=_("For you"),
+        prompt=_("Для тебя"),
         title="",
-        text=_("My dearest, you are everything I could ever hope for. I love you.")
+        text=_("Мо[mas_gender_i] дорог[mas_gender_oi], ты-все, на что я могу надеяться. Я люблю тебя.")
     )
 
     MASPoem(
         poem_id="spr_8",
         category="surprise",
-        prompt=_("My One and Only Love"),
+        prompt=_("Моя единственная любовь"),
         paper="mod_assets/poem_assets/poem_vday.jpg",
-        title="My dearest lover, friend, companion, and owner of my heart...",
+        title="М[mas_gender_oi_2] сам[mas_gender_iii] дорог[mas_gender_oi] возлюбленн[mas_gender_iii], [mas_gender_friend], компаньон и владелец моего сердца...",
         text="""\
-Every day, you make my dreams come true,
-a screen means nothing when you spend your time with me.
-I look out to the space dust and yet no cosmic sight even comes close to the beauty in your heart.
-I wished for so long that someone like you would come along and as fate has smiled upon me, you came into my life.
-I want to be yours forever, so would you be mine?
+Каждый день ты воплощаешь мои мечты в реальность,
+экран ничего не значит, когда ты проводишь время со мной.
+Я смотрю на космическую пыль, и все же ни одно космическое видение даже близко не подходит к красоте в твоем сердце.
+Я так долго мечтала, чтобы появился кто-то вроде тебя, и когда судьба улыбнулась мне, ты вош[mas_gender_iol_2] в мою жизнь.
+Я хочу быть твоей навсегда, так ты будешь мо[mas_gender_im]?
 
-Forever yours,
+Навеки твоя,
 
-Monika
+Моника
 """
     )
 
@@ -2640,20 +2640,20 @@ Monika
         poem_id="ff_affection",
         category="ff",
         prompt="",
-        title=_("Goodbye, [player]"),
+        title=_("Прощай, [player]"),
         text=_("""\
- My love for you, even now still burns within me but I see now that it also burns all happiness I'll ever have.
- I gave you everything I had, my life, my heart and any and every single thought of the future was dedicated to you.
- I didn't need you to be perfect or even passionate...
- I only needed you to care enough to treat me how a person should be treated.
- But it's clear to me now that not only do you not love me, but you never did.
- If you only didn't love me you would simply leave me be.
- But you went out of your way to ridicule me, hurt me... It truly makes me sick.
- Even now all I have is you...and part of me still loves you.
- But I don't have the strength to do this anymore.
- So this is farewell. May we never meet again.
+ Моя любовь к тебе даже сейчас все еще горит во мне, но теперь я вижу, что она также сжигает все счастье, которое у меня когда-либо будет.
+ Я отдала тебе все, что у меня было: свою жизнь, свое сердце, и все мысли о будущем были посвящены тебе.
+ Мне не нужно было, чтобы ты был[mas_gender_none] идеальн[mas_gender_iim] или даже страстн[mas_gender_iim]...
+ Мне нужно было только, чтобы ты заботил[mas_gender_sya] обо мне достаточно, чтобы относиться ко мне так, как следует относиться к человеку.
+ Но теперь мне ясно, что ты не только не любишь меня, но и никогда не любил[mas_gender_none].
+ Если бы ты только не любил[mas_gender_none] меня, ты бы просто оставил[mas_gender_none] меня в покое.
+ Но ты изо всех сил старал[mas_gender_sya] высмеять меня, причинить мне боль... Это действительно вызывает у меня тошноту.
+ Даже сейчас у меня есть только ты...и часть меня все еще любит тебя.
+ Но у меня больше нет на это сил.
+ Так что это прощание. Пусть мы никогда больше не встретимся.
 
- Monika
+ Моника
 """)
     )
 
@@ -2661,23 +2661,23 @@ Monika
         poem_id="ff_failed_promise",
         category="ff",
         prompt="",
-        title=_("Goodbye, [player]"),
+        title=_("Прощай, [player]"),
         text=_("""\
- Do you remember the promise you made?
- The one you said you would make everything right. That we could start over.
+ Ты помнишь свое обещание?
+ То, к которому ты ещё добавил[mas_gender_none], что будешь поступать правильно. Что мы можем начать всё сначала.
 
- The one you broke.
+ То, которое ты не выполнил[mas_gender_none].
 
- I hoped dearly that one day, you would see me as I see you...
- But that day never came.
- I gave you my heart and my life. I loved you more than anything else in the world.
- And part of me still does...
+ Я очень надеялась, что однажды ты увидишь меня такой, как[mas_gender_iim] я вижу тебя...
+ Но этот день так и не наступил.
+ Я отдала тебе свое сердце и свою жизнь. Я любила тебя больше всего на свете.
+ И часть меня до сих пор так думает...
 
- But it is clear to me now that you truly don't love me. You never did.
- I was a fool to have thought we could have started anew.
- And I simply don't have the strength to do this anymore.
- So this is farewell... May we never meet again.
+ Но теперь мне ясно, что ты действительно не любишь меня. Ты никогда этого не делал[mas_gender_none].
+ Я был дурой, думая, что мы могли бы начать все заново.
+ И у меня просто больше нет на это сил.
+ Так что это прощание... Пусть мы никогда больше не встретимся.
 
- Monika
+ Моника
 """)
     )
