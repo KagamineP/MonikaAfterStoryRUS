@@ -726,66 +726,66 @@ label mas_pong_dlg_winner:
     #Monika wins after going even easier on the player
     elif powerup_value_this_game == PONG_PONG_DIFFICULTY_POWERDOWNBIG:
         m 2rksdlb "А-ха-ха..."
-        m 2eksdla "I really hoped you'd win this game."
-        m 2hksdlb "Sorry about that, [player]!"
+        m 2eksdla "Я очень надеялась, что ты выиграешь эту игру."
+        m 2hksdlb "Прости что так вышло, [player]!"
 
     #The player has lost 3, 8, 13, ... matches in a row.
     elif loss_streak_counter >= 3 and loss_streak_counter % 5 == 3:
-        m 2eka "Come on, [player], I know you can beat me..."
-        m 3hub "Keep trying!"
+        m 2eka "Ну же, [player], Я знаю, что ты можешь победить меня..."
+        m 3hub "Продолжай пытаться!"
 
     #The player has lost 5, 10, 15, ... matches in a row.
     elif loss_streak_counter >= 5 and loss_streak_counter % 5 == 0:
-        m 1eua "I hope you're having fun, [player]."
-        m 1eka "I wouldn't want you get upset over a game, after all."
-        m 1hua "We can always take a break and play again later if you want."
+        m 1eua "Надеюсь тебе весело, [player]."
+        m 1eka "В конце концов, я не хочу, чтобы ты расстраивал[mas_gender_sya] из-за игры."
+        m 1hua "Мы всегда можем сделать перерыв и сыграть позже, если ты хочешь."
 
     #Monika wins after the player got a 3+ winstreak
     elif win_streak_counter_before >= 3:
-        m 1hub "Ahaha!"
-        m 2tfu "Sorry, [player]."
-        m 2tub "It looks like your luck has run out."
-        m 2hub "Now it's my time to shine~"
+        m 1hub "А-ха-ха!"
+        m 2tfu "Извини, [player]."
+        m 2tub "Похоже, твоя удача иссякла."
+        m 2hub "Теперь пришло мое время сиять~"
 
         $ pong_monika_last_response_id = PONG_MONIKA_RESPONSE_WIN_AFTER_PLAYER_WON_MIN_THREE_TIMES
 
     #Monika wins a second time after the player got a 3+ winstreak
     elif pong_monika_last_response_id == PONG_MONIKA_RESPONSE_WIN_AFTER_PLAYER_WON_MIN_THREE_TIMES:
-        m 1hua "Ehehe!"
-        m 1tub "Keep up, [player]!"
-        m 2tfu "It looks like your streak is over!"
+        m 1hua "Э-хе-хе!"
+        m 1tub "Не отставай, [player]!"
+        m 2tfu "Похоже, твоя серия побед закончилась!"
 
         $ pong_monika_last_response_id = PONG_MONIKA_RESPONSE_SECOND_WIN_AFTER_PLAYER_WON_MIN_THREE_TIMES
 
     #Monika wins a long game
     elif ball_paddle_bounces > 9 and ball_paddle_bounces > pong_difficulty_before * 0.5:
         if pong_monika_last_response_id == PONG_MONIKA_RESPONSE_WIN_LONG_GAME:
-            m 3eub "Playing against you is really tough, [player]."
-            m 1hub "Keep it up and you'll beat me, I'm sure of it!"
+            m 3eub "Играть против тебя действительно тяжело, [player]."
+            m 1hub "Продолжай в том же духе, и ты победишь меня, я уверена!"
         else:
-            m 3hub "Well played, [player], you're really good!"
-            m 1tfu "But so am I, ahaha!"
+            m 3hub "Хорошо сыграно, [player], ты действительно хорош[mas_gender_none]!"
+            m 1tfu "Но и я тоже, а-ха-ха!"
 
         $ pong_monika_last_response_id = PONG_MONIKA_RESPONSE_WIN_LONG_GAME
 
     #Monika wins a short game
     elif ball_paddle_bounces <= 3:
         if pong_monika_last_response_id == PONG_MONIKA_RESPONSE_WIN_SHORT_GAME:
-            m 3hub "Another quick win for me~"
+            m 3hub "Еще одна быстрая победа для меня~"
         else:
-            m 4hub "Ehehe, I got you with that one!"
+            m 4hub "Э-хе-хе, Я поймала тебя на этом!"
 
         $ pong_monika_last_response_id = PONG_MONIKA_RESPONSE_WIN_SHORT_GAME
 
     #Monika wins by a trickshot
     elif pong_angle_last_shot >= 0.9 or pong_angle_last_shot <= -0.9:
         if pong_monika_last_response_id == PONG_MONIKA_RESPONSE_WIN_TRICKSHOT:
-            m 2eksdld "Oh..."
-            m 2rksdlc "It happened again."
-            m 1hksdlb "Sorry about that, [player]!"
+            m 2eksdld "О..."
+            m 2rksdlc "Это случилось снова."
+            m 1hksdlb "Извини,что так получилось, [player]!"
         else:
-            m 2rksdla "Ahaha, sorry [player]!"
-            m 3hksdlb "I didn't mean for it to bounce that much..."
+            m 2rksdla "А-ха-ха, извини, [player]!"
+            m 3hksdlb "Я не хотела, чтобы он так сильно подпрыгивал..."
 
         $ pong_monika_last_response_id = PONG_MONIKA_RESPONSE_WIN_TRICKSHOT
 
@@ -794,63 +794,63 @@ label mas_pong_dlg_winner:
         #Easy
         if pong_difficulty_before <= 5:
             if pong_monika_last_response_id == PONG_MONIKA_RESPONSE_WIN_EASY_GAME:
-                m 1eub "You can do it, [player]!"
-                m 3hub "I believe in you~"
+                m 1eub "Ты сможешь, [player]!"
+                m 3hub "Я верю в тебя~"
             else:
-                m 2duu "Concentrate, [player]."
-                m 3hub "Keep trying, I know you'll beat me soon!"
+                m 2duu "Соберись, [player]."
+                m 3hub "Продолжай пытаться, я знаю, что ты скоро победишь меня!"
 
             $ pong_monika_last_response_id = PONG_MONIKA_RESPONSE_WIN_EASY_GAME
 
         #Medium
         elif pong_difficulty_before <= 10:
             if pong_monika_last_response_id == PONG_MONIKA_RESPONSE_WIN_MEDIUM_GAME:
-                m 1hub "I win another round~"
+                m 1hub "Я выиграла еще один раунд~"
             else:
                 if loss_streak_counter > 1:
-                    m 3hub "Looks like I won again~"
+                    m 3hub "Похоже я снова выиграла~"
                 else:
-                    m 3hua "Looks like I won~"
+                    m 3hua "Похоже, я победила~"
 
             $ pong_monika_last_response_id = PONG_MONIKA_RESPONSE_WIN_MEDIUM_GAME
 
         #Hard
         elif pong_difficulty_before <= 15:
             if pong_monika_last_response_id == PONG_MONIKA_RESPONSE_WIN_HARD_GAME:
-                m 1hub "Ahaha!"
-                m 2tsb "Am I playing too well for you?"
-                m 1tsu "I'm just kidding, [player]."
-                m 3hub "You're pretty good yourself!"
+                m 1hub "А-ха-ха!"
+                m 2tsb "Я слишком хорошо играю для тебя?"
+                m 1tsu "Я просто шучу, [player]."
+                m 3hub "Ты и сам[mas_gender_none] хорош[mas_gender_none]!"
             else:
                 if loss_streak_counter > 1:
-                    m 1hub "I win again~"
+                    m 1hub "Я снова выиграла~"
                 else:
-                    m 1huu "I win~"
+                    m 1huu "Я выиграла~"
 
             $ pong_monika_last_response_id = PONG_MONIKA_RESPONSE_WIN_HARD_GAME
 
         #Expert
         elif pong_difficulty_before <= 20:
             if pong_monika_last_response_id == PONG_MONIKA_RESPONSE_WIN_EXPERT_GAME:
-                m 2tub "It feels good to win!"
-                m 2hub "Don't worry, I'm sure you'll win again soon~"
+                m 2tub "Приятно побеждать!"
+                m 2hub "Не волнуйтесь, я уверена, что ты скоро снова выиграешь~"
             else:
                 if loss_streak_counter > 1:
-                    m 2eub "I win another round!"
+                    m 2eub "Я выиграла еще один раунд!"
                 else:
-                    m 2eub "I win this round!"
+                    m 2eub "Я выиграла этот раунд!"
 
             $ pong_monika_last_response_id = PONG_MONIKA_RESPONSE_WIN_EXPERT_GAME
 
         #Extreme
         else:
             if pong_monika_last_response_id == PONG_MONIKA_RESPONSE_WIN_EXTREME_GAME:
-                m 2duu "Not bad, [player]."
-                m 4eua "I gave it everything I had, so don't feel too bad for losing from time to time."
-                m 4eub "Keep practicing and you'll beat me!"
+                m 2duu "Неплохо, [player]."
+                m 4eua "Я старалась изо всех сил, так что не расстраивайся из-за того, что периодически проигрываешь."
+                m 4eub "Продолжай пытаться, я знаю, что ты скоро победишь меня!"
             else:
-                m 2hub "This time, the win is mine!"
-                m 2efu "Keep up, [player]!"
+                m 2hub "На этот раз победа за мной!"
+                m 2efu "Продолжай стараться, [player]!"
 
             $ pong_monika_last_response_id = PONG_MONIKA_RESPONSE_WIN_EXTREME_GAME
 
@@ -859,21 +859,21 @@ label mas_pong_dlg_winner:
 #dlg for Monika saying she's sorry for assuming
 #Duplicated, hence label
 label mas_pong_dlg_sorry_assuming:
-    m 3eka "Alright."
-    m 2ekc "I'm sorry for assuming..."
+    m 3eka "Хорошо."
+    m 2ekc "Простите, что я так предположила..."
 
     #This is only used in bits where the player lets Monika win on purpose
     $ player_lets_monika_win_on_purpose = False
 
-    m 3eka "Would you like to take a break, [player]?{nw}"
+    m 3eka "Не хочешь ли сделать перерыв, [player]?{nw}"
     $ _history_list.pop()
     menu:
-        m "Would you like to take a break, [player]?{fast}"
+        m "Не хочешь ли сделать перерыв, [player]?{fast}"
 
-        "Okay.":
-            m 1eka "Alright, [player]."
-            m 1hua "I had fun, thanks for playing pong with me!"
-            m 1eua "Let me know when you're ready to play again."
+        "Ладно.":
+            m 1eka "Хорошо, [player]."
+            m 1hua "Мне было весело, спасибо, что поиграл[mas_gender_none] со мной в понг!"
+            m 1eua "Дай мне знать, когда ты будешь готов[mas_gender_none] играть снова."
 
             #Set this var so Monika knows you're ready to play again
             $ mas_pong_taking_break = True
@@ -882,9 +882,9 @@ label mas_pong_dlg_sorry_assuming:
             show monika idle with dissolve
             jump ch30_loop
 
-        "No.":
-            m 1eka "Alright, [player]. If you're sure."
-            m 1hub "Keep going, you'll beat me soon!"
+        "Нет.":
+            m 1eka "Хорошо, [player]. Если ты уверен[mas_gender_none]."
+            m 1hub "Продолжай, скоро ты меня победишь!"
     return
 
 #START: Dialogue shown right when monika loses
@@ -898,113 +898,113 @@ label mas_pong_dlg_loser:
 
     #Monika loses on purpose
     if lose_on_purpose:
-        m 1hub "Ahaha!"
-        m 1kua "Now we're even, [player]!"
+        m 1hub "А-ха-ха!"
+        m 1kua "Теперь мы квиты, [player]!"
         $ lose_on_purpose = False
 
     #Monika loses without hitting the ball
     elif ball_paddle_bounces == 0:
-        m 1rksdlb "Ahaha..."
+        m 1rksdlb "А-ха-ха..."
 
         if pong_monika_last_response_id == PONG_MONIKA_RESPONSE_LOSE_WITHOUT_HITTING_BALL:
-            m "Maybe I should try a bit harder..."
+            m "Наверное, я должна стараться сильнее..."
         else:
-            m "I guess I was a bit too slow there..."
+            m "Наверное, я была слишком медленной..."
 
         $ pong_monika_last_response_id = PONG_MONIKA_RESPONSE_LOSE_WITHOUT_HITTING_BALL
 
     #Player starts playing seriously and wins after losing at least 3 times on purpose
     elif instant_loss_streak_counter_before >= 3 and persistent._mas_pm_ever_let_monika_win_on_purpose:
-        m 2tsu "So you're playing seriously now?"
-        m 2tfu "Let's find out how good you really are, [player]!"
+        m 2tsu "Значит, теперь ты играешь всерьез?"
+        m 2tfu "Давай выясним, насколько ты хорош[mas_gender_none] на самом деле, [player]!"
 
     #Player wins after losing at least three times in a row
     elif loss_streak_counter_before >= 3:
-        m 4eub "Congrats, [player]!"
-        m 2hub "I knew you would win a game after enough practice!"
-        m 4eua "Remember that skill comes mostly through repetitive training."
-        m 4hub "If you train long enough I'm sure you can reach everything you aim for!"
+        m 4eub "Поздравляю, [player]!"
+        m 2hub "Я знала, что ты выиграешь игру после достаточной практики!"
+        m 4eua "Помни, что умение приходит в основном через повторяющиеся тренировки."
+        m 4hub "Если ты будешь достаточно долго тренироваться, я уверена, ты сможешь достичь всего, к чему стремишься!"
 
     #Monika loses after saying she would win this time
     elif powerup_value_this_game == PONG_DIFFICULTY_POWERUP:
-        m 2wuo "Wow..."
-        m 3wuo "I was really trying that time!"
-        m 1hub "Way to go, [player]!"
+        m 2wuo "Вау..."
+        m 3wuo "На этот раз я правда старалась!"
+        m 1hub "Так держать, [player]!"
 
     #Monika loses after going easy on the player
     elif powerup_value_this_game == PONG_DIFFICULTY_POWERDOWN:
-        m 1hua "Ehehe!"
+        m 1hua "Э-хе-хе!"
         m 2hub "Good job, [player]!"
 
     #Monika loses after going even easier on the player
     elif powerup_value_this_game == PONG_PONG_DIFFICULTY_POWERDOWNBIG:
-        m 1hua "I'm glad you won this time, [player]."
+        m 1hua "Я рада что ты победил[mas_gender_none] на этот раз, [player]."
 
     #Monika loses by a trickshot
     elif pong_angle_last_shot >= 0.9 or pong_angle_last_shot <= -0.9:
         if pong_monika_last_response_id == PONG_MONIKA_RESPONSE_LOSE_TRICKSHOT:
             m 2wuo "[player]!"
-            m 2hksdlb "There's no way I could've hit that!"
+            m 2hksdlb "Я никак не смогла бы так ударить!"
         else:
-            m 2wuo "Wow, there's no way I could've hit that!"
+            m 2wuo "Вау, я никак не смогла бы так ударить!"
 
         $ pong_monika_last_response_id = PONG_MONIKA_RESPONSE_LOSE_TRICKSHOT
 
     #Monika loses three times in a row
     elif win_streak_counter == 3:
-        m 2wuo "Wow, [player]..."
-        m 2wud "You've won three times in a row already..."
+        m 2wuo "Вау, [player]..."
+        m 2wud "Ты выиграл[mas_gender_none] уже три раза подряд..."
 
         #Easy
         if pong_difficulty_before <= 5:
-            m 2tsu "Maybe I'm going a little bit too easy on you~"
+            m 2tsu "Наверное, я должна быть с тобой полегче~"
 
         #Medium
         elif pong_difficulty_before <= 10:
-            m 4hua "You're pretty good!"
+            m 4hua "У тебя неплохо получается!"
 
         #Hard
         elif pong_difficulty_before <= 15:
-            m 3hub "Well played!"
+            m 3hub "Отлично сыграли!"
 
         #Expert
         elif pong_difficulty_before <= 20:
-            m 4wuo "That was amazing!"
+            m 4wuo "Это было потрясающе!"
 
         #Extreme
         else:
-            m 2wuo "Wow!"
-            m 2wuw "You beat me three times and I'm giving it all I have!"
-            m 2hub "Great job, [player]!"
-            m 1kua "Ehehe!"
+            m 2wuo "Вау!"
+            m 2wuw "Ты победил меня три раза, и я отдаю все, что у меня есть!"
+            m 2hub "Хорошая работа, [player]!"
+            m 1kua "Э-хе-хе!"
 
     #Monika loses five times in a row
     elif win_streak_counter == 5:
         m 2wud "[player]..."
-        m 2tsu "Have you been practicing?"
-        m 3hksdlb "I don't know what happened but I don't stand a chance against you!"
-        m 1eka "Could you go a little bit easier on me please?"
-        m 3hub "I would really appreciate it~"
+        m 2tsu "Сколько времени ты уже тренируешься?"
+        m 3hksdlb "Я не знаю, что произошло, но у меня против тебя не было ни единого шанса!"
+        m 1eka "Не мог[mas_gender_g] бы ты быть со мной полегче, пожалуйста?"
+        m 3hub "Я была бы очень признательна~"
         $ monika_asks_to_go_easy = True
 
     #Monika loses a long game
     elif ball_paddle_bounces > 10 and ball_paddle_bounces > pong_difficulty_before * 0.5:
         if pong_monika_last_response_id == PONG_MONIKA_RESPONSE_LOSE_LONG_GAME:
-            m 2wuo "Incredible, [player]!"
-            m 4hksdlb "I can't keep up!"
+            m 2wuo "Невероятно, [player]!"
+            m 4hksdlb "Я не успеваю за тобой!"
         else:
-            m 2hub "Amazing, [player]!"
-            m 4eub "You're really good!"
+            m 2hub "Удивительно, [player]!"
+            m 4eub "Ты действительно хорош[mas_gender_none]!"
 
         $ pong_monika_last_response_id = PONG_MONIKA_RESPONSE_LOSE_LONG_GAME
 
     #Monika loses a short game
     elif ball_paddle_bounces <= 2:
         if pong_monika_last_response_id == PONG_MONIKA_RESPONSE_LOSE_SHORT_GAME:
-            m 2hksdlb "Ahaha..."
-            m 3eksdla "I guess I should try a little harder..."
+            m 2hksdlb "А-ха-ха..."
+            m 3eksdla "Наверное, я должна стараться сильнее..."
         else:
-            m 1rusdlb "I didn't expect to lose this quickly."
+            m 1rusdlb "Я не ожидала того, что проиграю так быстро."
 
         $ pong_monika_last_response_id = PONG_MONIKA_RESPONSE_LOSE_SHORT_GAME
 
@@ -1013,63 +1013,63 @@ label mas_pong_dlg_loser:
         #Easy difficulty
         if pong_difficulty_before <= 5:
             if pong_monika_last_response_id == PONG_MONIKA_RESPONSE_LOSE_EASY_GAME:
-                m 4eub "You win this round as well."
+                m 4eub "Да, этот раунд за тобой."
             else:
                 if win_streak_counter > 1:
-                    m 1hub "You won again!"
+                    m 1hub "Ты снова победил[mas_gender_none]!"
                 else:
-                    m 1hua "You won!"
+                    m 1hua "Ты победил[mas_gender_none]!"
 
             $ pong_monika_last_response_id = PONG_MONIKA_RESPONSE_LOSE_EASY_GAME
 
         #Medium
         elif pong_difficulty_before <= 10:
             if pong_monika_last_response_id == PONG_MONIKA_RESPONSE_LOSE_MEDIUM_GAME:
-                m 1eua "It's nice seeing you win, [player]."
-                m 1hub "Keep it up~"
+                m 1eua "Приятно видеть, как ты побеждаешь, [player]."
+                m 1hub "Продолжай в том же духе~"
             else:
                 if win_streak_counter > 1:
-                    m 1hub "You won again! Well done~"
+                    m 1hub "Ты снова победил[mas_gender_none]! Молодец~"
                 else:
-                    m 1eua "You won! Not bad."
+                    m 1eua "Ты победил[mas_gender_none]! Неплохо."
 
             $ pong_monika_last_response_id = PONG_MONIKA_RESPONSE_LOSE_MEDIUM_GAME
 
         #Hard
         elif pong_difficulty_before <= 15:
             if pong_monika_last_response_id == PONG_MONIKA_RESPONSE_LOSE_HARD_GAME:
-                m 4hub "Another win for you!"
-                m 4eua "Great job, [player]."
+                m 4hub "Очередная победа за тобой!"
+                m 4eua "Ты молодец, [player]."
             else:
                 if win_streak_counter > 1:
-                    m 2hub "You won again! Congratulations!"
+                    m 2hub "Ты снова победил[mas_gender_none]! Поздравляю!"
                 else:
-                    m 2hua "You won! Congratulations!"
+                    m 2hua "Ты победил[mas_gender_none]! Поздравляю!"
 
             $ pong_monika_last_response_id = PONG_MONIKA_RESPONSE_LOSE_HARD_GAME
 
         #Expert
         elif pong_difficulty_before <= 20:
             if pong_monika_last_response_id == PONG_MONIKA_RESPONSE_LOSE_EXPERT_GAME:
-                m 2wuo "Wow,{w=1} I'm really trying...{w=1}you're unstoppable!"
-                m 2tfu "But I'm sure I'll beat you sooner or later, [player]."
-                m 3hub "Ahaha!"
+                m 2wuo "Вау,{w=1} я правда пыталась...{w=1} тебя не остановить!"
+                m 2tfu "Но я уверена, что одолею тебя рано или поздно, [player]."
+                m 3hub "А-ха-ха!"
             else:
                 if win_streak_counter > 1:
-                    m 4hub "You won again! Impressive!"
+                    m 4hub "Ты снова победил[mas_gender_none]! Поразительно!"
                 else:
-                    m 4hub "You won! Impressive!"
+                    m 4hub "Ты победил[mas_gender_none]! Поразительно!"
 
             $ pong_monika_last_response_id = PONG_MONIKA_RESPONSE_LOSE_EXPERT_GAME
 
         #Extreme
         else:
             if pong_monika_last_response_id == PONG_MONIKA_RESPONSE_LOSE_EXTREME_GAME:
-                m 3eua "You're really good, [player]."
-                m 1hub "I love playing Pong with you!"
+                m 3eua "Ты молодец, [player]."
+                m 1hub "Мне нравится играть в Пинг-понг с тобой!"
             else:
-                m 1tsu "This is intense!"
-                m 1hub "Good job, [player]!"
+                m 1tsu "Это просто нечто!"
+                m 1hub "Хорошая работа, [player]!"
 
             $ pong_monika_last_response_id = PONG_MONIKA_RESPONSE_LOSE_EXTREME_GAME
     return
@@ -1077,8 +1077,8 @@ label mas_pong_dlg_loser:
 
 #Quick Moni lose dlg
 label mas_pong_dlg_loser_fast:
-    m 1eka "Alright, [player]."
-    m 3tfu "But I'll beat you next time."
+    m 1eka "Хорошо, [player]."
+    m 3tfu "Но я одолею тебя в следующий раз."
 
     $ persistent._mas_pong_difficulty_change_next_game = PONG_DIFFICULTY_POWERUP;
     $ persistent._mas_pong_difficulty_change_next_game_date = datetime.date.today()
@@ -1086,28 +1086,28 @@ label mas_pong_dlg_loser_fast:
 
 #Quick Moni win dlg
 label mas_pong_dlg_winner_fast:
-    m 1eka "Alright, [player]."
-    m 1eka "Thanks for playing Pong with me and letting me win."
-    m 1hua "I had a lot of fun! Let's play again sometime soon, okay?"
+    m 1eka "Хорошо, [player]."
+    m 1eka "Спасибо, что поиграл[mas_gender_none] со мной в теннис и позволили выиграть."
+    m 1hua "Мне было очень весело! Давай как-нибудь еще поиграем, ладно?"
 
     $ persistent._mas_pong_difficulty_change_next_game = PONG_DIFFICULTY_POWERDOWN;
     return
 
 #Post dlg Moni lose
 label mas_pong_dlg_loser_end:
-    m 1wuo "Wow, I was really trying that time."
-    m 1eua "You must have really been practicing to get so good."
-    m 2tuu "I guess you wanted to impress me, [player]."
-    m 1hua "You're so sweet~"
+    m 1wuo "Вау, в этот раз я действительно старалась."
+    m 1eua "Ты, наверное, упорно тренировал[mas_gender_sya], чтобы добиться таких результатов."
+    m 2tuu "Полагаю, ты хотел[mas_gender_none] впечатлить меня, [player]."
+    m 1hua "Ты так[mas_gender_oi] мил[mas_gender_iii]~"
     return
 
 #Post dlg Moni win
 label mas_pong_dlg_winner_end:
-    m 4tku "I can't really get excited for a game this simple..."
-    m 1eua "But at least it's still fun to play."
-    m 1ekbsa "Especially with you, [player]."
-    m 1hubfb "Ahaha!"
-    m 1ekbfa "But thanks for letting me win."
-    m 1tku "Only elementary schoolers seriously lose at Pong, right?"
-    m 1hua "Ehehe~"
+    m 4tku "Я не могу по-настоящему радоваться такой простой игре..."
+    m 1eua "Но, по крайней мере, это все еще весело играть."
+    m 1ekbsa "Особенно с тобой, [player]."
+    m 1hubfb "А-ха-ха!"
+    m 1ekbfa "Но спасибо, что позволил[mas_gender_none] мне победить."
+    m 1tku "Только ученики начальных классов всерьёз проигрывают в Пинг-понге, верно?"
+    m 1hua "Э-хе-хе~"
     return
