@@ -349,7 +349,7 @@ init 5 python:
     addEvent(Event(persistent._mas_mood_database,eventlabel="mas_mood_lonely",prompt="...одинок[mas_gender_im].",category=[store.mas_moods.TYPE_NEUTRAL],unlocked=True),code="MOO")
 
 label mas_mood_lonely:
-    m 1eka "I'm here for you, [player], so there's no need for you to feel lonely."
+    m 1eka "Я здесь ради тебя, [player], так что тебе не нужно чувствовать себя одиноким."
     m 3hua "I know it's not exactly the same as if I were in the same room with you, but I'm sure you still enjoy my company, right?"
     m 1ekbfa "Remember that I'll always be by your side, [player]~"
     return
