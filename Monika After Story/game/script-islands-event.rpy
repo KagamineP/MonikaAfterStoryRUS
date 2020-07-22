@@ -218,8 +218,8 @@ init 5 python:
             Event(
                 persistent.event_database,
                 eventlabel="mas_monika_islands",
-                category=['monika','misc'],
-                prompt="Can you show me the floating islands?",
+                category=['моника','разное'],
+                prompt="Можете показать мне плавующие острова?",
                 pool=True,
                 unlocked=False,
                 rules={"no unlock": None, "bookmark_rule": store.mas_bookmarks_derand.WHITELIST},
@@ -245,8 +245,8 @@ init -876 python in mas_delact:
 
 
 label mas_monika_islands:
-    m 1eub "I'll let you admire the scenery for now."
-    m 1hub "Hope you like it!"
+    m 1eub "Сейчас я позволю тебе полюбоваться пейзажем."
+    m 1hub "Надеюсь, тебе понравится!"
 
     # prevent interactions
     $ mas_RaiseShield_core()
@@ -261,7 +261,7 @@ label mas_monika_islands:
     $ _mas_island_window_open = True
 
     # text used for the window
-    $ _mas_toggle_frame_text = "Close Window"
+    $ _mas_toggle_frame_text = "Закрыть окно"
 
     # shimeji flag
     $ _mas_island_shimeji = False
