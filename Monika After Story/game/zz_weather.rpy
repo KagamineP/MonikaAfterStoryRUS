@@ -217,7 +217,7 @@ init -99 python in mas_weather:
 
     # weather constants
     # NOTE: just reference MOOD's numbers
-    WEAT_RETURN = "Nevermind"
+    WEAT_RETURN = "Неважно"
 
     #Stores the time at which weather should change
     weather_change_time = None
@@ -804,7 +804,7 @@ init -10 python:
             for wmap in filter_pairs.itervalues():
                 if not isinstance(wmap, MASWeatherMap):
                     raise TypeError(
-                        "Expected MASWeatherMap object, not {0}".format(
+                        "Ожидался объект MASWeatherMap, а не {0}".format(
                             type(wmap)
                         )
                     )
@@ -1125,8 +1125,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel="monika_change_weather",
-            category=["weather"],
-            prompt="Can you change the weather?",
+            category=["погода"],
+            prompt="Могла бы ты изменить погоду?",
             pool=True,
             unlocked=True,
             rules={"no unlock": None},
@@ -1137,7 +1137,7 @@ init 5 python:
 label monika_change_weather:
     show monika 1eua at t21
 
-    $ renpy.say(m, "What kind of weather would you like?", interact=False)
+    $ renpy.say(m, "Какую погоду ты хочешь?", interact=False)
 
     python:
         # build menu list
@@ -1162,7 +1162,7 @@ label monika_change_weather:
         weathers.extend(other_weathers)
 
         #Add the auto option
-        weathers.append(("Progressive","auto",False,False))
+        weathers.append(("Автоматически","auto",False,False))
 
         # now add final quit item
         final_item = (mas_weather.WEAT_RETURN, False, False, False, 20)
@@ -1179,22 +1179,22 @@ label monika_change_weather:
     elif sel_weather == "auto":
         show monika at t11
         if mas_weather.force_weather:
-            m 1hub "Sure!"
-            m 1dsc "Just give me a second.{w=0.5}.{w=0.5}.{nw}"
+            m 1hub "Конечно!"
+            m 1dsc "Просто дай мне секунду.{w=0.5}.{w=0.5}.{nw}"
 
             #Set to false and return since nothing more needs to be done
             $ mas_weather.force_weather = False
             $ persistent._mas_current_weather = "auto"
-            m 1eua "There we go!"
+            m 1eua "Готово!"
         else:
-            m 1hua "That's the current weather, silly."
-            m "Try again~"
+            m 1hua "Это текущая погода, глупышка."
+            m "Попробуй еще раз~"
             jump monika_change_weather
         return
 
     if sel_weather == mas_current_weather and mas_weather.force_weather:
-        m 1hua "That's the current weather, silly."
-        m "Try again~"
+        m 1hua "Это текущая погода, глупышка."
+        m "Попробуй еще раз~"
         jump monika_change_weather
 
     $ skip_outro = False
@@ -1208,8 +1208,8 @@ label monika_change_weather:
             $ skip_outro = True
 
         elif persistent._mas_pm_likes_rain is False:
-            m 1eka "I thought you didn't like rain."
-            m 2etc "Maybe you changed your mind?"
+            m 1eka "Я думала, ты не любишь дождь."
+            m 2etc "Может быть, ты передумал[mas_gender_none]?"
             m 1dsc "..."
             $ skip_leadin = True
 
@@ -1217,13 +1217,13 @@ label monika_change_weather:
 
     if not skip_leadin:
         show monika at t11
-        m 1eua "Alright!"
-        m 1dsc "Just give me a second.{w=0.5}.{w=0.5}.{nw}"
+        m 1eua "Конечно!"
+        m 1dsc "Просто дай мне секунду.{w=0.5}.{w=0.5}.{nw}"
 
     # finally change the weather
     call mas_change_weather(sel_weather, by_user=True, set_persistent=True)
 
     if not skip_outro:
-        m 1eua "There we go!"
+        m 1eua "Готово!"
 
     return
