@@ -26,7 +26,7 @@ init -1 python in mas_stories:
     TYPE_SCARY = 0
 
     # pane constant
-    STORY_RETURN = "Nevermind"
+    STORY_RETURN = "Неважно"
     story_database = dict()
 
     def _unlock_everything():
@@ -50,8 +50,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel="monika_short_stories",
-            category=['literature'],
-            prompt="Can you tell me a story?",
+            category=['литература'],
+            prompt="Можешь рассказать мне историю?",
             pool=True,
             unlocked=True
         )
