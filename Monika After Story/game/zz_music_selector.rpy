@@ -1042,7 +1042,7 @@ init python:
         """
         # sayori cannot make the volume quieter
         if (
-            persistent.playername.lower() != "sayori"
+            persistent.playername.lower() != "sayori" or "сайори" or "саери" or "саёри" 
             or persistent._mas_sensitive_mode
         ):
             songs.adjustVolume(up=False)
@@ -1068,7 +1068,7 @@ init python:
         if (
                 curr_volume > 0.0
                 and (
-                    persistent.playername.lower() != "sayori"
+                    persistent.playername.lower() != "sayori" or "сайори" or "саери" or "саёри" 
                     or persistent._mas_sensitive_mode
                 )
                 and mute_enabled
