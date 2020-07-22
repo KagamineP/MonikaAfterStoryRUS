@@ -1,11 +1,11 @@
-Sun Jul 19 21:37:29 2020
-Windows-8-6.2.9200
+Wed Jul 22 18:47:11 2020
+Windows-7-6.1.7601-SP1
 Ren'Py 6.99.12.4.2187
 Monika After Story 0.11.3
 
 
-[info]: verifying hair maps...
-[info]: hair map verification complete!
+[информация]: verifying hair maps...
+[информация]: hair map verification complete!
 
-[info]: creating reactions for gifts...
-[info]: gift reactions created successfully!
+[информация]: creating reactions for gifts...
+[информация]: gift reactions created successfully!
