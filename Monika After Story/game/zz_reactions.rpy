@@ -1434,7 +1434,7 @@ label mas_reaction_gift_hairclip(hairclip_name,desc=None):
 
 ##START: Consumables gifts
 init 5 python:
-    addReaction("mas_reaction_gift_coffee", "coffee", is_good=True, exclude_on=["d25g"])
+    addReaction("mas_reaction_gift_coffee", "кофе", is_good=True, exclude_on=["d25g"])
 
 label mas_reaction_gift_coffee:
     #Even if we don't "accept" it, we still register it was given
@@ -1443,53 +1443,53 @@ label mas_reaction_gift_coffee:
 
     #Check if we accept this
     if coffee.isMaxedStock():
-        m 1euc "More coffee, [player]?"
-        m 3rksdla "Don't get me wrong, I appreciate it, but I think I've got enough coffee to last me a while already..."
-        m 1eka "I'll let you know when I'm running low, alright?"
+        m 1euc "Еще кофе, [player]?"
+        m 3rksdla "Не пойми меня неправильно, я ценю это, но я думаю, что у меня уже достаточно кофе, чтобы продержаться некоторое время..."
+        m 1eka "Я дам тебе знать, когда у меня кончится кофе, хорошо?"
 
     else:
-        m 1wub "Oh!{w=0.2} {nw}"
-        extend 3hub "Coffee!"
+        m 1wub "О!{w=0.2} {nw}"
+        extend 3hub "Кофе!"
 
         if coffee.enabled() and coffee.hasServing():
             $ mas_giftCapGainAff(0.5)
-            m 1wuo "It's a flavor I haven't had before."
-            m 1hua "I can't wait to try it!"
-            m "Thank you so much, [player]!"
+            m 1wuo "Такого вкуса у меня еще не было."
+            m 1hua "Я не могу дождаться, чтобы попробовать его!"
+            m "Огромное спасибо, [player]!"
 
         elif coffee.enabled() and not coffee.hasServing():
             $ mas_giftCapGainAff(0.5)
-            m 3eub "I actually ran out of coffee, so getting more from you now is amazing!"
-            m 1hua "Thanks again, [player]~"
+            m 3eub "На самом деле у меня кончился кофе, так что получить от тебя еще больше - это потрясающе!"
+            m 1hua "Спасибо еще раз, [player]~"
 
         else:
             $ mas_giftCapGainAff(5)
 
-            m 1hua "Now I can finally make some!"
-            m 1hub "Thank you so much, [player]!"
+            m 1hua "Теперь я наконец-то могу его приготовить!"
+            m 1hub "Огромное спасибо, [player]!"
 
             #If we're currently brewing/drinking anything, or it's not time for this consumable, we'll just not have it now
             if (
                 not coffee.isConsTime()
                 or bool(MASConsumable._getCurrentDrink())
             ):
-                m 3eua "I'll be sure to have some later!"
+                m 3eua "Я обязательно заварю его немного позже!"
 
             else:
-                m 3eua "Why don't I go ahead and make a cup right now?"
-                m 1eua "I'd like to share the first with you, after all."
+                m 3eua "Почему бы мне не пойти и не приготовить чашку прямо сейчас?"
+                m 1eua "В конце концов, я хотела бы поделиться с тобой перв[mas_gender_iim]."
 
                 #Monika is off screen
                 call mas_transition_to_emptydesk
                 pause 2.0
-                m "I know there's a coffee machine somewhere around here...{w=2}{nw}"
-                m "Ah, there it is!{w=2}{nw}"
+                m "Я знаю, что где-то здесь есть кофеварка...{w=2}{nw}"
+                m "Ах, вот она где!{w=2}{nw}"
                 pause 5.0
-                m "And there we go!{w=2}{nw}"
+                m "И готово!{w=2}{nw}"
                 call mas_transition_from_emptydesk()
 
                 #Monika back on screen
-                m 1eua "I'll let that brew for a few minutes."
+                m 1eua "Я оставлю это вариться на несколько минут."
 
                 $ coffee.prepare()
             $ coffee.enable()
@@ -1503,7 +1503,7 @@ label mas_reaction_gift_coffee:
     return
 
 init 5 python:
-    addReaction("mas_reaction_hotchocolate", "hotchocolate", is_good=True, exclude_on=["d25g"])
+    addReaction("mas_reaction_hotchocolate", "горячийшоколад", is_good=True, exclude_on=["d25g"])
 
 label mas_reaction_hotchocolate:
     #Even though we may not "accept" this, we'll still mark it was given
@@ -1513,40 +1513,40 @@ label mas_reaction_hotchocolate:
 
     #Check if we should accept this or not
     if hotchoc.isMaxedStock():
-        m 1euc "More hot chocolate, [player]?"
-        m 3rksdla "Don't get me wrong, I appreciate it, but I think I've got enough to last me a while already..."
-        m 1eka "I'll let you know when I'm running out, alright?"
+        m 1euc "Еще горячий шоколад, [player]?"
+        m 3rksdla "Не пойми меня неправильно, я ценю это, но я думаю, что у меня уже есть достаточно, чтобы продержаться некоторое время..."
+        m 1eka "Я дам тебе знать, когда он закончится, хорошо?"
 
     else:
-        m 3hub "Hot chocolate!"
-        m 3hua "Thank you, [player]!"
+        m 3hub "Горячий шоколад!"
+        m 3hua "Спасибо, [player]!"
 
         if hotchoc.enabled() and hotchoc.hasServing():
             $ mas_giftCapGainAff(0.5)
-            m 1wuo "It's a flavor I haven't had before."
-            m 1hua "I can't wait to try it!"
-            m "Thank you so much, [player]!"
+            m 1wuo "Такого вкуса у меня еще не было."
+            m 1hua "Я не могу дождаться, чтобы попробовать его!"
+            m "Огромное спасибо, [player]!"
 
         elif hotchoc.enabled() and not hotchoc.hasServing():
             $ mas_giftCapGainAff(0.5)
-            m 3rksdla "I'm actually out of hot chocolate, ahaha...{w=0.5} {nw}"
-            extend 3eub "So getting more from you now is amazing!"
-            m 1hua "Thanks again, [player]~"
+            m 3rksdla "У меня вообще-то закончился горячий шоколад, а-ха-ха...{w=0.5} {nw}"
+            extend 3eub "Так что получить от тебя еще прямо сейчас - это потрясающе!"
+            m 1hua "Спасибо еще раз, [player]~"
 
         else:
             python:
                 mas_giftCapGainAff(3)
-                those = "these" if mas_current_background.isFltNight() and mas_isWinter() else "those"
+                those = "эти" if mas_current_background.isFltNight() and mas_isWinter() else "те"
 
-            m 1hua "You know I love my coffee, but hot chocolate is always really nice, too!"
+            m 1hua "Ты же знаешь, я люблю свой кофе, но горячий шоколад тоже всегда очень хорош!"
 
 
-            m 2rksdla "...Especially on [those] cold, winter nights."
-            m 2ekbfa "Someday I hope to be able to drink hot chocolate with you, sharing a blanket by the fireplace..."
-            m 3ekbfa "...Doesn't that sound so romantic?"
+            m 2rksdla "...Особенно в [those] холодные зимние ночи."
+            m 2ekbfa "Я надеюсь, что когда-нибудь смогу пить с тобой горячий шоколад, лежа под одеялом у камина..."
+            m 3ekbfa "...Разве это не звучит так романтично?"
             m 1dkbfa "..."
-            m 1hua "But for now, at least I can enjoy it here."
-            m 1hub "Thanks again, [player]!"
+            m 1hua "Но сейчас, по крайней мере, я могу наслаждаться этим здесь."
+            m 1hub "Спасибо еще раз, [player]!"
 
             #If we're currently brewing/drinking anything, or it's not time for this consumable, or if it's not winter, we won't have this
             if (
@@ -1554,16 +1554,16 @@ label mas_reaction_hotchocolate:
                 or not mas_isWinter()
                 or bool(MASConsumable._getCurrentDrink())
             ):
-                m 3eua "I'll be sure to have some later!"
+                m 3eua "Я обязательно выпью его немного позже!"
 
             else:
-                m 3eua "In fact, I think I'll make some right now!"
+                m 3eua "На самом деле, я думаю, что сделаю это прямо сейчас!"
 
                 call mas_transition_to_emptydesk
                 pause 5.0
                 call mas_transition_from_emptydesk("monika 1eua")
 
-                m 1hua "There, it'll be ready in a few minutes."
+                m 1hua "Вот, он будет готов через несколько минут."
 
                 $ hotchoc.prepare()
 
@@ -1579,7 +1579,7 @@ label mas_reaction_hotchocolate:
     return
 
 init 5 python:
-    addReaction("mas_reaction_gift_thermos_mug", "justmonikathermos", is_good=True)
+    addReaction("mas_reaction_gift_thermos_mug", "термостолькомоники", is_good=True)
 
 label mas_reaction_gift_thermos_mug:
     call mas_thermos_mug_handler(mas_acs_thermos_mug, "Just Monika", "justmonikathermos")
@@ -1592,10 +1592,10 @@ default persistent._mas_given_thermos_before = False
 label mas_thermos_mug_handler(thermos_acs, disp_name, giftname, ignore_case=True):
     if mas_SELisUnlocked(thermos_acs):
         m 1eksdla "[player]..."
-        m 1rksdlb "I already have this thermos, ahaha..."
+        m 1rksdlb "У меня уже есть этот термос, а-ха-ха..."
 
     elif persistent._mas_given_thermos_before:
-        m 1wud "Oh!{w=0.3} Another thermos!"
+        m 1wud "О!{w=0.3} Еще один термос!"
         m 1hua "And it's [mas_a_an_str(disp_name, ignore_case)] one this time."
         m 1hub "Thanks so much, [player], I can't wait to use it!"
 
@@ -1616,7 +1616,7 @@ label mas_thermos_mug_handler(thermos_acs, disp_name, giftname, ignore_case=True
 ##END: Consumable related gifts
 
 init 5 python:
-    addReaction("mas_reaction_quetzal_plush", "quetzalplushie", is_good=True)
+    addReaction("mas_reaction_quetzal_plush", "плюшевыйквезаль", is_good=True)
 
 label mas_reaction_quetzal_plush:
     if not persistent._mas_acs_enable_quetzalplushie:
@@ -1663,7 +1663,7 @@ label mas_reaction_quetzal_plush:
     return
 
 init 5 python:
-    addReaction("mas_reaction_promisering", "promisering", is_good=True, exclude_on=["d25g"])
+    addReaction("mas_reaction_promisering", "кольцообещания", is_good=True, exclude_on=["d25g"])
 
 default persistent._mas_tried_gift_ring = False
 label mas_reaction_promisering:
@@ -1761,7 +1761,7 @@ label mas_reaction_promisering:
 
 
 init 5 python:
-    addReaction("mas_reaction_cupcake", "cupcake", is_good=True, exclude_on=["d25g"])
+    addReaction("mas_reaction_cupcake", "кекс", is_good=True, exclude_on=["d25g"])
     #Not sure why this was a bad gift. Dialogue doesn't reflect it being bad
     #plus, Monika said she wants either Natsuki's cupcakes or the player's
 
@@ -1788,7 +1788,7 @@ init 5 python:
     # TODO ideally we should comment on this gift in any date
     # so it requires special dialogue, until we have that let's keep it O31 only
     if mas_isO31():
-        addReaction("mas_reaction_candy", "candy", is_good=True)
+        addReaction("mas_reaction_candy", "конфеты", is_good=True)
 
 label mas_reaction_candy:
     $ times_candy_given = mas_getGiftStatsForDate("mas_reaction_candy")
@@ -1861,7 +1861,7 @@ init 5 python:
     # TODO ideally we should comment on this gift in any date
     # so it requires special dialogue, until we have that let's keep it O31 only
     if mas_isO31():
-        addReaction("mas_reaction_candycorn", "candycorn", is_good=False)
+        addReaction("mas_reaction_candycorn", "кэндикорн", is_good=False)
 
 label mas_reaction_candycorn:
     $ times_candy_given = mas_getGiftStatsForDate("mas_reaction_candycorn")
@@ -1925,7 +1925,7 @@ label mas_reaction_candycorn:
     return
 
 init 5 python:
-    addReaction("mas_reaction_fudge", "fudge", is_good=True, exclude_on=["d25g"])
+    addReaction("mas_reaction_fudge", "помадка", is_good=True, exclude_on=["d25g"])
 
 label mas_reaction_fudge:
     $ times_fudge_given = mas_getGiftStatsForDate("mas_reaction_fudge")
@@ -1998,7 +1998,7 @@ label mas_reaction_christmascookies:
 
 init 5 python:
     if store.mas_isD25Pre():
-        addReaction("mas_reaction_candycane", "candycane", is_good=True, exclude_on=["d25g"])
+        addReaction("mas_reaction_candycane", "леденец", is_good=True, exclude_on=["d25g"])
 
 label mas_reaction_candycane:
     $ times_cane_given = mas_getGiftStatsForDate("mas_reaction_candycane")
@@ -2034,7 +2034,7 @@ label mas_reaction_candycane:
 
 #Ribbon stuffs
 init 5 python:
-    addReaction("mas_reaction_blackribbon", "blackribbon", is_good=True)
+    addReaction("mas_reaction_blackribbon", "чернаяленточка", is_good=True)
 
 label mas_reaction_blackribbon:
     $ _mas_new_ribbon_color = "black"
@@ -2043,7 +2043,7 @@ label mas_reaction_blackribbon:
     return
 
 init 5 python:
-    addReaction("mas_reaction_blueribbon", "blueribbon", is_good=True)
+    addReaction("mas_reaction_blueribbon", "синяяленточка", is_good=True)
 
 label mas_reaction_blueribbon:
     $ _mas_new_ribbon_color = "blue"
@@ -2460,7 +2460,7 @@ label mas_reaction_gift_roses:
     if not persistent._date_last_given_roses and not renpy.seen_label('monika_valentines_start'):
         $ mas_giftCapGainAff(10)
 
-        m 1eka "[player]... I-I don't know what to say..."
+        m 1eka "[player]... Я-Я не знаю что сказать..."
         m 1ekbsb "I never would've thought that you'd get something like this for me!"
         m 3skbsa "I'm so happy right now."
         if mas_isF14():
