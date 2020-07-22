@@ -622,7 +622,7 @@ init -1 python:
             # both min and max can't be None at the same time, since that means
             # that this is not affection dependent
             if not min and not max:
-                raise Exception("at least min or max must not be None")
+                raise Exception("по крайней мере min или max не должны быть None")
 
             # return the rule inside a dict
             rule = {EV_RULE_AFF_RANGE : (min, max)}
@@ -690,7 +690,7 @@ init -1 python:
 
             if type(priority) is not int:
                 raise Exception(
-                    "'{0}' is not a valid in priority".format(priority)
+                    "'{0}' не является допустимым в приоритете".format(priority)
                 )
 
             rule = {EV_RULE_PRIORITY: priority}
@@ -749,7 +749,7 @@ init -1 python:
 
             if not store.mas_ev_data_ver._verify_int(probability, allow_none=False):
                 raise Exception(
-                    "'{0}' is not a valid in probability".format(probability)
+                    "'{0}' не является действительным в вероятности".format(probability)
                 )
 
             rule = {EV_RULE_PROBABILITY: probability}
