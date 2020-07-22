@@ -125,7 +125,7 @@ init 5 python:
             persistent.event_database,
             eventlabel="mas_extra_menu_firsttime",
             prompt="Можешь ли ты объяснить меню инструментов?",
-            category=["misc"]
+            category=["разное"]
         )
     )
 
@@ -133,11 +133,11 @@ label mas_extra_menu_firsttime:
     if not persistent._mas_opened_extra_menu:
         m 1hua "Добро пожаловать, в меню инструментов, [player]!"
 
-    m 1eua "Здесь я добавлю вещи, которые не являются играми, например специальные взаимодействия, которые вы можете делать с помощью мыши."
+    m 1eua "Здесь я добавляю вещи, которые не являются играми, например специальные взаимодействия, которые вы можете делать с помощью мыши."
     m "Ты также можешь открыть это меню, нажав клавишу «э»."
 
     if not persistent._mas_opened_extra_menu:
-        m 1hua "С нетерпением ждем некоторых интересных вещей в этом меню!"
+        m 1hua "С нетерпением жду некоторых интересных вещей в этом меню!"
 
     python:
         this_ev = mas_getEV("mas_extra_menu_firsttime")
