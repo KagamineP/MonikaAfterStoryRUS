@@ -635,27 +635,27 @@ label mas_hangman_game_loop:
                 #show hm_6 zorder 10 as hmg_hanging_man at hangman_hangman
                 m 1lksdlb "[player]..."
                 if guesses == 0:
-                    m "I thought you said you wanted to play [store.mas_hangman.game_name]."
-                    m 1lksdlc "You didn't even guess a single letter."
+                    m "Я думала ты сказал[mas_gender_none] что хочешь поиграть в [store.mas_hangman.game_name]."
+                    m 1lksdlc "Ты даже не угадал[mas_gender_none] ни одной буквы."
                     m "..."
-                    m 1ekc "I really enjoy playing with you, you know."
+                    m 1ekc "Знаешь, мне очень нравится играть с тобой."
                 elif chances == 5:
-                    m 1ekc "Don't give up so easily."
-                    m 3eka "That was only your first wrong letter!"
+                    m 1ekc "Не сдавайся так легко."
+                    m 3eka "Это была только первая твоя неправильная буква."
                     if chances > 1:
-                        m 1eka "You still had [chances] more lives left."
+                        m 1eka "У тебя еще оставалось [chances] жизней."
                     else:
-                        m 1eka "You still had [chances] more life left."
-                    m 1hua "I know you can do it!"
-                    m 1eka "It would really mean a lot to me if you just tried a bit harder."
+                        m 1eka "У тебя еще оставалась [chances] жизнь."
+                    m 1hua "Я знаю, ты сможешь!"
+                    m 1eka "Для меня бы очень много значило, если бы ты просто старал[mas_gender_sya] немного усерднее."
                 else:
-                    m "You should at least play to the end..."
-                    m 1ekc "Giving up so easily is a sign of poor resolve."
+                    m "Ты долж[mas_gender_en] хотя бы доиграть до конца..."
+                    m 1ekc "Так легко сдаваться - признак слабой решимости."
                     if chances > 1:
-                        m "I mean, you'd have to miss [chances] more letters to actually lose."
+                        m "Я имею в виду, что тебе придется пропустить еще [chances] букв, чтобы действительно проиграть."
                     else:
-                        m "I mean, you'd have to miss [chances] more letter to actually lose."
-                m 1eka "Can you play to the end next time, [player]? For me?"
+                        m "Я имею в виду, что тебе придется пропустить еще [chances] букву, чтобы действительно проиграть."
+                m 1eka "Можешь ли ты в следующий раз сыграть до конца, [player]? Ради меня?"
             else:
                 $ guesses += 1
                 python:
@@ -684,29 +684,29 @@ label mas_hangman_game_loop:
             show hm_s_win_6 as window_sayori at hangman_sayori_h
 
         if player_word:
-            $ the_word = "your name"
+            $ the_word = "твоё имя"
         else:
-            $ the_word = "the word"
+            $ the_word = "слово"
 
-        m 1hua "Wow, you guessed [the_word] correctly!"
+        m 1hua "Вау, ты угадал[mas_gender_none] [the_word] правильно!"
         m "Good job, [player]!"
         if not persistent.ever_won['hangman']:
             $ persistent.ever_won['hangman']=True
         #TODO: grant a really tiny amount of affection?
 
     # try again?
-    m "Would you like to play again?{nw}"
+    m "Не хочешь ли сыграть еще раз?{nw}"
     $ _history_list.pop()
     menu:
-        m "Would you like to play again?{fast}"
-        "Yes.":
+        m "Не хочешь ли сыграть еще раз?{fast}"
+        "Да.":
             $ hang_ev = mas_getEV("mas_hang")
             if hang_ev:
                 # each game counts as a game played
                 $ hang_ev.shown_count += 1
 
             jump mas_hangman_game_loop
-        "No.":
+        "Нет.":
             pass
 
     # RETURN AT END
@@ -740,13 +740,13 @@ label mas_hangman_game_end:
 # dialogue related stuff
 # long form of ending dialgoue
 label mas_hangman_dlg_game_end_long:
-    m 1euc "[store.mas_hangman.game_name] is actually a pretty hard game."
-    m "You need to have a good vocabulary to be able to guess different words."
-    m 1hua "The best way to improve that is to read more books!"
-    m 1eua "I'd be very happy if you did that for me, [player]."
+    m 1euc "[store.mas_hangman.game_name] на самом деле довольно сложная игра."
+    m "Тебе нужно иметь хороший словарный запас, чтобы уметь угадывать разные слова."
+    m 1hua "Лучший способ улучшить это - читать больше книг!"
+    m 1eua "Я был бы очень рада, если бы вы сделал[mas_gender_none] это для меня, [player]."
     return
 
 # short form of ending dialogue
 label mas_hangman_dlg_game_end_short:
-    m 1eua "Okay. Let's play again soon!"
+    m 1eua "Хорошо. Давай сыграем снова в ближайшее время!"
     return
