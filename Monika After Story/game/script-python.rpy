@@ -119,7 +119,7 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel="monika_ptod_tip000",
-            category=["python tips"],
+            category=["советы по Python"],
             prompt="Can you teach me about Python?",
             pool=True,
             rules={"bookmark_rule": store.mas_bookmarks_derand.BLACKLIST}
@@ -147,7 +147,7 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel="monika_ptod_tip001",
-            category=["python tips"],
+            category=["советы по Python"],
             prompt="What is Python?"
         )
     )
@@ -178,7 +178,7 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel="monika_ptod_tip002",
-            category=["python tips"],
+            category=["советы по Python"],
             prompt="Types",
             pool=True,
             conditional="store.mas_ptod.has_day_past_tip(3)",
@@ -265,7 +265,7 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel="monika_ptod_tip003", # may change order, you decide on this
-            category=["python tips"],
+            category=["советы по Python"],
             prompt="An Interpreted Language",
             pool=True,
             conditional="store.mas_ptod.has_day_past_tip(1)",
@@ -376,7 +376,7 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel="monika_ptod_tip005",
-            category=["python tips"],
+            category=["советы по Python"],
             prompt="Comparisons and Booleans",
             pool=True,
             conditional="store.mas_ptod.has_day_past_tip(6)",
@@ -550,7 +550,7 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel="monika_ptod_tip006",
-            category=["python tips"],
+            category=["советы по Python"],
             prompt="Variables and Assignment",
             pool=True,
             conditional="store.mas_ptod.has_day_past_tip(2)",
@@ -696,7 +696,7 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel="monika_ptod_tip008",
-            category=["python tips"],
+            category=["советы по Python"],
             prompt="Literals",
             pool=True,
             conditional="store.mas_ptod.has_day_past_tip(6)",
@@ -781,7 +781,7 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel="monika_ptod_tip009",
-            category=["python tips"],
+            category=["советы по Python"],
             prompt="Truth Values",
             pool=True,
             conditional="store.mas_ptod.has_day_past_tip(5)",
