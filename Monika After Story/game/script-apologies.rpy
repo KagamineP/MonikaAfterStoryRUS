@@ -53,7 +53,7 @@ label monika_playerapologizes:
     #NOTE: When adding more apology reasons, add a reason the player would say sorry for here (corresponding to the same #as the apology reason)
     $ player_apology_reasons = {
         0: "что-то другое.", #since we shouldn't actually be able to get this, we use this as our fallback
-        : "то, что сказал[mas_gender_none], что хочу расстаться.",
+        1: "то, что сказал[mas_gender_none], что хочу расстаться.",
         2: "то, что пошутил[mas_gender_none] насчёт того, что у меня другая девушка.",
         3: "то, что назвал[mas_gender_none] тебя убийцей.",
         4: "то, что закрывал[mas_gender_none] игру вместе с тобой.",
