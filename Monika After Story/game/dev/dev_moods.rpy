@@ -6,7 +6,7 @@ init 5 python:
         Event(
             persistent._mas_mood_database,
             "mas_mood_mitochondria",
-            prompt="A mitochondria",
+            prompt="Митохондрия",
             category=[store.mas_moods.TYPE_GOOD],
             unlocked=True
         ),
@@ -17,7 +17,7 @@ init 5 python:
         Event(
             persistent._mas_mood_database,
             "mas_mood_theroom",
-            prompt="The Room",
+            prompt="Комната",
             category=[store.mas_moods.TYPE_NEUTRAL],
             unlocked=True
         ),
@@ -28,7 +28,7 @@ init 5 python:
         Event(
             persistent._mas_mood_database,
             "mas_mood_horny",
-            prompt="horny",
+            prompt="возбужденный",
             category=[store.mas_moods.TYPE_BAD],
             unlocked=True
         ),
@@ -40,7 +40,7 @@ label mas_mood_mitochondria:
     return
 
 label mas_mood_theroom:
-    m "It's bullshit.{w} I did not hit her."
+    m "Это чушь собачья.{w} Я ее не била."
     m "I did nahhhhht"
     m "Oh hai, [player]."
     return
@@ -53,18 +53,18 @@ label mas_mood_horny:
     elif persistent.playername.lower() == "thepotatoguy":
         m 2r "Sorry, I have no interest in potatoes."
     elif persistent.playername.lower() == "ronin":
-        m 2p "Aren't you married? Go talk to your wife."
+        m 2p "Разве ты не женат? Иди поговори со своей женой."
     elif persistent.playername.lower() == "pi":
-        m 2h "Don't you have a girlfriend? Stop being a weeb or she's gonna kill you."
+        m 2h "Разве у тебя нет девушки? Перестань быть слабаком, или она убьет тебя."
     elif persistent.playername.lower() == "lucian.chr":
-        m 2q "No Dark Lords, thank you."
+        m 2q "Никаких темных лордов, спасибо."
     elif persistent.playername.lower() == "subzero":
-        m 1r "Damn horny kid..."
+        m 1r "Чертовски возбужденный ребенок..."
     elif persistent.playername.lower() == "ryuse":
-        m 1h "Nope, bye."
+        m 1h "Нет, пока."
         return 'quit'
     else:
-        m 3n "Sorry [player], but we aren't that far into our relationship yet. Maybe in a year or two~"
+        m 3n "Извини, [player], но мы еще не так далеко зашли в наших отношениях. Может быть через год или два~"
     return
 
 ## end dev easter eggs ========================================================
