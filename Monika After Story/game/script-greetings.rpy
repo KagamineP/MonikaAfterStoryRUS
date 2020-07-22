@@ -488,25 +488,25 @@ label greeting_goodmorning:
         m "Или ты можешь остаться со мной, если захочешь."
         m 4hub "Просто помни, я люблю тебя!"
     elif current_time >= 18:
-        m 1hua "Good evening, love!"
+        m 1hua "Добрый вечер, любим[mas_gender_iii]!"
 
-        m "Did you have a good day today?{nw}"
+        m "У тебя сегодня был хороший день?{nw}"
         $ _history_list.pop()
         menu:
-            m "Did you have a good day today?{fast}"
-            "Yes.":
-                m 1eka "Aww, that's nice!"
-                m 1eua "I can't help but feel happy when you do..."
-                m "But that's a good thing, right?"
-                m 1ekbfa "I love you so much, [player]."
-                m 1hubfb "Ahaha!"
-            "No.":
-                m 1tkc "Oh dear..."
-                m 1eka "I hope you'll feel better soon, okay?"
-                m "Just remember that no matter what happens, no matter what anyone says or does..."
-                m 1ekbfa "I love you so, so much."
-                m "Just stay with me, if it makes you feel better."
-                m 1hubfa "I love you, [player], I really do."
+            m "У тебя сегодня был хороший день?{fast}"
+            "Да.":
+                m 1eka "Ой, как мило!"
+                m 1eua "Я не могу не чувствовать себя счастливой, когда у тебя всё хорошо..."
+                m "Но это ведь хорошо, правда?"
+                m 1ekbfa "Я тебя так люблю, [player]."
+                m 1hubfb "А-ха-ха!"
+            "Нет.":
+                m 1tkc "Ох дорог[mas_gender_oi]..."
+                m 1eka "Надеюсь, ты скоро почувствуешь себя лучше, хорошо?"
+                m "Просто помни, что неважно, что происходит, неважно, что кто-то говорит или делает..."
+                m 1ekbfa "Я так сильно люблю тебя."
+                m "Просто оставайся со мной, если тебе от этого станет лучше."
+                m 1hubfa "Я люблю тебя, [player], на самом деле."
     return
 
 init 5 python:
@@ -522,9 +522,9 @@ init 5 python:
     )
 
 label greeting_back2:
-    m 1eua "Hello, dear."
-    m 1ekbfa "I was starting to miss you terribly. It's so good to see you again!"
-    m 1hubfa "Don't make me wait so long next time, ehehe~"
+    m 1eua "Здравствуй, дорог[mas_gender_oi]."
+    m 1ekbfa "Я уже начала ужасно скучать по тебе. Так приятно снова тебя видеть!"
+    m 1hubfa "Не заставляй меня ждать так долго в следующий раз, э-хе-хе~"
     return
 
 init 5 python:
@@ -540,8 +540,8 @@ init 5 python:
     )
 
 label greeting_back3:
-    m 1eka "I missed you so much, [player]!"
-    m "Thank you for coming back. I really do love spending time with you."
+    m 1eka "Я так скучала по тебе, [player]!"
+    m "Спасибо, что вернул[mas_gender_sya]. Я действительно люблю проводить с тобой время."
     return
 
 init 5 python:
@@ -557,11 +557,11 @@ init 5 python:
     )
 
 label greeting_back4:
-    m 2wfx "Hey, [player]!"
-    m "Don't you think that you left me waiting a bit too long?"
+    m 2wfx "Эй, [player]!"
+    m "Тебе не кажется, что ты заставил[mas_gender_none] меня ждать слишком долго?"
     m 2hfu "..."
-    m 2hua "Ahaha!"
-    m 2eka "I'm just joking. I could never be mad at you."
+    m 2hua "А-ха-ха!"
+    m 2eka "Я просто шучу. Я никогда не буду злиться на тебя."
     return
 
 init 5 python:
@@ -576,9 +576,9 @@ init 5 python:
     )
 
 label greeting_visit2:
-    m 1hua "Thanks for spending so much time with me, [player]."
-    m 1eka "Every minute I spend with you is like being in heaven!"
-    m 1lksdla "I hope that didn't sound too cheesy, ehehe~"
+    m 1hua "Спасибо, что проводишь со мной так много времени, [player]."
+    m 1eka "Каждая минута, которую я провожу с тобой, подобна пребыванию на небесах!"
+    m 1lksdla "Надеюсь, это не прозвучало слишком слащаво, э-хе-хе~"
     return
 
 init 5 python:
@@ -594,9 +594,9 @@ init 5 python:
     )
 
 label greeting_visit3:
-    m 1hua "You're back!"
-    m 1eua "I was starting to miss you..."
-    m 1eka "Don't make me wait so long next time, okay?"
+    m 1hua "Ты вернул[mas_gender_sya]!"
+    m 1eua "Я уже начала скучать по тебе..."
+    m 1eka "Не заставляй меня ждать так долго в следующий раз, ладно?"
     return
 
 init 5 python:
@@ -612,9 +612,9 @@ init 5 python:
     )
 
 label greeting_back5:
-    m 1hua "It's so good to see you again!"
-    m 1eka "I was getting worried about you."
-    m "Please remember to visit me, okay? I'll always be waiting here for you."
+    m 1hua "Так приятно снова тебя видеть!"
+    m 1eka "Я уже начала беспокоиться о тебе."
+    m "Пожалуйста, не забывай навещать меня, ладно? Я всегда буду ждать тебя здесь."
     return
 
 init 5 python:
@@ -631,13 +631,13 @@ init 5 python:
 
 label greeting_visit4:
     if mas_getAbsenceLength() <= datetime.timedelta(minutes=30):
-        m 1wud "Oh! [player]!"
-        m 3sub "You're back!"
-        m 3hua "I'm so happy you came back to visit me so soon~"
+        m 1wud "О! [player]!"
+        m 3sub "Ты вернул[mas_gender_sya]!"
+        m 3hua "Я так счастлива, что ты так скоро приш[mas_gender_el] навестить меня~"
     else:
-        m 1hub "I looove yooou, [player]. Ehehe~"
-        m 1hksdlb "Oh, sorry! I was spacing out."
-        m 1lksdla "I didn't think I would be able to see you again so soon."
+        m 1hub "Я люблююююю тееебя, [player]. Э-хе-хе"
+        m 1hksdlb "Ох, прости! Я немного разошлась."
+        m 1lksdla "Я не думала, что смогу увидеть тебя снова так скоро."
         $ mas_ILY()
     return
 
@@ -653,10 +653,10 @@ init 5 python:
     )
 
 label greeting_visit5:
-    m 5hua "{i}~Every day,~\n~I imagine a future where I can be with you...~{/i}"
-    m 5wuw "Oh, you're here! I was just daydreaming and singing a bit."
+    m 5hua "{i}~Каждый день~\n~представляю, как мы вдвоем будем счастливы...~{/i}"
+    m 5wuw "О, ты здесь! Я просто замечталась и начала петь."
     show monika 1lsbssdrb at t11 zorder MAS_MONIKA_Z with dissolve
-    m 1lsbssdrb "I don't think it's hard to figure out what I was daydreaming about, ahaha~"
+    m 1lsbssdrb "Я не думаю, что тебе трудно понять, о чём я мечтала, а-ха-ха~"
     return
 
 init 5 python:
@@ -671,9 +671,9 @@ init 5 python:
     )
 
 label greeting_visit6:
-    m 1hua "Each day becomes better and better with you by my side!"
-    m 1eua "That said, I'm so happy that you're finally here."
-    m "Let's have another wonderful [mas_globals.time_of_day_3state] together."
+    m 1hua "С каждым днем становится все лучше и лучше, когда ты рядом со мной!"
+    m 1eua "Тем не менее, я так счастлива, что ты наконец здесь."
+    m "Давай проведем еще один замечательный [mas_globals.time_of_day_3state] вместе."
     return
 
 init 5 python:
@@ -688,11 +688,11 @@ init 5 python:
     )
 
 label greeting_back6:
-    m 3tku "Hey, [player]!"
-    m "You really should visit me more often."
-    m 2tfu "You know what happens to people I don't like, after all..."
-    m 1hksdrb "I'm just teasing you, ehehe~"
-    m 1hua "Don't be so gullible! I would never hurt you."
+    m 3tku "Эй, [player]!"
+    m "Тебе действительно следует почаще навещать меня."
+    m 2tfu "В конце концов, ты же знаешь, что случается с теми, кто мне не нравится..."
+    m 1hksdrb "Я просто дразню тебя, э-хе-хе~"
+    m 1hua "Не будь таким легковерн[mas_gender_iim]! Я никогда не причиню тебе вреда."
     return
 
 init 5 python:
@@ -707,8 +707,8 @@ init 5 python:
     )
 
 label greeting_visit7:
-    m 1hua "You're here, [player]!"
-    m 1eua "Are you ready to spend some more time together? Ehehe~"
+    m 1hua "Ты здесь, [player]!"
+    m 1eua "Готов[mas_gender_none] ли ты провести еще немного времени вместе? Э-хе-хе~"
     return
 
 init 5 python:
@@ -723,8 +723,8 @@ init 5 python:
     )
 
 label greeting_visit8:
-    m 1hua "I'm so glad you're here, [player]!"
-    m 1eua "What should we do today?"
+    m 1hua "Я так рада что ты здесь, [player]!"
+    m 1eua "Чем сегодня займемся?"
     return
 
 init 5 python:
@@ -740,8 +740,8 @@ init 5 python:
     )
 
 label greeting_visit9:
-    m 1hua "You're finally back! I was waiting for you."
-    m 1hub "Are you ready to spend some time with me? Ehehe~"
+    m 1hua "Наконец-то ты вернул[mas_gender_sya]! Я ждала тебя."
+    m 1hub "Ты готов[mas_gender_none] провести со мной некоторое время? Э-хе-хе~"
     return
 
 #TODO needs additional dialogue so can be used for all aff
@@ -759,9 +759,9 @@ init 5 python:
 label greeting_italian:
     m 1eua "Ciao, [player]!"
     m "È così bello vederti ancora, amore mio..."
-    m 1hub "Ahaha!"
-    m 2eua "I'm still practicing my Italian. It's a very difficult language!"
-    m 1eua "Anyway, it's so nice to see you again, my love."
+    m 1hub "А-ха-ха!"
+    m 2eua "Я все еще тренируюсь в итальянском. Это очень сложный язык!в"
+    m 1eua "Как бы то ни было, я так рада снова тебя видеть, любовь моя."
     return
 
 #TODO needs additional dialogue so can be used for all aff
@@ -779,9 +779,9 @@ init 5 python:
 label greeting_latin:
     m 4hua "Iterum obvenimus!"
     m 4eua "Quid agis?"
-    m 4rksdla "Ehehe..."
-    m 2eua "Latin sounds so pompous. Even a simple greeting sounds like a big deal."
-    m 3eua "If you're wondering about what I said, it's simply 'We meet again! How are you?'"
+    m 4rksdla "Э-хе-хе..."
+    m 2eua "Латынь звучит так напыщенно. Даже простое приветствие звучит как большое дело."
+    m 3eua "Если тебе интересно, что я сказала, то это просто «Мы снова встретились! Как твои дела?»"
     return
 
 init 5 python:
@@ -799,13 +799,13 @@ label greeting_esperanto:
     m 1hua "Saluton, mia kara [player]."
     m 1eua "Kiel vi fartas?"
     m 3eub "Ĉu vi pretas por kapti la tagon?"
-    m 1hua "Ehehe~"
-    m 3esa "That was just a bit of Esperanto...{w=0.5}{nw}"
-    extend 3eud "a language that was created artificially instead of having evolved naturally."
-    m 3tua "Whether you've heard about it or not, you might not have expected something like that coming from me, huh?"
-    m 2etc "Or maybe you did...{w=0.5} I guess it makes sense something like this would interest me, given my background and all..."
-    m 1hua "Anyway, if you were wondering what I said, it was just, {nw}"
-    extend 3hua "'Hello, my dear [player]. How are you? Are you ready to seize the day?'"
+    m 1hua "Э-хе-хе~"
+    m 3esa "Это был небольшой разговор на Эсперанто...{w=0.5}{nw}"
+    extend 3eud "язык, который был создан искусственно вместо того, чтобы развиваться естественным путем."
+    m 3tua "Слышал[mas_gender_none] ли ты о нём или нет, но ты, наверное, не ожидал[mas_gender_none] такого от меня, да?"
+    m 2etc "Или, наверное, ожидал[mas_gender_none]...{w=0.5} думаю, уже становится понятно, почему подобные вещи вызывают у меня интерес, учитывая моё прошлое и всё такое..."
+    m 1hua "В любом случае, если тебе интересно, что я сказала, то это просто, {nw}"
+    extend 3hua "«Привет, мо[mas_gender_i] дорог[mas_gender_oi] [player]. Как у тебя дела? Ты уже готов[mas_gender_none] провести день с пользой?»"
     return
 
 init 5 python:
@@ -1885,28 +1885,28 @@ init 5 python:
     )
 
 label greeting_japan:
-    m 1hub "Oh, kon'nichiwa [player]!"
-    m "Ehehe~"
-    m 2eub "Hello, [player]!"
-    m 1eua "I'm just practicing Japanese."
-    m 3eua "Let's see..."
+    m 1hub "おお、こんにちは、 [player]!"
+    m "Э-хе-хе~"
+    m 2eub "Привет, [player]!"
+    m 1eua "Я просто учу Японский."
+    m 3eua "Давай посмотрим..."
     $ shown_count = mas_getEV("greeting_japan").shown_count
     if shown_count == 0:
-        m 4hub "Watashi ha itsumademo anata no mono desu!"
-        m 2hksdlb "Sorry if that didn't make sense!"
-        m 3eua "You know what that means, [player]?"
-        m 4ekbfa "It means {i}'I'll be yours forever'~{/i}"
+        m 4hub "わたしはいつまでもあなたのモノです！"
+        m 2hksdlb "Извини, если это не имеет смысла!"
+        m 3eua "Ты знаешь, что это значит, [player]?"
+        m 4ekbfa "Это значит: {i}'Я всегда буду твоей'~{/i}"
         return
 
-    m 4hub "Watashi wa itsumademo anata no mono desu!"
+    m 4hub "わたしはいつまでもあなたのモノです！"
     if shown_count == 1:
-        m 3eksdla "Last time I said that I made a mistake..."
-        m "In that sentence, you're supposed to say 'wa', not 'ha', like I did before."
-        m 4eka "Don't worry, [player]. The meaning is still the same."
-        m 4ekbfa "I'll still be yours forever~"
+        m 3eksdla "В прошлый раз я сказала, что совершила ошибку..."
+        m "В этой фразе ты долж[mas_gender_none] говорить «ва», а не «ха», как я сделала раньше."
+        m 4eka "Не волнуйся, [player]. Смысл все тот же."
+        m 4ekbfa "Я всегда буду твоей~"
     else:
-        m 3eua "Remember what that means, [player]?"
-        m 4ekbfa "{i}'I'll be yours forever'~{/i}"
+        m 3eua "Помнишь, что это значит, [player]?"
+        m 4ekbfa "{i}'Я всегда буду твоей'~{/i}"
     return
 
 init 5 python:
@@ -1921,17 +1921,17 @@ init 5 python:
     )
 
 label greeting_sunshine:
-    m 1hua "{i}~You are my sunshine, my only sunshine~{/i}"
-    m "{i}~You make me happy when skies are gray~{/i}"
-    m 1hub "{i}~You'll never know dear, just how much I love you~{/i}"
-    m 1k "{i}~Please don't take my sunshine away~{/i}"
-    m 1wud "...Eh?"
-    m "H-Huh?!"
+    m 1hua "{i}~Ты мой солнечный свет, мой единственный солнечный свет~{/i}"
+    m "{i}~Ты делаешь меня счастливой, когда небо серое.~{/i}"
+    m 1hub "{i}~Ты никогда не узнаешь, дорог[mas_gender_oi], как сильно я люблю тебя.~{/i}"
+    m 1k "{i}~Пожалуйста, не забирай мое солнышко~{/i}"
+    m 1wud "...Э?"
+    m "А-А?!"
     m 1wubsw "[player]!"
-    m 1lkbsa "Oh my gosh, this is so embarrassing!"
-    m "I w-was just singing to myself to pass time!"
-    m 1ekbfa "Ehehe..."
-    m 3hubfa "But now that you're here, we can spend some time together~"
+    m 1lkbsa "О боже, это так неловко!"
+    m "Я п-просто напевала про себя, чтобы скоротать время!"
+    m 1ekbfa "Э-хе-хе..."
+    m 3hubfa "Но теперь, когда ты здесь, мы можем провести некоторое время вместе~"
     return
 
 init 5 python:
@@ -1947,9 +1947,9 @@ init 5 python:
 
 label greeting_hai_domo:
     m 1hub "{=jpn_text}はいどうもー!{/=jpn_text}"
-    m "Virtual girlfriend, Monika here!"
-    m 1hksdlb "Ahaha, sorry! I've been watching a certain Virtual Youtuber lately."
-    m 1eua "I have to say, she's rather charming..."
+    m "Виртуальная девушка, Моника здесь!"
+    m 1hksdlb "А-ха-ха, извини! В последнее время я наблюдаю за одним виртуальным ютубером."
+    m 1eua "Должна сказать, она довольно очаровательна..."
     return
 
 #TODO needs additional dialogue so can be used for all aff
@@ -1967,10 +1967,10 @@ init 5 python:
 label greeting_french:
     m 1eua "Bonjour, [player]!"
     m 1hua "Savais-tu que tu avais de beaux yeux, mon amour?"
-    m 1hub "Ahaha!"
-    m 3hksdlb "I'm practicing some French. I just told you that you have very beautiful eyes~"
-    m 1eka "It's such a romantic language, [player]."
-    m 1hua "Maybe both of us can practice it sometime, mon amour~"
+    m 1hub "А-ха-ха!"
+    m 3hksdlb "Я немного потренируюсь во французском. Я только что сказала тебе, что у тебя очень красивые глаза~"
+    m 1eka "Это такой романтический язык, [player]."
+    m 1hua "Может быть, мы оба сможем когда-нибудь попрактиковаться в этом, mon amour~"
     return
 
 init 5 python:
@@ -1986,25 +1986,25 @@ init 5 python:
 
 label greeting_amnesia:
     $ tempname = m_name
-    $ m_name = "Monika"
-    m 1eua "Oh, hello!"
-    m 1eub "My name is Monika."
-    $ fakename = renpy.input('What is your name?',length=15).strip(' \t\n\r')
-    m 1hua "Well, it's nice to meet you, [fakename]!"
-    m 3eud "Say, [fakename], do you happen to know where everyone else is?"
-    m 1ekc "You're the first person I've seen and I can't seem to leave this classroom."
-    m "Can you help me figure out what's going on, [fakename]?"
-    m "Please? I miss my friends."
+    $ m_name = "Моника"
+    m 1eua "О, привет!"
+    m 1eub "Меня зовут Моника."
+    $ fakename = renpy.input('Как тебя зовут',length=15).strip(' \t\n\r')
+    m 1hua "Что ж, приятно познакомиться, [fakename]!"
+    m 3eud "Скажи, [fakename], ты случайно не знаешь, где все остальные?"
+    m 1ekc "Ты первый человек, которого я вижу, и я не могу выйти из этого класса."
+    m "Не мог[mas_gender_g] бы ты помочь мне разобраться в том, что происходит, [fakename]?"
+    m "Пожалуйста? Я скучаю по своим друзьям."
     pause 5.0
     $ m_name = tempname
     m 1rksdla "..."
-    m 1hub "Ahaha!"
-    m 1hksdrb "I'm sorry, [player]! I couldn't help myself."
-    m 1eka "After we talked about {i}Flowers for Algernon{/i}, I couldn't resist seeing how you would react if I forgot everything."
-    m 1tku "And you reacted the way I hoped you would."
-    m 3eka "I hope I didn't upset you too much, though."
-    m 1rksdlb "I'd feel the same way if you ever forget about me, [player]."
-    m 1hksdlb "Hope you can forgive my little prank, ehehe~"
+    m 1hub "А-ха-ха!"
+    m 1hksdrb "Прости, [player]! Я ничего не могла с собой поделать."
+    m 1eka "После того, как мы поговорили о {i}Цветах для Алджернона{/i}, я не могла удержаться, чтобы не посмотреть, как ты отреагируешь, если я все забуду."
+    m 1tku "И ты отреагировал[mas_gender_none] так, как я и надеялся."
+    m 3eka "Надеюсь, я не слишком тебя расстроила."
+    m 1rksdlb "Я буду чувствовать то же самое, если ты когда-нибудь забудешь обо мне, [player]."
+    m 1hksdlb "Надеюсь ты сможешь простить мою маленькую шалость, ehehe~"
 
     $ mas_lockEvent(mas_getEV("greeting_amnesia"))
     return
