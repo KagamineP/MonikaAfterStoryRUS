@@ -829,7 +829,7 @@ screen navigation():
         if store.mas_windowreacts.can_show_notifs and not main_menu:
             textbutton _("Уведомления") action [ShowMenu("notif_settings"), SensitiveIf(renpy.get_screen("notif_settings") == None)]
 
-        textbutton _("Hotkeys") action [ShowMenu("hot_keys")]
+        textbutton _("Горячие клавиши") action [ShowMenu("hot_keys")]
 
         #textbutton _("About") action ShowMenu("about")
 
@@ -1799,7 +1799,7 @@ screen notif_settings():
 screen hot_keys():
     tag menu
 
-    use game_menu(("Hotkeys"), scroll="viewport"):
+    use game_menu(("Горячие клавиши"), scroll="viewport"):
 
         default tooltip = Tooltip("")
 
