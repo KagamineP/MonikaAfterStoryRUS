@@ -2461,21 +2461,21 @@ label mas_reaction_gift_roses:
         $ mas_giftCapGainAff(10)
 
         m 1eka "[player]... Я-Я не знаю что сказать..."
-        m 1ekbsb "I never would've thought that you'd get something like this for me!"
-        m 3skbsa "I'm so happy right now."
+        m 1ekbsb "Никогда бы не подумала, что ты подаришь мне что-то такое!"
+        m 3skbsa "Я сейчас очень счастлива."
         if mas_isF14():
             # extra 5 points if f14
             $ mas_f14CapGainAff(5)
-            m 3ekbsa "To think that I'd be getting roses from you on Valentine's Day..."
-            m 1ekbsu "You're so sweet."
+            m 3ekbsa "Подумать только, что я получу от тебя розы в День Святого Валентина..."
+            m 1ekbsu "Ты так[mas_gender_oi] мил[mas_gender_iii]."
             m 1dktpu "..."
-            m 1ektda "Ahaha..."
+            m 1ektda "А-ха-ха..."
 
         #We can only have this on poses which use the new sprite set
         if not monika_chr.is_wearing_clothes_with_exprop("baked outfit"):
-            m 2dsa "Hold on.{w=0.5}.{w=0.5}.{nw}"
+            m 2dsa "Подожди.{w=0.5}.{w=0.5}.{nw}"
             $ monika_chr.wear_acs(mas_acs_ear_rose)
-            m 1hub "Ehehe, there! Doesn't it look pretty on me?"
+            m 1hub "Э-хе-хе, вот! Разве это не прекрасно смотрится на мне?"
 
         if mas_shouldKiss(chance=2, special_day_bypass=True):
             call monika_kissing_motion_short
@@ -2487,35 +2487,35 @@ label mas_reaction_gift_roses:
         if mas_pastOneDay(persistent._date_last_given_roses):
             $ mas_giftCapGainAff(5 if mas_isSpecialDay() else 1)
 
-            m 1suo "Oh!"
-            m 1ekbsa "Thanks, [player]."
-            m 3ekbsa "I always love getting roses from you."
+            m 1suo "О!"
+            m 1ekbsa "Спасибо, [player]."
+            m 3ekbsa "Мне всегда нравится получать от тебя розы."
             if mas_isF14():
                 # extra 5 points if f14
                 $ mas_f14CapGainAff(5)
-                m 1dsbsu "Especially on a day like today."
-                m 1ekbsa "It's really sweet of you to get these for me."
-                m 3hkbsa "I love you so much."
-                m 1ekbsa "Happy Valentine's Day, [player]~"
+                m 1dsbsu "Особенно в такой день, как сегодня."
+                m 1ekbsa "Это очень мило с твоей стороны, что ты принес[mas_gender_s] их мне."
+                m 3hkbsa "Я тебя так люблю."
+                m 1ekbsa "С днем Святого Валентина, [player]~"
             else:
-                m 1ekbsa "You're always so sweet."
+                m 1ekbsa "Ты всегда так[mas_gender_oi] мил[mas_gender_iii]."
 
             #Random chance (unless f14) for her to do the ear rose thing
             if (mas_isSpecialDay() and renpy.random.randint(1,2) == 1) or (renpy.random.randint(1,4) == 1) or mas_isF14():
                 if not monika_chr.is_wearing_clothes_with_exprop("baked outfit"):
-                    m 2dsa "Hold on.{w=0.5}.{w=0.5}.{nw}"
+                    m 2dsa "Подожди.{w=0.5}.{w=0.5}.{nw}"
                     $ monika_chr.wear_acs(mas_acs_ear_rose)
-                    m 1hub "Ehehe~"
+                    m 1hub "Э-хе-хе~"
 
             if mas_shouldKiss(chance=4, special_day_bypass=True):
                 call monika_kissing_motion_short
 
         else:
-            m 1hksdla "[player], I'm flattered, really, but you don't need to give me so many roses."
+            m 1hksdla "[player], я польщена, правда, но тебе не нужно дарить мне так много роз."
             if store.seen_event("monika_clones"):
-                m 1ekbsa "You'll always be my special rose after all, ehehe~"
+                m 1ekbsa "И потом, ты всегда будешь моей особенной розочкой, э-хе-хе~"
             else:
-                m 1ekbsa "A single rose from you is already more than I could have ever asked for."
+                m 1ekbsa "Одна единственная роза от тебя - это уже больше, чем я могла бы когда-либо попросить."
 
     # Pop from reacted map
     $ persistent._mas_filereacts_reacted_map.pop(gift_ev.category,None)
@@ -2528,7 +2528,7 @@ label mas_reaction_gift_roses:
 
 
 init 5 python:
-    addReaction("mas_reaction_gift_chocolates", "chocolates", is_good=True, exclude_on=["d25g"])
+    addReaction("mas_reaction_gift_chocolates", "шоколад", is_good=True, exclude_on=["d25g"])
 
 default persistent._given_chocolates_before = False
 
@@ -2544,28 +2544,28 @@ label mas_reaction_gift_chocolates:
 
         $ mas_giftCapGainAff(5)
 
-        m 1tsu "That's so {i}sweet{/i} of you, ehehe~"
+        m 1tsu "Это так {i}мило{/i} с твоей стороны, э-хе-хе~"
         if mas_isF14():
             #Extra little bump if on f14
             $ mas_f14CapGainAff(5)
-            m 1ekbsa "Giving me chocolates on Valentine's Day..."
-            m 1ekbfa "You really know how to make a girl feel special, [player]."
+            m 1ekbsa "Даришь мне шоколад в День святого Валентина..."
+            m 1ekbfa "Ты и правда знаешь, как заставить девушку почувствовать себя особенной, [player]."
             if renpy.seen_label('monika_date'):
-                m 1lkbfa "I know I mentioned visiting a chocolate store together someday..."
-                m 1hkbfa "But while we can't really do that just yet, getting some chocolates as a gift from you, well..."
-            m 3ekbfa "It means a lot getting these from you."
+                m 1lkbfa "Знаю, я раньше говорила о том, что мы на днях заглянем в шоколадный бутик вместе..."
+                m 1hkbfa "И пока мы не можем туда заглянуть, получение шоколада в качестве подарка от тебя, ну..."
+            m 3ekbfa "То, что подарил[mas_gender_none] его мне ты, многое для меня значит."
 
         elif renpy.seen_label('monika_date'):
-            m 3rka "I know I mentioned visiting a chocolate store together someday..."
-            m 3hub "But while we can't really do that just yet, getting some chocolates as a gift from you means everything to me."
-            m 1ekc "I really wish we could share them though..."
-            m 3rksdlb "But until that day comes, I'll just have to enjoy them for both of us, ahaha!"
-            m 3hua "Thank you, [player]~"
+            m 3rka "Знаю, я раньше говорила о том, что мы на днях заглянем в шоколадный бутик вместе..."
+            m 3hub "И пока мы не можем туда заглянуть, получение шоколада в качестве подарка от тебя многое для меня значит."
+            m 1ekc "Но мне бы очень хотелось разделить его с тобой..."
+            m 3rksdlb "Но, пока этот день не настал, мне придётся насладиться им за нас обоих, а-ха-ха!"
+            m 3hua "Спасибо, [player]~"
 
         else:
-            m 3hub "I love chocolates!"
-            m 1eka "And getting some from you means a lot to me."
-            m 1hub "Thanks, [player]!"
+            m 3hub "Я люблю шоколад!"
+            m 1eka "А то, что даришь его мне ты, многое для меня значит."
+            m 1hub "Спасибо, [player]!"
 
     else:
         $ times_chocs_given = mas_getGiftStatsForDate("mas_reaction_gift_chocolates")
@@ -2585,7 +2585,7 @@ label mas_reaction_gift_chocolates:
 
             $ mas_giftCapGainAff(3 if mas_isSpecialDay() else 1)
 
-            m 1wuo "Oh!"
+            m 1wuo "О!"
 
             if mas_isF14():
                 #Extra little bump if on f14
