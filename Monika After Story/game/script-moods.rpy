@@ -310,43 +310,43 @@ label mas_mood_tired:
         return
 
     elif 5 <= current_hour < 10:
-        m 1eka "Still a bit tired, [player]?"
-        m "It's still early in the morning, so you could go back and rest a little more."
-        m 1hua "Nothing wrong with hitting snooze after waking up early."
-        m 1hksdlb "Except for the fact that I can't be there to cuddle up to you, ahaha~"
-        m "I {i}guess{/i} I could wait for you a little longer."
+        m 1eka "Всё ещё немного уставш[mas_gender_ii], [player]?"
+        m "Ещё немного рановато, так что ты можешь вернуться и ещё немного отдохнуть."
+        m 1hua "Нет ничего плохого в том, чтобы проснуться пораньше и немного поспать~"
+        m 1hksdlb "За исключением того, что я не смогу прижаться к тебе, а-ха-ха~"
+        m "{i}Думаю{/i}, я могла бы подождать тебя ещё немного."
         return
 
     elif 10 <= current_hour < 12:
-        m 1ekc "Still not ready to tackle the day, [player]?"
-        m 1eka "Or is it just one of those days?"
-        m 1hua "When that happens, I like to have a nice cup of coffee to start the day."
+        m 1ekc "Всё ещё не готов[mas_gender_none] начать день, [player]?"
+        m 1eka "Или у тебя просто один из таких дней?"
+        m 1hua "Когда это происходит, я люблю выпить чашечку хорошего кофе, чтобы начать день."
         if not mas_getConsumable("coffee").enabled():
-            m 1lksdla "If I'm not stuck here, that is..."
-        m 1eua "You could also drink a glass of water."
-        m 3eua "It's important to stay hydrated anyway, but having a glass of water when you wake up can help you feel refreshed and awake."
-        m 3hksdlb "This one might sound strange, but I've heard that chocolate can help you start your day, too!"
-        m 3eka "It has something to do with improving your morning mood, but..."
-        m 1eksdlb "I'm sure chocolate would put anyone in a better mood whenever they ate it."
-        m 1hua "Give it a try sometime, and let me know if it works!"
+            m 1lksdla "Если, конечно, я здесь не застряну..."
+        m 1eua "Ты также можешь выпить стакан воды."
+        m 3eua "В любом случае важно избегать обезвоживания, но стакан воды, когда ты просыпаешься, может помочь тебе почувствовать себя отдохнувшим и бодрым."
+        m 3hksdlb "Это может показаться странным, но я слышала, что шоколад тоже может помочь тебе начать свой день!"
+        m 3eka "Такое как-то связано с улучшением твоего настроения с утра, но..."
+        m 1eksdlb "Я уверена, что шоколад поднимет настроение любому, кто его съест."
+        m 1hua "Попробуйте как-нибудь и дай мне знать, если это сработает!"
         return
 
     else:
-        m 1eka "If you're tired, maybe you should go lie down for a while?"
-        m 1eua "Getting enough sleep on a daily basis is very important to your overall health."
-        m 3euc "I've seen some studies that show the devastating short-term and long-term effects due to lack of sleep."
-        m 3ekd "It can really mess with your health, [player]..."
-        m 1eka "So do me a favor and get some rest, okay? It will put my mind at ease."
+        m 1eka "Если ты устал[mas_gender_none], может, тебе стоит полежать какое-то время?"
+        m 1eua "Получение достаточного количества сна на ежедневной основе очень важно для твоего общего здоровья."
+        m 3euc "Я видела некоторые исследования, которые показывают разрушительные краткосрочные и долгосрочные последствия из-за недостатка сна."
+        m 3ekd "Это действительно может испортить ваше здоровье, [player]..."
+        m 1eka "Так что сделай мне одолжение, отдохни немного, ладно? Это успокоит меня."
 
-    m 1hua "You can even leave the game open if you'd like, and I'll watch over you while you sleep."
-    m  "...Ehehe."
-    m 2hksdlb "That sounded a bit creepy, sorry."
-    m 2lksdla "I just thought it'd be cute to watch you sleep is all~"
-    m 1hua "Ahaha!"
+    m 1hua "Ты даже можешь оставить игру открытой, если хочешь, и я буду присматривать за тобой, пока ты спишь."
+    m  "...Э-хе-хе."
+    m 2hksdlb "Это прозвучало немного жутковато, извини."
+    m 2lksdla "Я просто подумал, что было бы мило посмотреть, как ты спишь, вот и все~"
+    m 1hua "А-ха-ха!"
     return
 
 init 5 python:
-    addEvent(Event(persistent._mas_mood_database,eventlabel="mas_mood_lonely",prompt="...lonely.",category=[store.mas_moods.TYPE_NEUTRAL],unlocked=True),code="MOO")
+    addEvent(Event(persistent._mas_mood_database,eventlabel="mas_mood_lonely",prompt="...одинок[mas_gender_im].",category=[store.mas_moods.TYPE_NEUTRAL],unlocked=True),code="MOO")
 
 label mas_mood_lonely:
     m 1eka "I'm here for you, [player], so there's no need for you to feel lonely."
@@ -359,7 +359,7 @@ label mas_mood_lonely:
 #Looking forward to input from the writers and editors on this, had trouble deciding how to write this.
 
 init 5 python:
-    addEvent(Event(persistent._mas_mood_database,"mas_mood_angry",prompt="...angry.",category=[store.mas_moods.TYPE_BAD],unlocked=True),code="MOO")
+    addEvent(Event(persistent._mas_mood_database,"mas_mood_angry",prompt="...рассерженн[mas_gender_iim].",category=[store.mas_moods.TYPE_BAD],unlocked=True),code="MOO")
 
 label mas_mood_angry:
     m 1ekc "Gosh, I'm sorry that you feel that way, [player]."
@@ -384,7 +384,7 @@ label mas_mood_angry:
     return
 
 init 5 python:
-    addEvent(Event(persistent._mas_mood_database,eventlabel="mas_mood_scared",prompt="...anxious.",category=[store.mas_moods.TYPE_BAD],unlocked=True),code="MOO")
+    addEvent(Event(persistent._mas_mood_database,eventlabel="mas_mood_scared",prompt="...обеспокоенн[mas_gender_iim].",category=[store.mas_moods.TYPE_BAD],unlocked=True),code="MOO")
 
 label mas_mood_scared:
     m 1euc "[player], are you alright?"
@@ -416,7 +416,7 @@ label mas_mood_scared:
     return
 
 init 5 python:
-    addEvent(Event(persistent._mas_mood_database,eventlabel="mas_mood_inadequate",prompt="...inadequate.",category=[store.mas_moods.TYPE_BAD],unlocked=True),code="MOO")
+    addEvent(Event(persistent._mas_mood_database,eventlabel="mas_mood_inadequate",prompt="...неадекватн[mas_gender_iim].",category=[store.mas_moods.TYPE_BAD],unlocked=True),code="MOO")
 
 label mas_mood_inadequate:
     $ last_year = datetime.datetime.today().year-1
@@ -461,7 +461,7 @@ label mas_mood_inadequate:
     return "love"
 
 init 5 python:
-    addEvent(Event(persistent._mas_mood_database,eventlabel="mas_mood_lucky",prompt="...lucky.",category=[store.mas_moods.TYPE_NEUTRAL],unlocked=True),code="MOO")
+    addEvent(Event(persistent._mas_mood_database,eventlabel="mas_mood_lucky",prompt="...счастлив[mas_gender_iim].",category=[store.mas_moods.TYPE_NEUTRAL],unlocked=True),code="MOO")
 
 label mas_mood_lucky:
     m 2tfc "You gotta ask yourself."
@@ -476,7 +476,7 @@ init 5 python:
         Event(
             persistent._mas_mood_database,
             eventlabel="mas_mood_lazy",
-            prompt="...lazy.",
+            prompt="...ленив[mas_gender_iim].",
             category=[store.mas_moods.TYPE_NEUTRAL],
             unlocked=True
         ),
@@ -569,7 +569,7 @@ label mas_mood_lazy:
     return
 
 init 5 python:
-    addEvent(Event(persistent._mas_mood_database,eventlabel="mas_mood_bored",prompt="...bored.",category=[store.mas_moods.TYPE_NEUTRAL],unlocked=True),code="MOO")
+    addEvent(Event(persistent._mas_mood_database,eventlabel="mas_mood_bored",prompt="...скучающ[mas_gender_im].",category=[store.mas_moods.TYPE_NEUTRAL],unlocked=True),code="MOO")
 
 label mas_mood_bored:
     if mas_isMoniAff(higher=True):
