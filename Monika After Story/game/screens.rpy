@@ -1810,13 +1810,13 @@ screen hot_keys():
             hbox:
                 style_prefix "check"
                 vbox:
-                    label _("General")
+                    label _("Общее")
                     spacing 10
                     text _("Музыка")
                     text _("Игры")
                     text _("Поговорить")
                     text _("Закладки")
-                    text _("Derandom")
+                    text _("Черный список")
                     text _("Полный экран")
                     text _("Снимок экрана")
                     text _("Параметры")
