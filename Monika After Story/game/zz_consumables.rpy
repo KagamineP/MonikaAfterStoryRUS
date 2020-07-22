@@ -1155,7 +1155,7 @@ init 5 python:
 
         MID_TEXT += "\n"
 
-        with open(renpy.config.basedir + "/characters/shopping_list.txt", "w") as shopping_list:
+        with open(renpy.config.basedir + "/characters/список_покупок.txt", "w") as shopping_list:
             shopping_list.write(
                 renpy.substitute(START_TEXT + MID_TEXT + END_TEXT)
             )
