@@ -95,7 +95,7 @@ init -991 python in mas_submod_utils:
             try:
                 map(int, version.split('.'))
             except:
-                raise SubmodError("Version number '{0}' is invalid.".format(version))
+                raise SubmodError("Версия номер '{0}' is invalid.".format(version))
 
             #Make sure author and name are proper label names
             if not Submod.AN_REGEXP.match(author):
