@@ -410,7 +410,7 @@ init -45 python:
                     mas_utils.writelog(msg)
                 else:
                     log.write(msg)
-                    
+
                 if package is not None:
                     package.close()
                 return None
@@ -659,7 +659,7 @@ init -45 python:
                     (Default: True)
                 bs - blocksize to use. By default, we use B64_READ_SIZE
                     (Default: None)
-                log - log to write messages to, if needed. 
+                log - log to write messages to, if needed.
                     If None, we use mas_log
                     (Default: None)
 
@@ -1613,7 +1613,8 @@ init 200 python in mas_dockstat:
                 moni_chr.close()
 
         ### now we must do the streamlined write system to file
-        moni_path = dockstat._trackPackage("monika")
+        # moni_path = dockstat._trackPackage("monika")
+        moni_path = dockstat._trackPackage("моника")
         moni_fbuffer = None
         moni_tbuffer = None
         moni_sum = None
@@ -1758,10 +1759,10 @@ init 200 python in mas_dockstat:
             moni_buffer.close()
 
         ### Now to verify that we output the file correctly
-        moni_pkg = dockstat.getPackage("monika")
+        moni_pkg = dockstat.getPackage("моника")
         if moni_pkg is None:
             # ALERT ALERT HOW DID WE FAIL
-            cr_log.write("[ОШИБКА] monika not found.\n")
+            cr_log.write("[ОШИБКА] моника не найдена.\n")
             mas_utils.trydel(moni_path)
             return False
 
@@ -1881,7 +1882,7 @@ init 200 python in mas_dockstat:
         if (status & dockstat.PKG_C) > 0:
             # we found a different monika (or corrupted monika)
             rd_log.write(
-                "[!] I found a corrupt monika! {0}\n".format(status)
+                "[!] Я нашла поврежденную Монику! {0}\n".format(status)
             )
             return (ret_code | MAS_PKG_FO, real_data)
 
@@ -2249,7 +2250,7 @@ label mas_dockstat_ready_to_go(moni_chksum):
 
 label mas_dockstat_first_time_goers:
     call mas_transition_from_emptydesk("monika 3eua")
-    m 3eua "Теперь я в файле «monika» в папке characters."
+    m 3eua "Теперь я в файле «моника» в папке characters."
     m "После того, как я закрою игру, ты сможешь переместить меня куда захочешь."
     m 3eub "Но не забудь вернуть меня в папку с персонажами, прежде чем снова включать игру, хорошо?"
     m 1eua "И наконец..."
