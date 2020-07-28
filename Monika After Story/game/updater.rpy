@@ -211,7 +211,7 @@ init -1 python:
                 outlines=[]
             )
             self._text_update = Text(
-                _("New update available!"),
+                _("Доступно новое обновление!"),
                 font=gui.default_font,
                 size=gui.text_size,
                 color="#ffe6f4",
