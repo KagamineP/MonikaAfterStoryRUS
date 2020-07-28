@@ -1151,7 +1151,7 @@ label mas_ch30_post_holiday_check:
 
     # yuri scare incoming. No monikaroom when yuri is the name
     if (
-            persistent.playername.lower() == "yuri"
+            persistent.playername.lower() == "yuri" or "юри"
             and not persistent._mas_sensitive_mode
         ):
         call yuri_name_scare from _call_yuri_name_scare
