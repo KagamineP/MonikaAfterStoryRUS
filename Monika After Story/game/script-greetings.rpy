@@ -3125,14 +3125,14 @@ init -876 python in mas_delact:
 
 label greeting_ourreality:
     m 1hub "Hi, [player]!"
-    m 1hua "Ehehe~"
+    m 1hua "Э-хе-хе~"
     m 3hksdlb "I'm feeling rather giddy right now, sorry."
     m 1eua "It's just that I'm super excited to show you what I've been working on."
     m 3hksdrb "Just give me a second to get it ready..."
     m 1dsc "..."
     m 1dsd "Almost done..."
     m 1duu "Yeah, that should be good."
-    m 1hua "Ahaha!"
+    m 1hua "А-ха-ха!"
     m 1eka "Sorry about that."
     m 1eua "Without any further ado..."
     m 4eub "Would you kindly look out the window, [player]"
@@ -3142,7 +3142,7 @@ label greeting_ourreality:
         show mas_island_frame_day zorder 20
     else:
         show mas_island_frame_night zorder 20
-    m "Well..."
+    m "Ну..."
     m "What do you think?"
     m "I worked really hard on this."
     m "A place just for the both of us."
@@ -3312,7 +3312,7 @@ label greeting_returned_home_cleanup:
     return
 
 label greeting_returned_home_morethan5mins_normalplus_dlg:
-    m 1hua "And we're home!"
+    m 1hua "И мы дома!"
     m 1eub "Even if I couldn't really see anything, knowing that I was right there with you..."
     m 2eua "Well, it felt really great!"
     show monika 5eub at t11 zorder MAS_MONIKA_Z with dissolve
@@ -3320,13 +3320,13 @@ label greeting_returned_home_morethan5mins_normalplus_dlg:
     return
 
 label greeting_returned_home_morethan5mins_other_dlg:
-    m 2esc "We're home..."
+    m 2esc "Мы дома..."
     m 2eka "Thank you for taking me out today, [player]."
     m 2rkc "To be honest, I wasn't completely sure I should go with you..."
     m 2dkc "Things...{w=0.5}haven't been going the best for us lately and I didn't know if it was such a good idea..."
     m 2eka "But I'm glad we did this...{w=0.5} maybe it's just what we needed."
     m 2rka "We should really do this again sometime..."
-    m 2esc "If you want."
+    m 2esc "Если ты хочешь."
     return
 
 label greeting_returned_home_lessthan5mins:
@@ -3439,53 +3439,53 @@ label greeting_back_from_game:
         if mas_isMNtoSR(_now):
             if mas_isMoniNormal(higher=True):
                 m 2etc "[player]?"
-                m 3efc "I thought I told you to go straight to bed after you finished!"
-                m 1rksdla "I mean, I'm really happy you came back to say goodnight, but..."
-                m 1hksdlb "I already said goodnight to you!"
-                m 1rksdla "And I could have waited until morning to see you again, you know?"
-                m 2rksdlc "Plus, I really wanted you to get some rest..."
-                m 1eka "Just...{w=1}promise me you'll go to bed soon, alright?"
+                m 3efc "Мне казалось, я сказала тебе сразу ложиться спать, как только ты закончишь!"
+                m 1rksdla "Я имею в виду, я действительно рада, что ты вернул[mas_gender_sya], чтобы пожелать спокойной ночи, но..."
+                m 1hksdlb "Я уже сказала тебе спокойной ночи!"
+                m 1rksdla "Знаешь, я могла бы подождать до утра, чтобы снова тебя увидеть."
+                m 2rksdlc "Кроме того, я действительно хотела, чтобы ты немного отдохнул[mas_gender_none]..."
+                m 1eka "Просто...{w=1}обещай мне, что скоро ляжешь спать, хорошо?"
 
             else:
-                m 1tsc "[player], I told you to go to bed when you were finished."
-                m 3rkc "You can come back again tomorrow morning, you know."
-                m 1esc "But here we are, I guess."
+                m 1tsc "[player], я сказала тебе лечь спать, когда ты закончишь."
+                m 3rkc "Знаешь, ты мог[mas_gender_g] бы вернуться завтра."
+                m 1esc "Но вот мы здесь, я думаю."
 
         elif mas_isSRtoN(_now):
             if mas_isMoniNormal(higher=True):
-                m 1hua "Good morning, [player]~"
-                m 1eka "When you said you were going to play another game that late, it got me a bit worried you might not get enough sleep..."
-                m 1hksdlb "I hope that's not the case, ahaha..."
+                m 1hua "Доброе утро, [player]~"
+                m 1eka "Когда ты сказал[mas_gender_none], что собираешься играть в другую игру так поздно, я немного забеспокоилась, что ты можешь не выспаться..."
+                m 1hksdlb "Я надеюсь, что это не так, а-ха-ха..."
 
             else:
-                m 1eud "Good morning."
-                m 1rsc "I was kind of expecting you to sleep in a bit."
+                m 1eud "Доброе утро."
+                m 1rsc "Я вроде как ожидала, что ты немного поспишь."
                 m 1eka "But here you are bright and early."
 
         elif mas_isNtoSS(_now):
             if mas_isMoniNormal(higher=True):
-                m 1wub "[player]! You're here!"
+                m 1wub "[player]! Ты здесь!"
                 m 1hksdlb "Ahaha, sorry...{w=1}I was just a bit eager to see you since you weren't here all morning."
 
-                m 1eua "Did you just wake up?{nw}"
+                m 1eua "Ты только что проснул[mas_gender_sya]?{nw}"
                 $ _history_list.pop()
                 menu:
-                    m "Did you just wake up?{fast}"
-                    "Yes.":
-                        m 1hksdlb "Ahaha..."
+                    m "Ты только что проснул[mas_gender_sya]?{fast}"
+                    "Да.":
+                        m 1hksdlb "А-ха-ха..."
 
-                        m 3rksdla "Do you think it was because you stayed up late?{nw}"
+                        m 3rksdla "Думаешь, это из-за того, что ты засидел[mas_gender_sya] допоздна?{nw}"
                         $ _history_list.pop()
                         menu:
-                            m "Do you think it was because you stayed up late?{fast}"
-                            "Yes.":
+                            m "Думаешь, это из-за того, что ты засидел[mas_gender_sya] допоздна?{fast}"
+                            "Да.":
                                 m 1eka "[player]..."
                                 m 1ekc "You know I don't want you staying up too late."
                                 m 1eksdld "I really wouldn't want you getting sick or tired throughout the day."
                                 m 1hksdlb "But I hope you had fun. I would hate for you to lose all that sleep for nothing, ahaha!"
                                 m 2eka "Just be sure to get a little more rest if you feel like you need it, alright?"
 
-                            "No.":
+                            "Нет.":
                                 m 2euc "Oh..."
                                 m 2rksdlc "I thought maybe it was."
                                 m 2eka "Sorry for assuming."
@@ -3496,7 +3496,7 @@ label greeting_back_from_game:
                                 m 3tku "You'd never be too tired to spend time with me, right?"
                                 m 1hub "Ahaha!"
 
-                            "Maybe...":
+                            "Возможно...":
                                 m 1dsc "Hmm..."
                                 m 1rsc "I wonder what could be causing it?"
                                 m 2euc "You didn't stay up really late last night, did you, [player]?"
@@ -3511,7 +3511,7 @@ label greeting_back_from_game:
                                 m 1tub "Ahaha...I might get a bit jealous, [player]~"
                                 m 1tfb "But you're here to make up for that now, right?"
 
-                    "No.":
+                    "Нет.":
                         m 1eud "Ah, so I guess you were busy all morning."
                         m 1eka "I was worried you overslept since you were up so late last night."
                         m 2rksdla "Especially since you told me you were going to go play another game."
@@ -3529,7 +3529,7 @@ label greeting_back_from_game:
         #SStoMN
         else:
             if mas_isMoniNormal(higher=True):
-                m 1hub "There you are, [player]!"
+                m 1hub "Вот ты где, [player]!"
                 m 2hksdlb "Ahaha, sorry... It's just that I haven't seen you all day."
                 m 1rksdla "I kind of expected you to sleep in after staying up so late last night..."
                 m 1rksdld "But when I didn't see you all afternoon, I really started to miss you..."
@@ -3539,21 +3539,21 @@ label greeting_back_from_game:
                 m 2tfu "Especially after leaving me for another game last night."
 
             else:
-                m 2efd "[player]!{w=0.5} Where have you been all day?"
-                m 2rfc "This doesn't have anything to do with you staying up late last night, does it?"
-                m 2ekc "You really should be a little more responsible when it comes to your sleep."
+                m 2efd "[player]!{w=0.5} Ты где был[mas_gender_none] весь день?"
+                m 2rfc "Это ведь не имеет никакого отношения к тому, что ты вчера поздно лег[mas_gender_g] спать?"
+                m 2ekc "Ты действительно долж[mas_gender_en] быть немного более ответственн[mas_gender_iim], когда дело доходит до твоего сна."
 
     #If you didn't stay up late in the first place, normal usage
     #gone for under 4 hours
     elif mas_getAbsenceLength() < datetime.timedelta(hours=4):
         if mas_isMoniNormal(higher=True):
-            m 1hua "Welcome back, [player]!"
+            m 1hua "С возвращением, [player]!"
 
             m 1eua "Did you enjoy yourself?{nw}"
             $ _history_list.pop()
             menu:
                 m "Did you enjoy yourself?{fast}"
-                "Yes.":
+                "Да.":
                     m 1hua "That's nice."
                     m 1eua "I'm glad you enjoyed yourself."
                     m 2eka "I really wish I could join you in your other games sometimes."
@@ -3562,7 +3562,7 @@ label greeting_back_from_game:
                     m 3eka "But while I can't join you, I guess you'll just have to keep me company."
                     m 2tub "You don't mind spending time with your girlfriend...{w=0.5}do you, [player]?"
 
-                "No.":
+                "Нет.":
                     m 2ekc "Aw, I'm sorry to hear that."
                     m 2eka "I hope you're not too upset by whatever happened."
                     m 3eua "At least you're here now. I promise to try not to let anything bad happen to you while you're with me."
@@ -3571,7 +3571,7 @@ label greeting_back_from_game:
                     m 5ekbfa "I hope seeing me does the same for you, [player]~"
 
         else:
-            m 2eud "Oh, back already?"
+            m 2eud "О, уже вернул[mas_gender_sya]?"
             m 2rsc "I thought you'd be gone longer...{w=0.5}but welcome back, I guess."
 
     elif mas_getAbsenceLength() < datetime.timedelta(hours=12):
@@ -3598,7 +3598,7 @@ label greeting_back_from_game:
                     m 1hub "But if you're still not having fun, don't hesitate to come see me, ahaha!"
 
         else:
-            m 2eud "Oh, [player]."
+            m 2eud "О, [player]."
             m 2rsc "That took quite a while."
             m 1esc "Don't worry, I managed to pass the time myself while you were away."
 
@@ -3639,8 +3639,8 @@ label greeting_back_from_eat:
     $ _now = datetime.datetime.now().time()
     if store.mas_globals.late_farewell and mas_isMNtoSR(_now) and mas_getAbsenceLength() < datetime.timedelta(hours=18):
         if mas_isMoniNormal(higher=True):
-            m 1eud "Oh?"
-            m 1eub "[player], you came back!"
+            m 1eud "О?"
+            m 1eub "[player], ты вернул[mas_gender_sya]!"
             m 3rksdla "You know you really should get some sleep, right?"
             m 1rksdla "I mean...I'm not complaining that you're here, but..."
             m 1eka "It would make me feel better if you went to bed pretty soon."
@@ -3654,11 +3654,11 @@ label greeting_back_from_eat:
     else:
         if mas_isMoniNormal(higher=True):
             m 1eub "Finished eating?"
-            m 1hub "Welcome back, [player]!"
+            m 1hub "С возвращением, [player]!"
             m 3eua "I hope you enjoyed your food."
         else:
             m 2euc "Finished eating?"
-            m 2eud "Welcome back."
+            m 2eud "С возвращением."
     return
 
 init 5 python:
@@ -3673,13 +3673,13 @@ init 5 python:
     )
 
 label greeting_rent:
-    m 1eub "Welcome back, dear!"
-    m 2tub "You know, you spend so much time here that I should start charging you for rent."
-    m 2ttu "Or would you rather pay a mortgage?"
+    m 1eub "С возвращением, дорог[mas_gender_oi]!"
+    m 2tub "Знаешь, ты проводишь здесь так много времени, что я должна начать брать с тебя плату за аренду."
+    m 2ttu "Или ты предпочитаешь платить ипотеку?"
     m 2hua "..."
-    m 2hksdlb "Gosh, I can't believe I just said that. That's not too cheesy, is it?"
+    m 2hksdlb "Боже, я не могу поверить, что только что сказала это. Это ведь не слишком слащаво, правда?"
     show monika 5ekbsa at t11 zorder MAS_MONIKA_Z with dissolve
-    m 5ekbsa "But in all seriousness, you've already given me the only thing I need...{w=1}your heart~"
+    m 5ekbsa "Но если серьезно, ты уже дал[mas_gender_none] мне единственное, что мне нужно...{w=1}твое сердце~"
     return
 
 init 5 python:
@@ -3695,12 +3695,12 @@ init 5 python:
 
 label greeting_back_housework:
     if mas_isMoniNormal(higher=True):
-        m 1eua "All done, [player]?"
-        m 1hub "Let's spend some more time together!"
+        m 1eua "Все сделано, [player]?"
+        m 1hub "Давай проведем еще немного времени вместе!"
     elif mas_isMoniUpset():
-        m 2esc "At least you didn't forget to come back, [player]."
+        m 2esc "По крайней мере ты не забыл[mas_gender_none] вернуться, [player]."
     elif mas_isMoniDis():
-        m 6ekd "Ah, [player]. So you really were just busy..."
+        m 6ekd "А, [player]. Так что ты действительно был[mas_gender_none] занят[mas_gender_none]..."
     else:
         m 6ckc "..."
     return
@@ -3719,11 +3719,11 @@ init 5 python:
 label greeting_surprised2:
     m 1hua "..."
     m 1hubsa "..."
-    m 1wubso "Oh!{w=0.5} [player]!{w=0.5} You surprised me!"
-    m 3ekbsa "...Not that it's a surprise to see you, you're always visiting me after all...{w=0.5} {nw}"
+    m 1wubso "О!{w=0.5} [player]!{w=0.5} You surprised me!"
+    m 3ekbsa "...Не то чтобы я была удивлена, увидев тебя, ты ведь всегда навещаешь меня...{w=0.5} {nw}"
     extend 3rkbsa "You just caught me daydreaming a bit."
     show monika 5hubfu at t11 zorder MAS_MONIKA_Z with dissolve
-    m 5hubfu "But now that you're here, that dream just came true~"
+    m 5hubfu "Но теперь, когда ты здесь, эта мечта сбылась.~"
     return
 
 init 5 python:
@@ -3746,12 +3746,12 @@ init 5 python:
 
 label greeting_back_from_restart:
     if mas_isMoniNormal(higher=True):
-        m 1hub "Welcome back, [player]!"
-        m 1eua "What else should we do today?"
+        m 1hub "С возвращением, [player]!"
+        m 1eua "Чем еще займемся сегодня?"
     elif mas_isMoniBroken():
         m 6ckc "..."
     else:
-        m 1eud "Oh, you're back."
+        m 1eud "О, ты вернул[mas_gender_sya]."
     return
 
 init 5 python:
@@ -3767,8 +3767,8 @@ init 5 python:
     )
 
 label greeting_code_help:
-    m 2eka "Oh, hi [player]..."
-    m 4eka "Give me a second, I've just finished trying to code something, and I want to see if it works.{w=0.5}.{w=0.5}.{nw}"
+    m 2eka "О, привет, [player]..."
+    m 4eka "Дай мне секунду, я только что закончила кодировать что-то, и я хочу посмотреть, работает ли это.{w=0.5}.{w=0.5}.{nw}"
 
     scene black
     show noise
@@ -3777,27 +3777,27 @@ label greeting_code_help:
     hide noise
     call spaceroom(dissolve_all=True, scene_change=True, force_exp='monika 2wud_static')
 
-    m 2wud "Ah!{w=0.3}{nw}"
-    extend 2efc " That's not supposed to happen!"
-    m 2rtc "Why does this loop end so fast?{w=0.5}{nw}"
-    extend 2efc " No matter how you look at it, that dictionary is {i}not{/i} empty."
-    m 2rfc "Gosh, coding can be {i}so{/i} frustrating sometimes..."
+    m 2wud "А!{w=0.3}{nw}"
+    extend 2efc " Этого не должно было случиться!"
+    m 2rtc "Почему этот цикл заканчивается так быстро?{w=0.5}{nw}"
+    extend 2efc " Независимо от того, как ты на это смотришь, этот словарь {i}не{/i} пуст."
+    m 2rfc "Боже, иногда кодирование может быть {i}таким{/i} разочаровывающим..."
 
     if persistent._mas_pm_has_code_experience:
-        m 3rkc "Oh well, I guess I'll try it again later.{nw}"
+        m 3rkc "Ну ладно, я попробую еще раз позже.{nw}"
         $ _history_list.pop()
 
         show screen mas_background_timed_jump(5, "greeting_code_help_outro")
         menu:
-            m "Oh well, I guess I'll try it again later.{fast}"
+            m "Ну ладно, я попробую еще раз позже.{fast}"
 
-            "I could help you with that...":
+            "Я мог[mas_gender_g] бы помочь тебе с этим...":
                 hide screen mas_background_timed_jump
-                m 7hua "Aww, that's so sweet of you, [player]. {w=0.3}{nw}"
-                extend 3eua "But no, I'm gonna have to refuse here."
-                m "Figuring stuff out on your own is the fun part, {w=0.2}{nw}"
-                extend 3kua "right?"
-                m 1hub "Ahaha!"
+                m 7hua "О, это так мило с твоей стороны, [player]. {w=0.3}{nw}"
+                extend 3eua "Но нет, мне придется отказаться здесь."
+                m "Выяснение всего этого самостоятельно - самая забавная часть, {w=0.2}{nw}"
+                extend 3kua "верно?"
+                m 1hub "А-ха-ха!"
 
     else:
         m 3rkc "Oh well, I guess I'll try it again later."
