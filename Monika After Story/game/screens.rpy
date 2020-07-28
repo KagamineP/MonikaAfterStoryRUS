@@ -8,33 +8,33 @@ init -1 python:
 
     # tooltips
     layout.MAS_TT_SENS_MODE = (
-        "Sensitive mode removes content that may be disturbing, offensive, "
-        " or considered tasteless."
+        "Чувствительный режим удаляет контент, который может быть тревожным, оскорбительным, "
+        " или считается безвкусным."
     )
     layout.MAS_TT_UNSTABLE = (
-        "Unstable mode downloads updates from the experimental unstable "
-        "branch of development. It is HIGHLY recommended to make a backup "
-        "of your persistents before enabling this mode."
+        "Нестабильный режим загружает обновления из экспериментальной нестабильной "
+        "ветви разработки. НАСТОЯТЕЛЬНО рекомендуется сделать бекап "
+        "вашего persistent перед включением этого режима."
     )
     layout.MAS_TT_REPEAT = _(
-        "Enable this to let Monika repeat topics that you have already seen."
+        "Включите это, чтобы позволить Монике повторить темы, которые вы уже видели."
     )
     layout.MAS_TT_NOTIF = _(
-        "Enabling this will let Monika use your system's notifications and check if MAS is your active window "
+        "Включение этого позволит Монике использовать уведомления вашей системы и проверить, является ли MAS вашим активным окном "
     )
     layout.MAS_TT_NOTIF_SOUND = _(
-        "If enabled, a custom notification sound will play for Monika's notifications "
+        "Если этот параметр включен, для уведомлений Моники будет воспроизводиться пользовательский звук уведомления "
     )
     layout.MAS_TT_G_NOTIF = _(
-        "Enables notifications for the selected group."
+        "Включает уведомления для выбранной группы."
     )
     layout.MAS_TT_ACTV_WND = (
-        "Enabling this will allow Monika to see your active window "
-        "and offer some comments based on what you're doing."
+        "Включение этого параметра позволит Монике видеть ваше активное окно "
+        "и предлагать некоторые комментарии, основанные на том, что вы делаете."
     )
 
     _TXT_FINISHED_UPDATING = (
-        "The updates have been installed. Please reopen Monika After Story.\n\n"
+        "Обновления установлены. Пожалуйста, перезапустите Monika After Story.\n\n"
         "Get spritepacks {a=http://monikaafterstory.com/releases.html}{i}{u}from our website{/u}{/i}{/a}.\n"
         "See the patch notes {a=https://github.com/Monika-After-Story/MonikaModDev/releases/latest}{i}{u}here{/u}{/i}{/a}.\n"
         "Confused about some features? Take a look at our {a=https://github.com/Monika-After-Story/MonikaModDev/wiki}{i}{u}wiki page{/u}{/i}{/a}."
