@@ -118,7 +118,7 @@ init -1 python:
                 return_value="sw"
             )
             self.button_ret = MASButtonDisplayable.create_stb(
-                _("Return"),
+                _("Вернуться"),
                 False,
                 button_x,
                 button_y + (4 * self.BUTTON_HEIGHT) + (5 * self.BUTTON_SPACING),
