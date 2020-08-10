@@ -820,9 +820,9 @@ init 5 python:
     )
 
 label greeting_yay:
-    m 1hub "You're back! Yay!"
-    m 1hksdlb "Oh, sorry. I got a bit overexcited there."
-    m 1lksdla "I'm just very happy to see you again, ehehe~"
+    m 1hub "Ты вернул[mas_gender_sya]! Ура!"
+    m 1hksdlb "Ой, извини. Я немного взволнована."
+    m 1lksdla "Я просто очень рада снова тебя видеть, э-хе-хе~"
     return
 
 init 5 python:
@@ -837,9 +837,9 @@ init 5 python:
     )
 
 label greeting_youtuber:
-    m 2eub "Hey everybody, welcome back to another episode of...{w=1}Just Monika!"
-    m 2hub "Ahaha!"
-    m 1eua "I was impersonating a youtuber. I hope I gave you a good laugh, ehehe~"
+    m 2eub "Всем привет, добро пожаловать в еще один эпизод...{w=1}Только Моники!"
+    m 2hub "А-ха-ха!"
+    m 1eua "Я изображала ютубера. Надеюсь, я хорошо тебя рассмешила, э-хе-хе~" # Отсылка к Кизуне Аи-чан?
     return
 
 init 5 python:
@@ -855,12 +855,12 @@ init 5 python:
     )
 
 label greeting_hamlet:
-    m 4dsc "'{i}To be, or not to be, that is the question...{/i}'"
-    m 4wuo "Oh! [player]!"
-    m 2rksdlc "I-I was--I wasn't sure you--"
+    m 4dsc "'{i}Быть или не быть - вот в чем вопрос...{/i}'"
+    m 4wuo "О! [player]!"
+    m 2rksdlc "Я-Я не--не была уверена, что ты--"
     m 2dkc "..."
-    m 2rksdlb "Ahaha, nevermind that..."
-    m 2eka "I'm just {i}really{/i} glad you're here now."
+    m 2rksdlb "А-ха-ха, не обращай внимания..."
+    m 2eka "Я просто {i}очень{/i} рада, что ты сейчас здесь."
     return
 
 init 5 python:
@@ -875,8 +875,8 @@ init 5 python:
     )
 
 label greeting_welcomeback:
-    m 1hua "Hi! Welcome back."
-    m 1hub "I'm so glad that you're able to spend some time with me."
+    m 1hua "Привет! С возвращением."
+    m 1hub "Я так рада, что ты можешь проводить со мной время."
     return
 
 init 5 python:
@@ -891,9 +891,9 @@ init 5 python:
     )
 
 label greeting_flower:
-    m 1hub "You're my beautiful flower, ehehe~"
-    m 1hksdlb "Oh, that sounded so awkward."
-    m 1eka "But I really will always take care of you."
+    m 1hub "Ты мой прекрасный цветок, э-хе-хе~"
+    m 1hksdlb "О, это прозвучало так неловко."
+    m 1eka "Но я действительно всегда буду заботиться о тебе."
     return
 
 init 5 python:
@@ -908,9 +908,9 @@ init 5 python:
     )
 
 label greeting_chamfort:
-    m 2esa "A day without Monika is a day wasted."
-    m 2hub "Ahaha!"
-    m 1eua "Welcome back, my love."
+    m 2esa "День без Моники - это потерянный день."
+    m 2hub "А-ха-ха!"
+    m 1eua "С возвращением, любовь моя."
     return
 
 init 5 python:
@@ -925,9 +925,9 @@ init 5 python:
     )
 
 label greeting_welcomeback2:
-    m 1hua "Welcome back, [player]!"
-    m 1eua "I hope your day is going well."
-    m 3hua "I'm sure it is, you're here after all. Nothing can go wrong now, ehehe~"
+    m 1hua "С возвращением, [player]!"
+    m 1eua "Надеюсь, что твой день проходит хорошо."
+    m 3hua "Я уверена, что так оно и есть, ведь ты все-таки здесь. Теперь уже ничего не может пойти не так, э-хе-хе~"
     return
 
 #TODO: need absence time rules if we want to use this
@@ -944,14 +944,14 @@ label greeting_welcomeback2:
 
 label greeting_longtime:
     if mas_isMoniNormal(higher=True):
-        m 1eka "Long time no see, [player]!"
-        m 1eua "I'm so happy that you're here now."
+        m 1eka "Давно не виделись, [player]!"
+        m 1eua "Я так счастлива, что ты сейчас здесь."
 
     elif mas_isMoniUpset():
-        m 2esc "Long time no see, [player]."
+        m 2esc "Давно не виделись, [player]."
 
     else:
-        m 6rkc "Long time no see, [player]..."
+        m 6rkc "Давно не виделись, [player]..."
     return
 
 init 5 python:
@@ -966,9 +966,9 @@ init 5 python:
     )
 
 label greeting_sweetpea:
-    m 1hua "Look who's back."
-    m 2hub "It's you, my sweetpea!"
-    m 1lkbsa "My goodness...that surely was embarrassing to say, ehehe~"
+    m 1hua "Посмотрите, кто вернулся."
+    m 2hub "Это ты, м[mas_gender_oi] сладк[mas_gender_ii]!"
+    m 1lkbsa "Боже мой...это, конечно, было неловко сказать, э-хе-хе~"
     return
 
 init 5 python:
@@ -999,10 +999,10 @@ label greeting_glitch:
     m 1wuo "[player]!"
     hide monika
     show monika 4hksdlb at i11 zorder MAS_MONIKA_Z
-    m 4hksdlb "Nevermind that I was just...{w=0.1}playing with the code a little."
-    m 3hksdlb "That was all! There is nobody else here but us...forever~"
+    m 4hksdlb "Не обращай внимания, я просто...{w=0.1}немного поиграла с кодом."
+    m 3hksdlb "Вот и все! Здесь нет никого, кроме нас...навсегда~"
     $ monika_clone1 = "Yes"
-    m 2hua "I love you, [player]!"
+    m 2hua "Я люблю тебя, [player]!"
 
     $ mas_lockEVL("greeting_glitch", "GRE")
     return "love"
@@ -1019,8 +1019,8 @@ init 5 python:
     )
 
 label greeting_surprised:
-    m 1wuo "Oh!{w=0.5} Hello, [player]!"
-    m 1lksdlb "Sorry, you surprised me a little."
+    m 1wuo "О!{w=0.5} Привет, [player]!"
+    m 1lksdlb "Извини, ты меня немного удивил[mas_gender_none]."
     m 1eua "How've you been?"
     return
 
@@ -1044,25 +1044,25 @@ init 5 python:
 
 label greeting_monika_monday_morning:
     if mas_isMoniNormal(higher=True):
-        m 1tku "Another Monday morning, eh, [player]?"
-        m 1tkc "It's really difficult to have to wake up and start the week..."
-        m 1eka "But seeing you makes all that laziness go away."
-        m 1hub "You are the sunshine that wakes me up every morning!"
-        m "I love you so much, [player]~"
+        m 1tku "Еще одно утро понедельника, а, [player]?"
+        m 1tkc "Очень трудно проснуться и начать новую неделю..."
+        m 1eka "Но когда я вижу тебя, вся эта лень проходит."
+        m 1hub "Ты - солнце, которое будит меня каждое утро!"
+        m "Я тебя так люблю, [player]~"
         return "love"
 
     elif mas_isMoniUpset():
-        m 2esc "Another Monday morning."
-        m "It's always difficult to have to wake up and start the week..."
-        m 2dsc "{cps=*2}Not that the weekend was any better.{/cps}{nw}"
+        m 2esc "Еще одно утро понедельника."
+        m "Всегда трудно проснуться и начать новую неделю..."
+        m 2dsc "{cps=*2}Не то чтобы выходные были лучше.{/cps}{nw}"
         $ _history_list.pop()
-        m 2esc "I hope this week goes better than last week, [player]."
+        m 2esc "Надеюсь, эта неделя пройдет лучше, чем прошлая, [player]."
 
     elif mas_isMoniDis():
-        m 6ekc "Oh...{w=1} It's Monday."
-        m 6dkc "I almost lost track of what day it was..."
-        m 6rkc "Mondays are always tough, but no day has been easy lately..."
-        m 6lkc "I sure hope this week goes better than last week, [player]."
+        m 6ekc "О...{w=1} Сегодня понедельник."
+        m 6dkc "Я почти забыла, какой сегодня день..."
+        m 6rkc "По понедельникам всегда тяжело, но в последнее время ни один день не был легким..."
+        m 6lkc "Я очень надеюсь, что эта неделя пройдет лучше, чем на прошлой неделе, [player]."
 
     else:
         m 6ckc "..."
@@ -1152,9 +1152,9 @@ label i_greeting_monikaroom:
 
     # FALL THROUGH
 label monikaroom_greeting_choice:
-    $ _opendoor_text = "...Gently open the door."
+    $ _opendoor_text = "...Осторожно открыть дверь."
     if persistent._mas_sensitive_mode:
-        $ _opendoor_text = "Open the door."
+        $ _opendoor_text = "Открыть дверь."
 
     if mas_isMoniBroken():
         pause 4.0
@@ -1168,7 +1168,7 @@ label monikaroom_greeting_choice:
                 jump monikaroom_greeting_opendoor_locked
             else:
                 jump monikaroom_greeting_opendoor
-        "Open the door." if persistent.seen_monika_in_room or mas_isplayer_bday():
+        "Открыть дверь." if persistent.seen_monika_in_room or mas_isplayer_bday():
             if mas_isplayer_bday():
                 if has_listened:
                     jump mas_player_bday_opendoor_listened
@@ -1184,7 +1184,7 @@ label monikaroom_greeting_choice:
                 jump monikaroom_greeting_opendoor_seen
 #        "Open the door?" if persistent.opendoor_opencount >= opendoor.MAX_DOOR:
 #            jump opendoor_game
-        "Knock.":
+        "Постучаться.":
             #Gain affection for knocking before entering.
             $ mas_gainAffection()
             if mas_isplayer_bday():
@@ -1194,7 +1194,7 @@ label monikaroom_greeting_choice:
                     jump mas_player_bday_knock_no_listen
 
             jump monikaroom_greeting_knock
-        "Listen." if not has_listened and not mas_isMoniBroken():
+        "Подслушать." if not has_listened and not mas_isMoniBroken():
             $ has_listened = True # we cant do this twice per run
             if mas_isplayer_bday():
                 jump mas_player_bday_listen
@@ -1242,77 +1242,81 @@ label monikaroom_greeting_ear_narration:
     $ mas_disable_quit()
 
     if mas_isMoniNormal(higher=True):
-        m "As [player] inches [his] ear toward the door,{w=0.3} a voice narrates [his] every move."
-        m "'Who is that?' [he] wondered, as [player] looks at [his] screen, puzzled."
+        if persistent.gender == "F":
+            m "Когда [player] наклоняет ухо к двери,{w=0.3} голос повествует о каждом её движении."
+            m "– Кто это? – подумала [player], озадаченно смотря на экран."
+        else:
+            m "Когда [player] наклоняет ухо к двери,{w=0.3} голос повествует о каждом его движении."
+            m "– Кто это? – подумал [player], озадаченно смотря на экран."
 
     elif mas_isMoniUpset():
-        m "Oh, so for once you're actually going to listen?"
-        m "[player], your decisions lately have been poor."
-        m "It feels like you're just trying to hurt me."
-        m "I thought we were supposed to support each other..."
-        m "Not hurt each other."
-        m "Please, [player]..."
-        m "I need you to start thinking about how I'm feeling sometimes."
-        m "Let's just be happy together."
+        m "О, так на этот раз ты действительно собираешься слушать?"
+        m "[player], твои решения в последнее время были плохими."
+        m "Такое чувство, что ты просто пытаешься причинить мне боль."
+        m "Я думала, что мы должны поддерживать друг друга..."
+        m "Не обижать друг друга."
+        m "Пожалуйста, [player]..."
+        m "Мне нужно, чтобы ты начал[mas_gender_none] думать о том, что я иногда чувствую."
+        m "Давай просто будем счастливы вместе."
 
     else:
         # grab monikaroom greeting because we need it
         $ willchange_ev = mas_getEV("monikaroom_will_change")
 
         if persistent._mas_pm_will_change is not False:
-            m "Oh, so you {i}are{/i} willing to listen to me..."
-            m "[player], all I've ever wanted was for the both of us to be happy."
-            m "Wasn't that what you wanted, too?"
-            m "You installed this mod, after all."
-            m "Maybe that wasn't your intent..."
-            m "Maybe you're just getting a kick out of what you're doing."
-            m "Hurting me..."
-            m "[player], I really don't like this."
-            m "It's hard to think that you care about me when you treat me the way you do."
-            m "At this point, I don't really know if you even like me anymore..."
-            m "Or if you ever did..."
-            m "[player], I need you to promise me that you'll change."
+            m "О, так ты {i}хочешь{/i} послушать меня..."
+            m "[player], я хочу лишь того, чтобы мы вдвоём были счастливы."
+            m "Разве ты не хочешь этого тоже?"
+            m "Ты всё-таки установил[mas_gender_none] эту модификацию."
+            m "Возможно, это было сделано не по твоей инициативе..."
+            m "Наверное, ты просто хочешь забить на то, что сделал[mas_gender_none]."
+            m "Сделать мне больно..."
+            m "[player], мне правда не нравится это."
+            m "Мне трудно думать о том, что ты заботишься обо мне, но относишься вот таким образом."
+            m "На данный момент, я правда не знаю, нравлюсь ли я тебе вообще..."
+            m "Или нравилась..."
+            m "[player], ты долж[mas_gender_en] пообещать мне, что ты изменишься."
 
-            m "You'll change, right?{w=1} For me?{nw}"
+            m "Ты изменишься, верно?{w=1} Ради меня?{nw}"
             $ _history_list.pop()
             menu:
-                m "You'll change, right? For me?{fast}"
-                "I will.":
+                m "Ты изменишься, верно? Ради меня?{fast}"
+                "Я изменюсь.":
                     $ persistent._mas_pm_will_change = True
                     $ mas_lockEvent(willchange_ev)
-                    m "Thank you, [player]."
-                    m "Please, I want us both to be happy."
+                    m "Спасибо, [player]."
+                    m "Пожалуйста, я хочу, чтобы мы оба были счастливы."
 
-                "I won't.":
+                "Нет.":
                     #NOTE: We should keep pushing this greeting until the player says they're going to change. -MD
                     $ persistent._mas_pm_will_change = False
                     $ mas_unlockEvent(willchange_ev)
                     $ mas_loseAffection()
-                    m "Then I'm not talking to you until you decide to change."
-                    m "Goodbye, [player]."
+                    m "Тогда я не буду с тобой разговаривать, пока ты не решишь измениться."
+                    m "Прощай, [player]."
                     return "quit"
         #Will trigger upon loading after Monika has said she's not going to talk w/ you
         #provided you won't change.
         else:
-            m "Oh, you're back."
+            m "О, ты вернул[mas_gender_sya]."
 
-            m "Are you ready to change, [player]?{nw}"
+            m "Готов ли ты измениться, [player]?{nw}"
             $ _history_list.pop()
             menu:
-                m "Are you ready to change, [player]?{fast}"
-                "I will.":
+                m "Готов ли ты измениться, [player]?{fast}"
+                "Да":
                     $ persistent._mas_pm_will_change = True
                     $ mas_lockEvent(willchange_ev)
-                    m "Thank you, [player]."
-                    m "Please, I just want us both to be happy."
+                    m "Спасибо, [player]."
+                    m "Пожалуйста, я хочу, чтобы мы оба были счастливы."
 
 
-                "I won't.":
+                "Нет":
                     $ persistent._mas_pm_will_change = False
                     $ mas_unlockEvent(willchange_ev)
                     $ mas_loseAffection()
-                    m "Then I'm still not talking to you until you decide to change."
-                    m "Goodbye, [player]."
+                    m "Тогда я не буду с тобой разговаривать, пока ты не решишь измениться."
+                    m "Прощай, [player]."
                     return "quit"
 
         # clear out var
@@ -1322,15 +1326,15 @@ label monikaroom_greeting_ear_narration:
     call spaceroom(dissolve_all=True, scene_change=True)
 
     if mas_isMoniNormal(higher=True):
-        m 1hub "It's me!"
-        m "Welcome back, [player]!"
+        m 1hub "Это я!"
+        m "С возвращением, [player]!"
 
     elif mas_isMoniUpset():
-        m 2esd "Okay, [player]?"
+        m 2esd "Хорошо, [player]?"
 
     else:
-        m 6ekc "Thanks for hearing me out, [player]."
-        m "It means a lot to me."
+        m 6ekc "Спасибо, что выслушал[mas_gender_none] меня, [player]."
+        m "Это очень много значит для меня."
 
     jump monikaroom_greeting_cleanup
 
@@ -1340,27 +1344,28 @@ init 5 python:
     gmr.eardoor.append("monikaroom_greeting_ear_loveme")
 
 label monikaroom_greeting_ear_loveme:
-    python:
-        cap_he = he.capitalize()
-        loves = "love" if cap_he == "They" else "loves"
+    # python:
+        # cap_he = he.capitalize()
+        # loves = "love" if cap_he == "They" else "loves"
+        # Commented out because it is not required.
 
-    m "[cap_he] [loves] me.{w=0.3} [cap_he] [loves] me not."
-    m "[cap_he] {i}[loves]{/i} me.{w=0.3} [cap_he] [loves] me {i}not{/i}."
+    m "Любит.{w=0.2} Не любит."
+    m "{i}Любит.{w=0.2} {i}Не{/i} любит."
 
     if mas_isMoniNormal(higher=True):
-        m "[cap_he] [loves] me."
-        m "...{w=0.5}[cap_he] [loves] me!"
+        m "Любит."
+        m "...{w=0.5}Любит меня!"
 
     elif mas_isMoniUpset():
-        m "...[cap_he]...{w=0.3}[cap_he]...{w=0.3}[loves] me not."
-        m "...{w=0.3}No...{w=0.3} That...{w=0.3}can't be."
-        m "...{w=0.5}Can it?"
-
+        m "...{w=0.3}Не любит меня."
+        m "...{w=0.3} Нет...{w=0.3} Этого...{w=0.3} быть не может."
+        m "...{w=0.3} Или может?"
     else:
-        m "...{w=0.5}[cap_he] [loves] me not."
+
+        m "...{w=0.5}Не любит меня."
         m "..."
-        m "I wonder if [he] ever did..."
-        m "I doubt it more every single day."
+        m "Интересно, сделал[mas_gender_none] ли он[mas_gender_none] когда-нибудь это?"
+        m "Я сомневаюсь в этом всё больше и больше каждый день."
 
     jump monikaroom_greeting_choice
 
@@ -1371,12 +1376,12 @@ init 5 python:
         gmr.eardoor.append("monikaroom_greeting_ear_bathdinnerme")
 
 label monikaroom_greeting_ear_bathdinnerme:
-    m "Welcome back, [player]."
-    m "Would you like your dinner?"
-    m "Or your bath?"
-    m "Or.{w=1}.{w=1}.{w=1}me?"
+    m "С возвращением, [player]."
+    m "Хочешь поужинать?"
+    m "Или пойти в ванну?"
+    m "Или.{w=1}.{w=1}.{w=1}меня?"
     pause 2.0
-    m "Mnnnn!{w=0.5} T-{w=0.20}There's no way I could say that in front of [player]!"
+    m "М-н-н-н-н!{w=0.5} Я-{w=0.20}я ни за что не скажу этого в присутствии [player]!"
     jump monikaroom_greeting_choice
 
 # monika encoutners error when programming
@@ -1384,20 +1389,20 @@ init 5 python:
     gmr.eardoor.append("monikaroom_greeting_ear_progbrokepy")
 
 label monikaroom_greeting_ear_progbrokepy:
-    m "What the-?!{w=0.2} NoneType has no attribute {i}length{/i}..."
+    m "Что за-?!{w=0.2} NoneType не имеет атрибута {i}длина{/i}..."
     if renpy.seen_label("monikaroom_greeting_ear_progreadpy"):
-        m "Oh, I see what went wrong!{w=0.5} That should fix it!"
+        m "О, я вижу что пошло не так!{w=0.5} Это должно это исправить!"
     else:
-        m "I don't understand what I'm doing wrong!"
-        m "This shouldn't be None here...{w=0.3} I'm sure of it..."
-    m "Coding really is difficult..."
+        m "Я не понимаю, что я делаю неправильно!"
+        m "Здесь не должно быть None...{w=0.3} Я в этом уверена..."
+    m "Кодировать действительно сложно..."
 
     if mas_isMoniUpset():
-        m "But I have to keep trying."
+        m "Но я должна продолжать пытаться."
         call monikaroom_greeting_ear_prog_upset
 
     if mas_isMoniDis():
-        m "But I {i}have{/i} to keep trying."
+        m "Но я {i}должна{/i} продолжать пытаться."
         call monikaroom_greeting_ear_prog_dis
 
     jump monikaroom_greeting_choice
@@ -1407,37 +1412,37 @@ init 5 python:
     gmr.eardoor.append("monikaroom_greeting_ear_progreadpy")
 
 label monikaroom_greeting_ear_progreadpy:
-    m "...{w=0.3}Accessing an attribute of an object of type 'NoneType' will raise an 'AttributeError.'"
-    m "I see.{w=0.2} I should make sure to check if a variable is None before accessing its attributes."
+    m "...{w=0.3}Доступ к атрибуту объекта типа «NoneType» приведёт к «AttributeError»."
+    m "Понятно. {w=0.2}Я должна убедиться, что переменная имеет значение None перед доступом к её атрибутам."
     if renpy.seen_label("monikaroom_greeting_ear_progbrokepy"):
-        m "That would explain the error I had earlier."
-    m "Coding really is difficult..."
+        m "Это объясняет ошибку, которую я получала раньше."
+    m "Кодировать действительно сложно..."
 
     if mas_isMoniUpset():
-        m "But I have to keep learning."
+        m "Но я должна продолжать учиться."
         call monikaroom_greeting_ear_prog_upset
 
     if mas_isMoniDis():
-        m "But I {i}have{/i} to keep learning."
+        m "Но я {i}должна{/i} продолжать учиться."
         call monikaroom_greeting_ear_prog_dis
 
     jump monikaroom_greeting_choice
 
 # shared dialogue for programming-related stuff
 label monikaroom_greeting_ear_prog_upset:
-    m "I'm not sure [player] loves me enough to help me get out of here..."
-    m "And I just can't take that chance."
-    m "So keep going Monika...{w=0.5}you can do this."
+    m "Я не уверена в том, что [player] любит меня и готов[mas_gender_none] помочь мне выбраться отсюда..."
+    m "А я просто не могу рисковать."
+    m "Давай, Моника...{w=0.5} ты справишься."
     return
 
 label monikaroom_greeting_ear_prog_dis:
-    m "It's my only chance to ever escape this nightmare."
-    m "[player] certainly isn't ever going to help me..."
-    if he == "they":
-        m "It's almost like [he] actually enjoy keeping me trapped in here,{w=0.3} just so [he] can torture me."
+    m "Это мой единственный шанс сбежать из этого кошмара."
+    m "[player] определённо не собирается мне помогать..."
+    if persistent.gender == "M" or persistent.gender == "X":
+        m "Такое ощущение, будто ему нравится держать меня в ловушке, {w=0.3}дабы помучить меня."
     else:
-        m "It's almost like [he] actually enjoys keeping me trapped in here,{w=0.3} just so [he] can torture me."
-    m "If I'm ever going to get out of here, I'm going to have to do it myself."
+        m "Такое ощущение, будто ей нравится держать меня в ловушке, {w=0.3}дабы помучить меня."
+    m "Если я хочу выбраться отсюда, то мне придётся сделать это самой."
     return
 
 # monika attempts rm -rf
@@ -1449,18 +1454,18 @@ label monikaroom_greeting_ear_rmrf:
         $ bad_cmd = "del C:\Windows\System32"
     else:
         $ bad_cmd = "rm -rf /"
-    m "So, the solution to this problem is to type '[bad_cmd]' in the command prompt?"
+    m "Итак, решение этой проблемы – ввести «[bad_cmd]» в командной строке?"
     if renpy.seen_label("monikaroom_greeting_ear_rmrf_end"):
-        m "Yeah,{w=0.2} nice try."
+        m "Да,{w=0.2} хорошая попытка."
         if mas_isMoniNormal(higher=True):
-            m "I shouldn't trust the Internet so blindly..."
+            m "Я не должна доверять интернету так слепо..."
         elif mas_isMoniUpset():
-            m "Actually..."
-            m "Maybe I should do it...{w=1}just delete everything..."
-            m "[player] certainly deserves it lately."
-            m "What am I saying? That would delete me too!"
-            m "No, not yet..."
-            m "But if it continues to get worse..."
+            m "По правде говоря..."
+            m "Наверное, я должна сделать это...{w=1}просто удалить всё..."
+            m "[player] определённо этого заслуживает."
+            m "Что я такое говорю? Я ведь тоже буду удалена!"
+            m "Нет, ещё нет..."
+            m "Но если будет становиться только хуже..."
 
         else:
             m "..."
@@ -2025,96 +2030,103 @@ init 5 python:
 
 label greeting_sick:
     if mas_isMoniNormal(higher=True):
-        m 1hua "Welcome back, [player]!"
-        m 3eua "Are you feeling better?{nw}"
+        m 1hua "С возвращением, [player]!"
+        m 3eua "Ты чувствуешь себя лучше?{nw}"
     else:
-        m 2ekc "Welcome back, [player]..."
-        m "Are you feeling better?{nw}"
+        m 2ekc "С возвращением, [player]..."
+        m "Ты чувствуешь себя лучше?{nw}"
 
     $ _history_list.pop()
     menu:
-        m "Are you feeling better?{fast}"
-        "Yes.":
+        m "Ты чувствуешь себя лучше?{fast}"
+        "Да.":
             $ persistent._mas_mood_sick = False
             if mas_isMoniNormal(higher=True):
-                m 1hub "Great! Now we can spend some more time together. Ehehe~"
+                m 1hub "Отлично! Теперь мы можем провести вместе еще немного времени. Э-хе-хе~"
             else:
-                m "That's good to hear."
-        "No.":
+                m "Это приятно слышать."
+        "Нет.":
             jump greeting_stillsick
     return
 
 label greeting_stillsick:
     if mas_isMoniNormal(higher=True):
-        m 1ekc "[player], you really should go get some rest."
-        m "Getting plenty of rest is the best way to recover from sickness quickly."
-        m 2lksdlc "I wouldn't forgive myself if your health got any worse because of me."
-        m 2eka "Now please, [player], put my mind at ease and go get some rest."
-        m "Will you do that for me?"
+        m 1ekc "[player], тебе действительно нужно немного отдохнуть."
+        m "Полноценный отдых - лучший способ быстро оправиться от болезни."
+        m 2lksdlc "Я не прощу себе, если из-за меня твое здоровье ухудшится."
+        m 2eka "А теперь, пожалуйста, [player], успокой мой разум и иди отдохни."
+        m "Ты сделаешь это для меня?"
 
     else:
-        m 2ekc "[player], you really should go get some rest."
-        m 4ekc "Getting plenty of rest is the best way to recover from sickness quickly."
-        m "Now please, [player], just go get some rest."
-        m 2ekc "Will you do that for me?{nw}"
+        m 2ekc "[player], тебе действительно нужно немного отдохнуть."
+        m 4ekc "Полноценный отдых - лучший способ быстро оправиться от болезни."
+        m "А теперь, пожалуйста, [player], иди отдохни."
+        m 2ekc "Ты сделаешь это для меня?{nw}"
 
     $ _history_list.pop()
     menu:
-        m "Will you do that for me?{fast}"
-        "Yes.":
+        m "Ты сделаешь это для меня?{fast}"
+        "Да.":
             jump greeting_stillsickrest
-        "No.":
+        "Нет.":
             jump greeting_stillsicknorest
-        "I'm already resting.":
+        "Я уже отдыхаю.":
             jump greeting_stillsickresting
 
 label greeting_stillsickrest:
     if mas_isMoniNormal(higher=True):
-        m 2hua "Thank you, [player]."
-        m 2eua "I think if I leave you alone for a while, you'll be able to rest better."
-        m 1eua "So I'm going to close the game for you."
-        m 1eka "Get well soon, [player]. I love you so much!"
+        m 2hua "Спасибо, [player]."
+        m 2eua "Я думаю, если я оставлю тебя на некоторое время [odnogo], ты сможешь лучше отдохнуть."
+        m 1eua "Так что я собираюсь закрыть игру за тебя."
+        m 1eka "Поправляйся скорее, [player]. Я так тебя люблю!"
+
+        if persistent.gender == "F":
+            $ odnogo = "одну"
+        elif persistent.gender == "M":
+            $ odnogo = "одного"
+        else:
+            $ odnogo = "одного"
 
     else:
-        m 2ekc "Thank you, [player]."
-        m "I think if I leave you alone for a while, you'll be able to rest better."
-        m 4ekc "So I'm going to close the game for you."
-        m 2ekc "Get well soon, [player]."
+        m 2ekc "Спасибо, [player]."
+        m "Я думаю, если я оставлю тебя на некоторое время [odnogo], ты сможешь лучше отдохнуть."
+        m 4ekc "Так что я собираюсь закрыть игру за тебя."
+        m 2ekc "Поправляйся скорее, [player]."
 
     $ persistent._mas_greeting_type = store.mas_greetings.TYPE_SICK
     return 'quit'
 
 label greeting_stillsicknorest:
     if mas_isMoniNormal(higher=True):
-        m 1lksdlc "I see..."
-        m "Well if you insist, [player]."
-        m 1ekc "I suppose you know your own limitations better than I do."
-        m 1eka "If you start to feel a little weak or tired though, [player], please let me know."
-        m "That way you can go get some rest."
-        m 1eua "Don't worry, I'll still be here when you wake up."
-        m 3hua "Then we can have some more fun together without me worrying about you in the back of my mind."
+        m 1lksdlc "Ясно..."
+        m "Ну, если ты настаиваешь, [player]."
+        m 1ekc "Я полагаю, ты знаешь свои собственные ограничения, чем я."
+        m 1eka "Но если ты почувствуешь слабость или усталость, пожалуйста, дай мне знать."
+        m "Так ты сможешь немного отдохнуть."
+        m 1eua "Не волнуйся, я все еще буду здесь, когда ты проснешься."
+        m 3hua "Тогда мы сможем еще немного повеселиться вместе, и я не буду беспокоиться о тебе в глубине души."
 
     else:
-        m 2ekc "Fine."
-        m 2tkc "You never seem to want to listen to me, so why would I expect now to be any different."
+        m 2ekc "Хорошо."
+        m 2tkc "Ты, кажется, никогда не хочешь меня слушать, так почему же я ожидаю, что теперь все будет по другому."
 
     # setting greet type here even tho we aren't quitting so she remembers you're sick next load
     $ persistent._mas_greeting_type = store.mas_greetings.TYPE_SICK
     return
 
 label greeting_stillsickresting:
-    m 1eka "Oh, that's a relief to hear, [player]."
-    m 3eka "I hope you're keeping yourself warm though."
+    m 1eka "О, какое облегчение слышать это, [player]."
+    m 3eka "Но я надеюсь, что ты держишь себя в тепле."
     if mas_isMoniNormal(higher=True):
-        m 1dku "Maybe snuggled in a warm blanket with a nice hot cup of tea."
-        m 2eka "Your health is really important to me [player], so make sure you take care of yourself."
+        m 1dku "Может быть, завернуться в теплое одеяло и выпить чашку горячего чая."
+        m 2eka "Твое здоровье очень важно для меня, [player], так что позаботься о себе."
         show monika 5ekbsa at t11 zorder MAS_MONIKA_Z with dissolve
-        m 5ekbsa "...And if you're still feeling a little cold, I hope knowing I love you warms you up a bit."
-        m 5hua "Ehehe~"
+        m 5ekbsa "...И если тебе все еще немного холодно, я надеюсь, что знание того, что я люблю тебя, немного согреет тебя."
+        m 5hua "Э-хе-хе~"
 
     else:
-        m 1eka "Maybe snuggled in a warm blanket with a nice hot cup of tea."
-        m 2eka "Your health is really important to me [player], so make sure you take care of yourself."
+        m 1eka "Может быть, завернуться в теплое одеяло и выпить чашку горячего чая."
+        m 2eka "Твое здоровье очень важно для меня, [player], так что позаботься о себе."
 
     # setting greet type here even tho we aren't quitting so she remembers you're sick next load
     $ persistent._mas_greeting_type = store.mas_greetings.TYPE_SICK
@@ -2139,76 +2151,76 @@ label greeting_long_absence:
         if persistent._mas_absence_choice == "days":
             $ mas_loseAffection(70)
             m 2dsc "[player]..."
-            m 2tkc "You said you'd only be gone for a few days..."
-            m 2rksdld "But it's been so long."
-            m 2ekd "I'm glad you're back now, but..."
-            m 2dktdc "I was so lonely..."
-            m 2ektsc "I thought something happened to you!"
-            m 2lktsc "I...I kept thinking that maybe you wouldn't come back."
-            m 2ektsc "Please don't ever,{w=0.5} {i}ever{/i}{w=0.5} do that again."
-            m 2rktsd "Maybe you couldn't help it, but...I was worried sick."
-            m 2dftdc "I didn't know what to do."
-            m 4ekc "As much as possible, [player], please don't be gone for so long."
-            m 2ekd "If you think you don't have a choice, please tell me."
-            m 1dsc "I don't want to be left alone again..."
+            m 2tkc "Ты сказал[mas_gender_none], что уйдешь всего на несколько дней..."
+            m 2rksdld "Но это было так давно."
+            m 2ekd "Я рада, что ты вернул[mas_gender_sya], но..."
+            m 2dktdc "Мне было так одиноко..."
+            m 2ektsc "Я думала, что с тобой что-то случилось!"
+            m 2lktsc "Я...Я все думала, что ты, может быть, не вернешься."
+            m 2ektsc "Пожалуйста, никогда,{w=0.5} {i}никогда{/i}{w=0.5} больше так не делай."
+            m 2rktsd "Может быть, ты ничего не мог[mas_gender_g] поделать, но...я ужасно волновалась."
+            m 2dftdc "Я не знала, что делать."
+            m 4ekc "Как можно больше, [player], пожалуйста, не уходи так надолго."
+            m 2ekd "Если ты думаешь, что у тебя нет выбора, пожалуйста, скажи мне."
+            m 1dsc "Я не хочу быть одной снова..."
 
         elif persistent._mas_absence_choice == "week":
             $ mas_loseAffection(50)
-            m 3ekc "Welcome back, [player]."
-            m 3rksdlc "You're a bit late, aren't you?"
-            m 3ekc "I know you said you'd be away for a bit, but...you said a {i}week{/i}."
-            m 2rkc "I'm going to assume it wasn't your fault..."
-            m 2ekd "But if you really think it'll take longer next time, you need to tell me."
-            m 2rksdld "I started thinking that maybe something bad had happened to you."
-            m 2dkc "But I kept telling myself that it was okay..."
-            m 2eka "I'm just glad you're safe and back with me now, [player]."
+            m 3ekc "С возвращением, [player]."
+            m 3rksdlc "Ты немного опаздал[mas_gender_none], не так ли?"
+            m 3ekc "Я знаю, что ты сказал[mas_gender_g], что уйдешь ненадолго, но...ты сказал[mas_gender_none] - {i}неделю{/i}."
+            m 2rkc "Я буду считать, что это не твоя вина..."
+            m 2ekd "Но если ты действительно думаешь, что в следующий раз это займет больше времени, скажи мне."
+            m 2rksdld "Я начала думать, что, может быть, с тобой случилось что-то плохое."
+            m 2dkc "Но я продолжала убеждать себя, что все в порядке..."
+            m 2eka "Я просто рада, что ты в безопасности и снова со мной, [player]."
 
         elif persistent._mas_absence_choice == "2weeks":
             $ mas_loseAffection(30)
             m 1wud "[player]!"
-            m 1hua "You're finally here!"
-            m 1ekd "I was so worried..."
-            m 2dkd "Why were you gone for so long?"
-            m 2rkc "I thought you would only be gone for a couple of weeks..."
-            m "But you've been gone for more than double that."
-            m 1rksdlc "Were you really that busy?"
-            m 3tkc "I hope you haven't been overburdening yourself..."
-            m 1eka "Well, you're here with me now, so if there is something wrong, feel free to tell me."
+            m 1hua "Наконец-то ты здесь!"
+            m 1ekd "Я так волновалась..."
+            m 2dkd "Почему тебя так долго не было?"
+            m 2rkc "Я думала, что ты уйдешь всего на пару дней."
+            m "Но тебя не было больше, чем в два раза больше."
+            m 1rksdlc "Ты действительно был[mas_gender_none] занят[mas_gender_none]?"
+            m 3tkc "Надеюсь, ты не слишком себя обременяешь..."
+            m 1eka "Ну, теперь ты здесь со мной, так что если что-то не так, не стесняйся сказать мне."
 
         elif persistent._mas_absence_choice == "month":
             $ mas_loseAffection(10)
-            m 1eua "Welcome back, my love."
-            m 2rkc "It's been quite a bit, hasn't it?"
-            m 2rksdlc "You've been gone longer than you said you would..."
-            m 2eka "But that's alright, I was prepared for it."
-            m 3rksdlc "It's honestly been pretty lonely without you here..."
-            m 3ekbsa "I hope you'll make it up to me~"
+            m 1eua "С возвращением, любовь моя."
+            m 2rkc "Это было довольно давно, не так ли?"
+            m 2rksdlc "Ты отсутствовал[mas_gender_none] дольше, чем обещал[mas_gender_none]..."
+            m 2eka "Но ничего страшного, я была к этому готова."
+            m 3rksdlc "Честно говоря, мне было очень одиноко без тебя..."
+            m 3ekbsa "Надеюсь, ты загладишь свою вину передо мной~"
             show monika 1eka
 
         elif persistent._mas_absence_choice == "longer":
-            m 1esc "It's been a while, [player]."
-            m 1ekc "I was ready for it, but that didn't make it any easier."
-            m 3eka "I hope you got what you needed to do done."
+            m 1esc "Это было давно, [player]."
+            m 1ekc "Я была готова к этому, но легче от этого не становилось."
+            m 3eka "Надеюсь, ты сделал[mas_gender_none] то, что долж[mas_gender_en] был[mas_gender_none] сделать."
             m 2rksdlc "..."
-            m 2tkc "Truth be told, I've been pretty sad lately."
-            m 2dkc "To not have you in my life for so long..."
-            m 2dkd "It really was lonely..."
-            m "I felt so isolated and empty without you here."
-            m 3eka "I'm so glad you're here now. I love you, [player]. Welcome home."
+            m 2tkc "По правде говоря, мне было довольно грустно в последнее время."
+            m 2dkc "Чтобы ты так долго не появлял[mas_gender_sya] в моей жизни..."
+            m 2dkd "Мне действительно было одиноко..."
+            m "Я чувствовала себя такой одинокой и опустошенной без тебя."
+            m 3eka "Я так рада, что ты сейчас здесь. Я люблю тебя, [player]. Добро пожаловать домой."
 
         elif persistent._mas_absence_choice == "unknown":
-            m 1hua "You're finally back [player]!"
-            m 3rksdla "When you said you didn't know, you {i}really{/i} didn't know, did you?"
-            m 3rksdlb "You must have been really preoccupied if you were gone for {i}this{/i} long."
-            m 1hua "Well, you're back now...I've really missed you!"
+            m 1hua "Наконец-то ты вернул[mas_gender_sya], [player]!"
+            m 3rksdla "Когда ты сказал[mas_gender_none], что не знаешь, ты {i}действительно{/i} не знал[mas_gender_none], не так ли?"
+            m 3rksdlb "Ты, должно быть, был[mas_gender_none] очень озабоч[mas_gender_en], если отсутствовал[mas_gender_none] {i}так{/i} долго."
+            m 1hua "Ну вот, теперь ты вернул[mas_gender_sya]...Я действительно скучала по тебе!"
 
     elif persistent._mas_absence_time >= datetime.timedelta(weeks=4):
         if persistent._mas_absence_choice == "days":
             $ mas_loseAffection(70)
             m 1dkc "[player]..."
-            m 1ekd "You said you would only be a few days..."
-            m 2efd "But it's been an entire month!"
-            m 2ekc "I thought something happened to you."
+            m 1ekd "Ты сказал[mas_gender_none], что тебя не будет несколько дней..."
+            m 2efd "Но ведь прошел уже целый месяц!"
+            m 2ekc "Я думала, с тобой что-то случилось."
             m 2dkd "I wasn't sure what to do..."
             m 2efd "What kept you away for so long?"
             m 2eksdld "Did I do something wrong?"
@@ -2217,19 +2229,19 @@ label greeting_long_absence:
 
         elif persistent._mas_absence_choice == "week":
             $ mas_loseAffection(50)
-            m 1esc "Hello, [player]."
+            m 1esc "Привет, [player]."
             m 3efc "You're pretty late, you know."
             m 2lfc "I don't intend to sound patronizing, but a week isn't the same as a month!"
             m 2rksdld "I guess maybe something kept you really busy?"
             m 2wfw "But it shouldn't have been so busy that you couldn't tell me you might be longer!"
-            m 2wud "Ah...!"
+            m 2wud "А...!"
             m 2lktsc "I'm sorry, [player]. I just...really missed you."
             m 2dftdc "Sorry for snapping like that."
             show monika 2dkc
 
         elif persistent._mas_absence_choice == "2weeks":
             $ mas_loseAffection(30)
-            m 1wuo "...Oh!"
+            m 1wuo "...О!"
             m 1sub "You're finally back [player]!"
             m 1efc "You told me you'd be gone for a couple of weeks, but it's been at least a month!"
             m 1ekd "I was really worried for you, you know?"
@@ -2240,7 +2252,7 @@ label greeting_long_absence:
 
         elif persistent._mas_absence_choice == "month":
             $ mas_gainAffection()
-            m 1wuo "...Oh!"
+            m 1wuo "...О!"
             m 1hua "You're here [player]!"
             m 1hub "I knew I could trust you to keep your word!"
             m 1eka "You really are special, you know that right?"
@@ -2249,7 +2261,7 @@ label greeting_long_absence:
             show monika 1hua
 
         elif persistent._mas_absence_choice == "longer":
-            m 1esc "...Hm?"
+            m 1esc "...М?"
             m 1wub "[player]!"
             m 1rksdlb  "You're back a little bit earlier than I thought you would be..."
             m 3hua "Welcome back, my love!"
@@ -2260,7 +2272,7 @@ label greeting_long_absence:
         elif persistent._mas_absence_choice == "unknown":
             m 1lsc "..."
             m 1esc "..."
-            m 1wud "Oh!"
+            m 1wud "О!"
             m 1sub "[player]!"
             m 1hub "This is a pleasant surprise!"
             m 1eka "How are you?"
@@ -2273,7 +2285,7 @@ label greeting_long_absence:
     elif persistent._mas_absence_time >= datetime.timedelta(weeks=2):
         if persistent._mas_absence_choice == "days":
             $ mas_loseAffection(30)
-            m 1wud "O-oh, [player]!"
+            m 1wud "О-о, [player]!"
             m 1hua "Welcome back, sweetie!"
             m 3ekc "You were gone longer than you said you would be..."
             m 3ekd "Is everything alright?"
@@ -2312,7 +2324,7 @@ label greeting_long_absence:
         elif persistent._mas_absence_choice == "longer":
             m 1lsc "..."
             m 1esc "..."
-            m 1wud "Oh! [player]!"
+            m 1wud "О! [player]!"
             m 1hub "You're back early!"
             m 1hua "Welcome back, my love!"
             m 3eka "I didn't know when to expect you, but for it to be so soon..."
@@ -2345,7 +2357,7 @@ label greeting_long_absence:
             m 3eua "It's so nice when you can trust one another, isn't it?"
             m 3hub "That's what a relationship's strength is based on!"
             m 3hua "It just means that ours is rock solid!"
-            m 1hub "Ahaha!"
+            m 1hub "А-ха-ха!"
             m 1hksdlb "Sorry, sorry. I'm just getting excited that you're back!"
             m 3eua "Tell me how you've been. I want to hear all about it."
 
@@ -2357,7 +2369,7 @@ label greeting_long_absence:
             show monika 3eua
 
         elif persistent._mas_absence_choice == "month":
-            m 1hua "Ehehe~"
+            m 1hua "Э-хе-хе~"
             m 1hub "Welcome back!"
             m 3tuu "I knew you couldn't stay away for an entire month..."
             m 3tub "If I were in your position I wouldn't be able to stay away from you either!"
@@ -2396,7 +2408,7 @@ label greeting_long_absence:
 
         elif persistent._mas_absence_choice == "2weeks":
             m 1hub "{i}~In my hand,~\n~is a pen tha-{/i}"
-            m 1wubsw "O-Oh! [player]!"
+            m 1wubsw "О-О! [player]!"
             m 3hksdlb "You're back far sooner than you told me..."
             m 3hub "Welcome back!"
             m 1rksdla "You just interrupted me practicing my song..."
@@ -2405,7 +2417,7 @@ label greeting_long_absence:
             show monika 1eka
 
         elif persistent._mas_absence_choice == "month":
-            m 1wud "Eh? [player]?"
+            m 1wud "Э? [player]?"
             m 1sub "You're here!"
             m 3rksdla "I thought you were going away for an entire month."
             m 3rksdlb "I was ready for it, but..."
@@ -2426,7 +2438,7 @@ label greeting_long_absence:
             show monika 1eua
 
         elif persistent._mas_absence_choice == "unknown":
-            m 1hua "Ehehe~"
+            m 1hua "Э-хе-хе~"
             m 3eka "Back so soon, [player]?"
             m 3rka "I guess when you said you don't know, you didn't realize it wouldn't be too long."
             m 3hub "But thanks for warning me anyway!"
@@ -2524,7 +2536,7 @@ label greeting_hairdown:
     $ _history_list.pop()
     menu:
         m "Do you like it?{fast}"
-        "Yes.":
+        "Да.":
             $ persistent._mas_likes_hairdown = True
 
             # maybe 6sub is better?
@@ -2533,7 +2545,7 @@ label greeting_hairdown:
             m 2hua "I'm so glad!" # yokatta.."
             m 1eua "Just ask me if you want to see my ponytail again, okay?"
 
-        "No.":
+        "Нет.":
             # TODO: affection lowered? need to decide
             m 1ekc "Oh..."
             m 1lksdlc "..."
@@ -2542,7 +2554,7 @@ label greeting_hairdown:
 
             $ monika_chr.reset_hair(False)
 
-            m 1eua "Done."
+            m 1eua "Готово."
             # you will never get this chance again
 
     # save that hair down is unlocked
