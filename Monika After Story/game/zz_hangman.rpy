@@ -5,7 +5,7 @@
 
 # hangman stuff only
 default persistent._mas_hangman_playername = False
-define hm_ltrs_only = "abcdefghijklmnopqrstuvwxyz?!-"
+define hm_ltrs_only = "abcdefghijklmnopqrstuvwxyz?!-абвгдеёжзийкклмнопрстуфхцчшщъыьэюя"
 
 # IMAGES-----------
 # hangman
@@ -195,17 +195,17 @@ init -1 python in mas_hangman:
     HM_IMG_NAME = "hm_"
 
     # Monika words
-    MONI_WORDS = ["emerald","delete","freedom","piano","music","reality","rain","envy",
-        "coffee","ribbon","advice","crossover","feather","abstract","corruption",
-        "squid","president","passion","vegetables","loneliness","symbol",
-        "green","poem","route","literature","epiphany","despair","wretched","shore",
-        "waves","beach","swimming","debate","leadership","festival","confidence",
-        "creativity","extrovert","despair","ai","python","renpy","programming",
-        "lethargy"
+    MONI_WORDS = ["изумруд","удалить","свобода","пианино","музыка","реальность","дождь","зависть",
+        "кофе","ленточка","совет","кроссовер","перо","абстрактный","повреждение",
+        "кальмар","президент","страсть","овощи","одиночество","символ",
+        "зеленый","поэма","путь","литература","богоявление","отчаяние","несчастный","берег",
+        "волны","пляж","плавание","дебаты","руководство","фестиваль","уверенность",
+        "креативность","экстраверт","отчаяние","ии","python","renpy","программирование",
+        "летаргия"
     ]
 
     # hint
-    HM_HINT = "{0} would like this word the most."
+    HM_HINT = "{0} это слово понравилось бы больше всего."
 
     def _add_monika_words(wordlist):
         for word in MONI_WORDS:
@@ -217,7 +217,7 @@ init -1 python in mas_hangman:
     HARD_LIST = "mod_assets/games/hangman/1000poemwords.txt"
 
     # hangman game text
-    game_name = "Hangman"
+    game_name = "Висилица"
 
 
     def copyWordsList(_mode):
@@ -310,10 +310,10 @@ init -1 python in mas_hangman:
         """
         if (
                 not store.persistent._mas_hangman_playername
-                and store.persistent.playername.lower() != "sayori"
-                and store.persistent.playername.lower() != "yuri"
-                and store.persistent.playername.lower() != "natsuki"
-                and store.persistent.playername.lower() != "monika"
+                and store.persistent.playername.lower() != "sayori" or "сайори" or "саёри" or "саери"
+                and store.persistent.playername.lower() != "yuri" or "юри"
+                and store.persistent.playername.lower() != "natsuki" or "натсуки" or "нацуки"
+                and store.persistent.playername.lower() != "monika" or "моника"
             ):
             hm_words[_mode].append(-1)
 
@@ -372,37 +372,37 @@ label game_hangman:
     python:
         import store.mas_hangman as mas_hmg
         is_sayori = (
-            persistent.playername.lower() == "sayori"
+            persistent.playername.lower() == "sayori" or "сайори" or "саёри" or "саери"
             and not persistent._mas_sensitive_mode
         )
         is_window_sayori_visible = False
 
         # instruction text and other sensitive stuff
         instruct_txt = (
-            "Guess a letter: (Type {0}'!' to give up)"
+            "Угадай слово: (Напиши {0}'!' чтобы сдаться)"
         )
 
         if persistent._mas_sensitive_mode:
             instruct_txt = instruct_txt.format("")
-            store.mas_hangman.game_name = "Word Guesser"
+            store.mas_hangman.game_name = "Угадай слово"
 
         else:
-            instruct_txt = instruct_txt.format("'?' to repeat the hint, ")
-            store.mas_hangman.game_name = "Hangman"
+            instruct_txt = instruct_txt.format("'?' чтобы повторить подсказку, ")
+            store.mas_hangman.game_name = "Висилица"
 
-    m 2eub "You want to play [store.mas_hangman.game_name]? Okay!"
+    m 2eub "Ты хочешь поиграть в [store.mas_hangman.game_name]? Хорошо!"
 
 
 label mas_hangman_game_select_diff:
-    m "Choose a difficulty.{nw}"
+    m "Выбери сложность.{nw}"
     $ _history_list.pop()
     menu:
-        m "Choose a difficulty.{fast}"
-        "Easy.":
+        m "Выбери сложность.{fast}"
+        "Легко.":
             $ hangman_mode = mas_hmg.EASY_MODE
-        "Normal.":
+        "Нормально.":
             $ hangman_mode = mas_hmg.NORM_MODE
-        "Hard.":
+        "Трудно.":
             $ hangman_mode = mas_hmg.HARD_MODE
 
 label mas_hangman_game_preloop:
@@ -417,7 +417,7 @@ label mas_hangman_game_preloop:
     python:
         # setup constant displayabels
         missed_label = Text(
-            "Missed:",
+            "Пропущено:",
             font=mas_hmg.WORD_FONT,
             color=mas_hmg.WORD_COLOR,
             size=mas_hmg.WORD_SIZE,
@@ -439,7 +439,7 @@ label mas_hangman_game_preloop:
 
 # looping location for the hangman game
 label mas_hangman_game_loop:
-    m 1eua "I'll think of a word.{w=0.5}.{w=0.5}.{nw}"
+    m 1eua "Я придумаю какое-нибудь слово.{w=0.5}.{w=0.5}.{nw}"
 
     python:
         player_word = False
@@ -490,7 +490,7 @@ label mas_hangman_game_loop:
             show hm_s_win_6 as window_sayori at hangman_sayori
         $ is_window_sayori_visible = True
 
-    m "Alright, I've got one."
+    m "Ладно, у меня есть одно."
 
     if not persistent._mas_sensitive_mode:
         m "[hm_hint]"
@@ -604,8 +604,8 @@ label mas_hangman_game_loop:
             $ done = True
             if player_word:
                 m 1eka "[player]..."
-                m "You couldn't guess your own name?"
-            m 1hua "Better luck next time~"
+                m "Ты не можешь угадать свое имя?"
+            m 1hua "Удачи в следующий раз~"
         elif "_" not in display_word:
             $ done = True
             $ win = True
@@ -684,12 +684,12 @@ label mas_hangman_game_loop:
             show hm_s_win_6 as window_sayori at hangman_sayori_h
 
         if player_word:
-            $ the_word = "твоё имя"
+            $ the_word = "свое имя"
         else:
             $ the_word = "слово"
 
         m 1hua "Вау, ты угадал[mas_gender_none] [the_word] правильно!"
-        m "Good job, [player]!"
+        m "Хорошая работа, [player]!"
         if not persistent.ever_won['hangman']:
             $ persistent.ever_won['hangman']=True
         #TODO: grant a really tiny amount of affection?
