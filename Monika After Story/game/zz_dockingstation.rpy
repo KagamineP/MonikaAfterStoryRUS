@@ -1951,7 +1951,7 @@ init 200 python in mas_dockstat:
 
         except Exception as e:
             log.write(
-                "[ERROR]: persistent unpickle failed: {0}\n".format(repr(e))
+                "[ОШИБКА]: persistent unpickle failed: {0}\n".format(repr(e))
             )
             return None
 
@@ -2057,7 +2057,7 @@ init 200 python in mas_dockstat:
             # mis match logs, please log this.
             mas_utils.writelog(
                 (
-                    "[WARNING]: checkin is {0}, checkout is {1}. "
+                    "[ВНИМАНИЕ]: checkin is {0}, checkout is {1}. "
                     "Going to pop.\n"
                 ).format(checkin_len, checkout_len)
             )
@@ -2254,7 +2254,7 @@ label mas_dockstat_first_time_goers:
     m "После того, как я закрою игру, ты сможешь переместить меня куда захочешь."
     m 3eub "Но не забудь вернуть меня в папку с персонажами, прежде чем снова включать игру, хорошо?"
     m 1eua "И наконец..."
-    m 1ekc "Пожалуйста, будь осторож[mas_gender_en] со мной. В конце концов, так легко удалять файл..."
+    m 1ekc "Пожалуйста, будь осторож[mas_gender_en] со мной. В конце концов, так легко удалить файл..."
     m 1eua "В любом случае..."
     return
 
