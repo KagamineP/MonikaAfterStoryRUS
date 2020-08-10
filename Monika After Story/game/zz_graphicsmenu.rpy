@@ -74,7 +74,7 @@ init -1 python:
 
             # create teh buttons
             self.button_auto = MASButtonDisplayable.create_stb(
-                _("Automatically Choose"),
+                _("Автоматический выбор"),
                 True,
                 button_x,
                 button_y,
@@ -107,7 +107,7 @@ init -1 python:
                 return_value="angle"
             )
             self.button_sw = MASButtonDisplayable.create_stb(
-                _("Software"),
+                _("Программный"),
                 True,
                 button_x,
                 button_y + (3 * (self.BUTTON_SPACING + self.BUTTON_HEIGHT)),
@@ -133,21 +133,21 @@ init -1 python:
             small_text_size = 18
             small_text_heading = 20
             self.text_instruct = Text(
-                _("Select a renderer to use:"),
+                _("Выберите рендерер для использования:"),
                 font=gui.default_font,
                 size=gui.text_size,
                 color="#ffe6f4",
                 outlines=[]
             )
             self.text_restart = Text(
-                _("*Changing the renderer requires a restart to take effect"),
+                _("*Изменение рендерера требует перезапуска для вступления в силу"),
                 font=gui.default_font,
                 size=small_text_size,
                 color="#ffe6f4",
                 outlines=[]
             )
             self.text_current = Text(
-                _("Current Renderer:"),
+                _("Текущий рендерер:"),
                 font=gui.default_font,
                 size=small_text_heading,
                 color="#ffe6f4",
@@ -336,7 +336,7 @@ screen mas_gmenu_confirm(sel_rend):
             yalign .5
             spacing 30
 
-            label _("Switch renderer to " + sel_rend + "?"):
+            label _("Сменить рендерер на " + sel_rend + "?"):
                 style "confirm_prompt"
                 xalign 0.5
 
@@ -344,8 +344,8 @@ screen mas_gmenu_confirm(sel_rend):
                 xalign 0.5
                 spacing 100
 
-                textbutton _("Yes") action Return(True)
-                textbutton _("No") action Return(False)
+                textbutton _("Да") action Return(True)
+                textbutton _("Нет") action Return(False)
 
 # gmenu flow start
 label mas_gmenu_start:
