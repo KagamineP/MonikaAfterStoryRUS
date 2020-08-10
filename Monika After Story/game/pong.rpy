@@ -73,7 +73,7 @@ init:
                 self.paddle = Image("mod_assets/games/pong/pong.png")
                 self.ball = Image("mod_assets/games/pong/pong_ball.png")
                 self.player = Text(_("[player]"), size=36)
-                self.monika = Text(_("Monika"), size=36)
+                self.monika = Text(_("[m_name]"), size=36)
                 self.ctb = Text(_("Нажми, чтобы начать"), size=36)
 
                 # Sounds used.
@@ -503,7 +503,7 @@ label demo_minigame_pong:
     scene bg pong field
 
     # natsuki scare setup if appropriate
-    if persistent.playername.lower() == "natsuki" and not persistent._mas_sensitive_mode:
+    if persistent.playername.lower() == "natsuki" or "нацуки" or "натсуки" and not persistent._mas_sensitive_mode:
         $ playing_okayev = store.songs.getPlayingMusicName() == "Okay, Everyone! (Monika)"
 
         # we'll take advantage of Okay everyone's sync with natsuki's version
@@ -526,7 +526,7 @@ label demo_minigame_pong:
         winner = ui.interact(suppress_overlay=True, suppress_underlay=True)
 
     # natsuki scare if appropriate
-    if persistent.playername.lower() == "natsuki" and not persistent._mas_sensitive_mode:
+    if persistent.playername.lower() == "natsuki" or "нацуки" or "натсуки" and not persistent._mas_sensitive_mode:
         call natsuki_name_scare(playing_okayev=playing_okayev) from _call_natsuki_name_scare
 
     #Regenerate the spaceroom scene
@@ -934,7 +934,7 @@ label mas_pong_dlg_loser:
     #Monika loses after going easy on the player
     elif powerup_value_this_game == PONG_DIFFICULTY_POWERDOWN:
         m 1hua "Э-хе-хе!"
-        m 2hub "Good job, [player]!"
+        m 2hub "Хорошая работа, [player]!"
 
     #Monika loses after going even easier on the player
     elif powerup_value_this_game == PONG_PONG_DIFFICULTY_POWERDOWNBIG:
