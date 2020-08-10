@@ -277,9 +277,9 @@ init python:
         #Add keys for new functions
         config.keymap["open_dialogue"] = ["t","T", "п", "П"]
         config.keymap["mas_extra_menu"] = ["e", "E", "э", "Э"]
-        config.keymap["change_music"] = ["noshift_m","noshift_M"]
+        config.keymap["change_music"] = ["noshift_m","noshift_M","noshift_м","noshift_М"]
         config.keymap["play_game"] = ["p","P", "и", "И"]
-        config.keymap["mute_music"] = ["shift_m","shift_M"]
+        config.keymap["mute_music"] = ["shift_m","shift_M","shift_м","shift_М"]
         config.keymap["inc_musicvol"] = [
             "shift_K_PLUS","K_EQUALS","K_KP_PLUS"
         ]
