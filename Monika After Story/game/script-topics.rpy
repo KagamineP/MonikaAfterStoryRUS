@@ -1105,7 +1105,7 @@ label monika_nihilism:
 #    return
 
 init 5 python:
-    addEvent(Event(persistent.event_database,eventlabel="monika_twitter",category=['monika'],prompt="Twitter",random=True))
+    addEvent(Event(persistent.event_database,eventlabel="monika_twitter",category=['моника'],prompt="Twitter",random=True))
 
 label monika_twitter:
     m 1eud "Did you know I'm on Twitter?"
@@ -1133,7 +1133,7 @@ label monika_portraitof:
     return "derandom"
 
 init 5 python:
-    addEvent(Event(persistent.event_database,eventlabel="monika_veggies",category=['monika'],prompt="Being a vegetarian",random=True))
+    addEvent(Event(persistent.event_database,eventlabel="monika_veggies",category=['моника'],prompt="Being a vegetarian",random=True))
 
 label monika_veggies:
     m 1eub "Hey, did you know I'm vegetarian?"
@@ -1157,7 +1157,7 @@ label monika_veggies:
     return
 
 init 5 python:
-    addEvent(Event(persistent.event_database,eventlabel="monika_saved",category=['monika'],prompt="Saving Monika",random=True))
+    addEvent(Event(persistent.event_database,eventlabel="monika_saved",category=['моника'],prompt="Saving Monika",random=True))
 
 label monika_saved:
     m 2eka "You know, I really do think you literally saved my life by being here with me, [player]."
@@ -1248,7 +1248,7 @@ label monika_secrets:
     return
 
 init 5 python:
-    addEvent(Event(persistent.event_database,eventlabel="monika_color",category=['monika'],prompt="Favorite color",random=True))
+    addEvent(Event(persistent.event_database,eventlabel="monika_color",category=['моника'],prompt="Favorite color",random=True))
 
 label monika_color:
     m 3eua "Hey, what's your favorite color?"
@@ -1502,7 +1502,7 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel="monika_lastpoem",
-            category=['monika'],
+            category=['моника'],
             prompt="Monika's last poem",
             random=True
         )
@@ -2872,7 +2872,7 @@ label monika_tsundere:
     return
 
 init 5 python:
-    addEvent(Event(persistent.event_database,eventlabel="monika_introduce",category=['monika'],prompt="Introducing to friends",random=True))
+    addEvent(Event(persistent.event_database,eventlabel="monika_introduce",category=['моника'],prompt="Introducing to friends",random=True))
 
 label monika_introduce:
     m 1eua "[player], would you ever introduce your friends to me?"
@@ -2883,7 +2883,7 @@ label monika_introduce:
     return
 
 init 5 python:
-    addEvent(Event(persistent.event_database,eventlabel="monika_cold",category=['monika'],prompt="Cuddling in the cold",random=True))
+    addEvent(Event(persistent.event_database,eventlabel="monika_cold",category=['моника'],prompt="Cuddling in the cold",random=True))
 
 label monika_cold:
     m 1euc "I'm not really a fan of cold weather...are you?"
@@ -2987,7 +2987,7 @@ label monika_oneesan:
     return
 
 init 5 python:
-    addEvent(Event(persistent.event_database,eventlabel="monika_family",category=['monika'],prompt="Do you miss your family?",random=False,pool=True))
+    addEvent(Event(persistent.event_database,eventlabel="monika_family",category=['моника'],prompt="Do you miss your family?",random=False,pool=True))
 
 label monika_family:
     m 1lksdla "Well, I didn't really have a family, and neither did most of the other girls."
@@ -4197,7 +4197,7 @@ label monika_torment:
 #    return
 
 init 5 python:
-    addEvent(Event(persistent.event_database,eventlabel="monika_birthday",category=['monika'],prompt="When is your birthday?",pool=True,unlocked=True))
+    addEvent(Event(persistent.event_database,eventlabel="monika_birthday",category=['моника'],prompt="When is your birthday?",pool=True,unlocked=True))
 
 label monika_birthday:
     if mas_isMonikaBirthday():
@@ -4401,7 +4401,7 @@ label monika_ghost:
     return
 
 init 5 python:
-    addEvent(Event(persistent.event_database,eventlabel="monika_ribbon",category=['monika'],prompt="Ribbons",random=True))
+    addEvent(Event(persistent.event_database,eventlabel="monika_ribbon",category=['моника'],prompt="Ribbons",random=True))
 
 label monika_ribbon:
     if not monika_chr.is_wearing_acs_type('ribbon'):
@@ -6760,7 +6760,7 @@ label monika_confidence_2:
     return
 
 init 5 python:
-    addEvent(Event(persistent.event_database,eventlabel="monika_pets",category=['monika'],prompt="Owning pets",random=True))
+    addEvent(Event(persistent.event_database,eventlabel="monika_pets",category=['моника'],prompt="Owning pets",random=True))
 
 label monika_pets:
     m 1eua "Hey [player], have you ever had a pet?"
@@ -10099,7 +10099,7 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel="monika_beingevil",
-            category=['monika'],
+            category=['моника'],
             prompt="Being evil",
             random=True
         )
@@ -10217,7 +10217,7 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel="monika_driving",
-            category=['monika'],
+            category=['моника'],
             prompt="Can you drive?",
             pool=True
         )
@@ -10372,7 +10372,7 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel="monika_citizenship",
-            category=['monika'],
+            category=['моника'],
             prompt="Happy ever after?",
             random=True
         )
@@ -11423,7 +11423,7 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel="monika_vehicle",
-            category=['monika'],
+            category=['моника'],
             prompt="What's your favorite car?",
             unlocked=False,
             pool=True,
@@ -13721,7 +13721,7 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel="monika_career",
-            category=['monika'],
+            category=['моника'],
             prompt="Careers",
             random=False,
             conditional=(
@@ -15044,7 +15044,7 @@ init 5 python:
             persistent.event_database,
             eventlabel="monika_fear",
             prompt="Fear",
-            category=['monika'],
+            category=['моника'],
             conditional="renpy.seen_label('monika_soft_rains')",
             action=EV_ACT_RANDOM
         )
@@ -15148,7 +15148,7 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel="monika_being_herself",
-            category=['monika'],
+            category=['моника'],
             prompt="Faked personality",
             conditional="mas_seenLabels(['monika_confidence', 'monika_pluralistic_ignorance'], seen_all=True)",
             action=EV_ACT_RANDOM,
