@@ -17,10 +17,10 @@ init 10 python in mas_brbs:
         """
 
         return renpy.substitute(renpy.random.choice([
-            _("So, what else did you want to do today?"),
-            _("What else did you want to do today?"),
-            _("Is there anything else you wanted to do today?"),
-            _("What else should we do today?"),
+            _("Итак, что еще ты хотел[mas_gender_none] сделать сегодня?"),
+            _("Что еще ты хотел[mas_gender_none] сделать сегодня?"),
+            _("Есть ли что-нибудь еще, что ты хотел[mas_gender_none] бы сделать сегодня?"),
+            _("Чем еще сегодня займемся?"),
         ]))
 
     def was_idle_for_at_least(idle_time, brb_evl):
