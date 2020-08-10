@@ -133,7 +133,7 @@ label mas_extra_menu_firsttime:
     if not persistent._mas_opened_extra_menu:
         m 1hua "Добро пожаловать, в меню инструментов, [player]!"
 
-    m 1eua "Здесь я добавляю вещи, которые не являются играми, например специальные взаимодействия, которые вы можете делать с помощью мыши."
+    m 1eua "Здесь я добавляю вещи, которые не являются играми, например специальные взаимодействия, которые ты можешь делать с помощью мыши."
     m "Ты также можешь открыть это меню, нажав клавишу «э»."
 
     if not persistent._mas_opened_extra_menu:
@@ -154,7 +154,7 @@ label mas_extra_menu_firsttime:
 
 label mas_extra_menu_zoom_intro:
     m 1eua "Одна вещь, которую я добавила, - это способ для вас настроить свое поле зрения,\nтак что теперь ты можешь сидеть ближе или дальше от меня."
-    m 1eub "Вы можете настроить это с помощью ползунка в разделе «масштаб» в меню «Дополнительно»."
+    m 1eub "Ты можешь настроить это с помощью ползунка в разделе «масштаб» в меню «Дополнительно»."
     return
 
 default persistent._mas_pm_zoomed_out = False
@@ -206,7 +206,7 @@ label mas_extra_menu_zoom_out_first_time:
     return
 
 label mas_extra_menu_zoom_in_first_time:
-    m 1ttu "Сядешь чуть ближе?"
+    m 1ttu "Хочешь сесть чуть ближе?"
     m 1hua "Я не против."
     return
 
@@ -335,6 +335,7 @@ style mas_adjustable_button_text_dark is generic_button_text_dark:
 screen mas_extramenu_area():
     zorder 52
 
+    # Setting for Russian keyboard
     key "э" action Jump("mas_extra_menu_close")
     key "Э" action Jump("mas_extra_menu_close")
 
@@ -347,7 +348,7 @@ screen mas_extramenu_area():
         background Solid("#0000007F")
 
         # close button
-        textbutton _("Close"):
+        textbutton _("Закрыть"):
             area (60, 596, 120, 35)
             style "hkb_button"
             action Jump("mas_extra_menu_close")
@@ -358,12 +359,12 @@ screen mas_extramenu_area():
             style "mas_extra_menu_frame"
             vbox:
                 spacing 2
-                label "Zoom":
+                label "Зум":
                     text_style "mas_extra_menu_label_text"
                     xalign 0.5
 
                 # resets the zoom value back to default
-                textbutton _("Reset"):
+                textbutton _("Сброс"):
                     style "mas_adjustable_button"
                     selected False
                     xsize 72
