@@ -433,16 +433,16 @@ label v0_11_3(version="v0_11_3"):
 
         #Store all the files we need to rename
         filenames_to_rename = [
-            "imsorry",
-            "imsorry.txt",
-            "forgive me.txt",
-            "can you hear me.txt",
-            "please listen.txt",
-            "surprise.txt",
-            "ehehe.txt",
-            "secret.txt",
-            "for you.txt",
-            "My one and only love.txt"
+            "извини",
+            "извини.txt",
+            "прости меня.txt",
+            "ты меня слышишь.txt",
+            "пожалуйста послушай.txt",
+            "сюрприз.txt",
+            "э-хе-хе.txt",
+            "секрет.txt",
+            "для тебя.txt",
+            "Моя единственная любовь.txt"
         ]
 
         for fn in filenames_to_rename:
@@ -457,11 +457,11 @@ label v0_11_3(version="v0_11_3"):
         #We'll also get rid of hehehe.txt if it's still here
         try:
             os.rename(
-                renpy.config.basedir + "/hehehe.txt",
-                renpy.config.basedir + "/characters/ehehe.txt"
+                renpy.config.basedir + "/хе-хе-хе.txt",
+                renpy.config.basedir + "/characters/э-хе-хе.txt"
             )
         except:
-            mas_utils.trydel(renpy.config.basedir + "/hehehe.txt")
+            mas_utils.trydel(renpy.config.basedir + "/хе-хе-хе.txt")
 
         # add to the default unlocked pool topics
         pool_unlock_list = [
@@ -607,7 +607,7 @@ label v0_11_1(version="v0_11_1"):
         #Prep the grandfathering of Moni nickname
         #If the current name is considered awkward now,
         #we should keep that stored so the user can always come back to it
-        if persistent._mas_monika_nickname != "Monika" and mas_awk_name_comp.search(persistent._mas_monika_nickname):
+        if persistent._mas_monika_nickname != "Моника" and mas_awk_name_comp.search(persistent._mas_monika_nickname):
             persistent._mas_grandfathered_nickname = persistent._mas_monika_nickname
 
         #Make this a pm var
