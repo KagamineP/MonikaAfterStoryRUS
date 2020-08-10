@@ -61,8 +61,8 @@ init python in mas_layout:
     QUIT_YES_AFF = _("T_T [player]...")
 
     # quit no messages affection scaled
-    QUIT_NO_BROKEN = _("{i}Now{/i} you listen?")
-    QUIT_NO_UPSET = _("Thanks for being considerate, [player].")
+    QUIT_NO_BROKEN = _("{i}Теперь{/i} ты слушаешь?")
+    QUIT_NO_UPSET = _("Спасибо за заботу, [player].")
     QUIT_NO_HAPPY = _(":)")
     QUIT_NO_AFF_G = _("Good [boy].")
     QUIT_NO_AFF_GL = _("Good. :)")
@@ -894,8 +894,8 @@ screen main_menu():
     #    add "menu_art_n_ghost"
     #    else:
     add "menu_bg"
-        #add "menu_art_y"
-        #add "menu_art_n"
+        # add "menu_art_y"
+        # add "menu_art_n"
     frame:
         pass
 
@@ -986,12 +986,21 @@ screen game_menu_m():
 screen game_menu(title, scroll=None):
 
     # when teh game menu is open, we should disable the hotkeys
+    # English keyboard
     key "noshift_T" action NullAction()
     key "noshift_t" action NullAction()
     key "noshift_M" action NullAction()
     key "noshift_m" action NullAction()
     key "noshift_P" action NullAction()
     key "noshift_p" action NullAction()
+
+    # Russian keyboard
+    key "noshift_П" action NullAction()
+    key "noshift_п" action NullAction()
+    key "noshift_М" action NullAction()
+    key "noshift_м" action NullAction()
+    key "noshift_И" action NullAction()
+    key "noshift_и" action NullAction()
 
     # Add the backgrounds.
     if main_menu:
@@ -1136,20 +1145,20 @@ screen about():
     ## This use statement includes the game_menu screen inside this one. The
     ## vbox child is then included inside the viewport inside the game_menu
     ## screen.
-    use game_menu(_("About"), scroll="viewport"):
+    use game_menu(_("Об игре"), scroll="viewport"):
 
         style_prefix "about"
 
         vbox:
 
             label "[config.name!t]"
-            text _("Version [config.version!t]\n")
+            text _("Версия [config.version!t]\n")
 
             ## gui.about is usually set in options.rpy.
             if gui.about:
                 text "[gui.about!t]\n"
 
-            text _("Made with {a=https://www.renpy.org/}Ren'Py{/a} [renpy.version_only].\n\n[renpy.license!t]")
+            text _("Сделано на основе {a=https://www.renpy.org/}Ren'Py{/a} [renpy.version_only].\n\n[renpy.license!t]")
 
 
 ## This is redefined in options.rpy to add text to the about screen.
@@ -1237,7 +1246,7 @@ screen file_slots(title):
 
                         add FileScreenshot(slot) xalign 0.5
 
-                        text FileTime(slot, format=_("{#file_time}%A, %B %d %Y, %H:%M"), empty=_("empty slot")):
+                        text FileTime(slot, format=_("{#file_time}%A, %B %d %Y, %H:%M"), empty=_("пустой слот")):
                             style "slot_time_text"
 
                         text FileSaveName(slot):
@@ -1499,7 +1508,7 @@ screen preferences():
                 vbox:
 
                     hbox:
-                        label _("Random Chatter   ")
+                        label _("Случайная болтовня   ")
 
                         # display str
                         label _("[[ " + rc_display + " ]")
@@ -1555,7 +1564,7 @@ screen preferences():
                     if config.has_music or config.has_sound or config.has_voice:
                         null height gui.pref_spacing
 
-                        textbutton _("Mute All"):
+                        textbutton _("Заглушить все"):
                             action Preference("all mute", "toggle")
                             style "mute_all_button"
 
@@ -1564,7 +1573,7 @@ screen preferences():
                 #We disable updating on the main menu because it causes graphical issues
                 #due to the spaceroom not being loaded in
                 if not main_menu:
-                    textbutton _("Update Version"):
+                    textbutton _("Обновить версию"):
                         action Function(renpy.call_in_new_context, 'forced_update_now')
                         style "navigation_button"
 
@@ -2271,22 +2280,22 @@ screen update_check(ok_action,cancel_action,mode):
             spacing 30
 
             if mode == 0:
-                label _('An update is now avalable!'):
+                label _('Доступно обновление!'):
                     style "confirm_prompt"
                     xalign 0.5
 
             elif mode == 1:
-                label _("No update available."):
+                label _("У вас установлено последнее обновление"):
                     style "confirm_prompt"
                     xalign 0.5
 
             elif mode == 2:
-                label _('Checking for updates...'):
+                label _('Проверка наличия обновлений...'):
                     style "confirm_prompt"
                     xalign 0.5
             else:
                 # otherwise, we assume a timeout
-                label _('Timeout occured while checking for updates. Try again later.'):
+                label _('Во время проверки наличия обновление произошел тайм-аут. Пожалуйста, повторите попытку позднее.'):
                     style "confirm_prompt"
                     xalign 0.5
 
@@ -2323,33 +2332,33 @@ screen updater:
         has side "t c b":
             spacing gui._scale(10)
 
-        label _("Updater")
+        label _("Центр обновления")
 
         fixed:
             vbox:
                 if u.state == u.ERROR:
-                    text _("An error has occured:")
+                    text _("Произошла ошибка:")
                 elif u.state == u.CHECKING:
-                    text _("Checking for updates.")
+                    text _("Проверка наличия обновлений.")
                 elif u.state == u.UPDATE_AVAILABLE:
-                    text _("Version [u.version] is available. Do you want to install it?")
+                    text _("Доступна версия [u.version]. Вы хотите установить ее?")
 
                 elif u.state == u.UPDATE_NOT_AVAILABLE:
-                    text _("Monika After Story is up to date.")
+                    text _("У вас установлено последнее обновление Monika After Story.")
                 elif u.state == u.PREPARING:
-                    text _("Preparing to download the updates.")
+                    text _("Подготовка к загрузке обновлений.")
                 elif u.state == u.DOWNLOADING:
-                    text _("Downloading the updates. (Progress bar may not advance during download)")
+                    text _("Загрузка обновлений. (Индикатор выполнения может не продвигаться вперед во время загрузки)")
                 elif u.state == u.UNPACKING:
-                    text _("Unpacking the updates.")
+                    text _("Распаковка обновлений.")
                 elif u.state == u.FINISHING:
-                    text _("Finishing up.")
+                    text _("Завершение.")
                 elif u.state == u.DONE:
                     text _(_TXT_FINISHED_UPDATING)
                 elif u.state == u.DONE_NO_RESTART:
-                    text _("The updates have been installed.")
+                    text _("Обновления были установлено.")
                 elif u.state == u.CANCELLED:
-                    text _("The updates were cancelled.")
+                    text _("Обновления были отменены.")
 
                 if u.message is not None:
                     null height gui._scale(10)
@@ -2363,7 +2372,7 @@ screen updater:
             spacing gui._scale(25)
 
             if u.can_proceed:
-                textbutton _("Proceed") action u.proceed
+                textbutton _("Приступить") action u.proceed
 
             if u.can_cancel:
                 textbutton _("Отмена") action Return()
@@ -2938,7 +2947,7 @@ style chibika_note_text:
 screen submods():
     tag menu
 
-    use game_menu(("Submods")):
+    use game_menu(("Допмоды")):
 
         default tooltip = Tooltip("")
 
