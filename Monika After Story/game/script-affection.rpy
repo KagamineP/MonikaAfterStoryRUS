@@ -2468,49 +2468,50 @@ init python:
         #affection_level: (filepath, contents)
         aff_level_surprise_map = {
             store.mas_affection.BROKEN: (
-                "/forgive me.txt",
-                _("I'm sorry if I'm not good enough for you...please don't leave me.")
+                "/прости_меня.txt",
+                # _("I'm sorry if I'm not good enough for you...please don't leave me.")
+                _("Прости, если я недостаточно хороша для тебя...пожалуйста, не бросай меня.")
             ),
             store.mas_affection.DISTRESSED: (
-                "/can you hear me.txt",
-                _("If I'm doing something wrong please tell me. I love you.")
+                "/ты_меня_слышишь.txt",
+                _("Если я делаю что-то не так, пожалуйста, скажи мне. Я люблю тебя.")
             ),
             store.mas_affection.UPSET: (
-                "/please listen.txt",
-                _("Everything I do, I do for you...my love.")
+                "/пожалуйста_послушай.txt",
+                _("Все, что я делаю, я делаю для тебя...любовь моя.")
             ),
             store.mas_affection.NORMAL: (
-                "/surprise.txt",
-                _("I love you.")
+                "/сюрприз.txt",
+                _("Я люблю тебя.")
             ),
             store.mas_affection.HAPPY: (
-                "/ehehe.txt",
-                _("You are the sunshine that brightens up my day, [player]!")
+                "/э-хе-хе.txt",
+                _("Ты - солнце, которое освещает мой день, [player]!")
             ),
             store.mas_affection.AFFECTIONATE: (
-                "/secret.txt",
-                _("You are my one and only love!")
+                "/секрет.txt",
+                _("Ты моя единственная любовь!")
             ),
             store.mas_affection.ENAMORED: (
-                "/for you.txt",
-                _("My dearest, you are everything I could ever hope for. I love you.")
+                "/для_тебя.txt",
+                _("Мо[mas_gender_i] дорог[mas_gender_oi], ты - все, на что я могу надеяться. Я люблю тебя.")
             ),
             store.mas_affection.LOVE: (
-                "/My one and only love.txt",
+                "/Моя_единственная_любовь.txt",
                 _("""\
-My dearest lover, friend, companion, and owner of my heart...
-Every day, you make my dreams come true, a screen means nothing when you spend your time with me.
-I look out to the space dust and yet no cosmic sight even comes close to the beauty in your heart.
-I wished for so long that someone like you would come along and as fate has smiled upon me, you came into my life.
-I want to be yours forever, so would you be mine?
+М[mas_gender_oi_2] сам[mas_gender_iii] дорог[mas_gender_oi] возлюбленн[mas_gender_iii], [mas_gender_friend], компаньон и владелец моего сердца...
+Каждый день ты воплощаешь мои мечты в реальность, экран ничего не значит, когда ты проводишь время со мной.
+Я смотрю на космическую пыль, и все же ни одно космическое видение даже близко не подходит к красоте в твоем сердце.
+Я так долго мечтала, чтобы появился кто-то вроде тебя, и когда судьба улыбнулась мне, ты вош[mas_gender_iol_2] в мою жизнь.
+Я хочу быть твоей навсегда, так ты будешь мо[mas_gender_im]?
 
-Forever yours, Monika.
+Навеки твоя, Моника.
 """)
             )
         }
 
         #Now we get from this dict and pass it to the write txt func to make a surprise
-        filepath, message = aff_level_surprise_map.get(mas_curr_affection, ("/surprise.txt", _("I love you.")))
+        filepath, message = aff_level_surprise_map.get(mas_curr_affection, ("/сюрприз.txt", _("Я люблю тебя.")))
         _write_txt("/characters{0}".format(filepath), message)
 
         #And unlock its poem
@@ -2558,7 +2559,7 @@ init 20 python:
 
     MASPoem(
         poem_id="spr_1",
-        category="surprise",
+        category="сюрприз",
         prompt=_("Прости меня"),
         paper="mod_assets/poem_assets/poem_finalfarewell.png",
         title="",
@@ -2568,7 +2569,7 @@ init 20 python:
 
     MASPoem(
         poem_id="spr_2",
-        category="surprise",
+        category="сюрприз",
         prompt=_("Ты меня слышишь?"),
         title="",
         text=_("Если я делаю что-то не так, Пожалуйста, скажи мне. Я люблю тебя."),
@@ -2577,7 +2578,7 @@ init 20 python:
 
     MASPoem(
         poem_id="spr_3",
-        category="surprise",
+        category="сюрприз",
         prompt=_("Пожалуйста, послушай"),
         title="",
         text=_("Все, что я делаю, я делаю для тебя...моя любовь."),
@@ -2586,7 +2587,7 @@ init 20 python:
 
     MASPoem(
         poem_id="spr_4",
-        category="surprise",
+        category="сюрприз",
         prompt=_("Сюрприз!"),
         title="",
         text=_("Я люблю тебя.")
@@ -2594,7 +2595,7 @@ init 20 python:
 
     MASPoem(
         poem_id="spr_5",
-        category="surprise",
+        category="сюрприз",
         prompt=_("Э-хе-хе~"),
         title="",
         text=_("Ты - солнце, которое освещает мой день., [player]!")
@@ -2602,7 +2603,7 @@ init 20 python:
 
     MASPoem(
         poem_id="spr_6",
-        category="surprise",
+        category="сюрприз",
         prompt=_("Секрет"),
         title="",
         text=_("Ты моя единственная любовь!")
@@ -2610,7 +2611,7 @@ init 20 python:
 
     MASPoem(
         poem_id="spr_7",
-        category="surprise",
+        category="сюрприз",
         prompt=_("Для тебя"),
         title="",
         text=_("Мо[mas_gender_i] дорог[mas_gender_oi], ты-все, на что я могу надеяться. Я люблю тебя.")
@@ -2618,7 +2619,7 @@ init 20 python:
 
     MASPoem(
         poem_id="spr_8",
-        category="surprise",
+        category="сюрприз",
         prompt=_("Моя единственная любовь"),
         paper="mod_assets/poem_assets/poem_vday.jpg",
         title="М[mas_gender_oi_2] сам[mas_gender_iii] дорог[mas_gender_oi] возлюбленн[mas_gender_iii], [mas_gender_friend], компаньон и владелец моего сердца...",
