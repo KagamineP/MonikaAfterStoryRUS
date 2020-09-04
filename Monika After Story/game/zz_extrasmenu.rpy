@@ -71,7 +71,75 @@ init python:
 #        RETURNS: True if the modebar toggle is visible, False otherwise
 #        """
 #        return "mas_modebar_toggle" in config.overlay_screens
-
+# def mas_extra_menu_return():
+#         consonants = [u'б', u'в', u'г', u'д', u'ж', u'з', u'й', u'к', u'л', u'м', u'н', u'п', u'р', u'с', u'т', u'ф', u'х', u'ц', u'ч', u'ш', u'щ', u'ь']
+#         combinations = [u'жа', u'ша', u'ща', u'ца']
+#         combinations_abb = [u'жа', u'ша', u'ща', u'ца', u'ба', u'ва', u'ва', u'да', u'за', u'ка', u'ла', u'ма', u'на', u'па', u'ра', u'са', u'та', u'фа', u'ха', u'ча']
+#         combinations_special = [u'ка', u'ха']
+#         last_symb = player[-1]
+#         last_symb2 = player[-2:]
+#         last_symb3 = player[-3:]
+#         if not persistent.player_abbreviated_name:
+#             player_abb = player
+#         else:
+#             if persistent.playername.lower() == "артём" or persistent.playername.lower() == "артем":
+#                 player_abb = "Тём"
+#             elif persistent.playername.lower() == "семён" or persistent.playername.lower() == "семен":
+#                 player_abb = "Сём"
+#             elif persistent.playername.lower() == "вероника":
+#                 player_abb = "Ника"
+#             elif persistent.playername.lower() == "даниил" or persistent.playername.lower() == "данил":
+#                 player_abb = "Дань"
+#             elif persistent.playername.lower() == "тимофей":
+#                 player_abb = "Тим"
+#             elif persistent.playername.lower() == "тимур":
+#                 player_abb = "Тим"
+#             elif persistent.playername.lower() == "алексей":
+#                 player_abb = "Лёш"
+#             elif persistent.playername.lower() == "максим":
+#                 player_abb = "Макс"
+#             elif persistent.playername.lower() == "дмитрий":
+#                 player_abb = "Дим"
+#             elif persistent.playername.lower() == "сергей":
+#                 player_abb = "Серёж"
+#             elif persistent.playername.lower() == "роман":
+#                 player_abb = "Ром"
+#             elif persistent.playername.lower() == "ольга":
+#                 player_abb = "Оль"
+#             elif persistent.playername.lower() == "антон":
+#                 player_abb = "Антош"
+#             elif persistent.playername.lower() == "михаил" or persistent.playername.lower() == "миха" or persistent.playername.lower() == "мишка":
+#                 player_abb = "Миш"
+#             elif persistent.playername.lower() == "павел":
+#                 player_abb = "Паш"
+#             elif persistent.playername.lower() == "пётр" or persistent.playername.lower() == "петр":
+#                 player_abb = "Петь"
+#             elif persistent.playername.lower() == "кирилл":
+#                 player_abb = "Кирь"
+#             elif persistent.playername.lower() == "филипп":
+#                 player_abb = "Филь"
+#             elif persistent.playername.lower() == "евгений":
+#                 player_abb = "Жень"
+#             elif persistent.playername.lower() == "борис":
+#                 player_abb = "Борь"
+#
+#
+#
+#
+#
+#             elif last_symb2 in combinations_abb:
+#                 if last_symb3 != "ика":
+#                     player_abb = player[:len(player)-1]
+#             elif last_symb == u'я' and last_symb2 != u'ия' and last_symb2 != u'ая' and last_symb2 != u'уя' and last_symb2 != u'ея' and last_symb2 != u'оя' and last_symb2 != u'юя' and last_symb2 != u'ья':
+#                 player_abb = player[:len(player)-1]+u'ь'
+#             elif last_symb == u'т':
+#                 player_abb = player+u'ик'
+#             elif last_symb == u'м':
+#                 player_abb = player+u'ка'
+#             elif last_symb == u'а':
+#                 player_abb = player[:len(player)-1]+u'уля'
+#             else:
+#                 player_abb = player
 
 
 init -1 python in mas_extramenu:

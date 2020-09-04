@@ -1,5 +1,5 @@
-Wed Jul 22 18:47:13 2020
-Windows-7-6.1.7601-SP1
+Mon Aug 17 03:13:04 2020
+Windows-8-6.2.9200
 Ren'Py 6.99.12.4.2187
 Monika After Story 0.11.3
 
@@ -61,5 +61,5 @@ Monika After Story 0.11.3
     [информация]: Загрузка PNM '22'...
     [информация]: PNM '22' успешно загружён!
 [информация]: 'Your Reality' успешно загружено.
-[!ОШИБКА!]: Не удалось загрузить файл в 'c:\users\kagaminep\documents\github\monikaafterstoryrus\monika after story\game\mod_assets\games\piano\songs\d__p_c__o.json'. | 
+[!ОШИБКА!]: Не удалось загрузить файл в 'c:\users\dkiryanov\documents\github\monikaafterstoryrus\monika after story\game\mod_assets\games\piano\songs\d__p_c__o.json'. | 
 
