@@ -2780,14 +2780,14 @@ label mas_chess_dlg_game_monika_lose_18:
 
 # losing, chess strength 19
 label mas_chess_dlg_game_monika_lose_19:
-    m 1wuo "Wow! You're amazing at chess."
-    m 1sub "You could be a professional chess player!"
+    m 1wuo "Вау! Ты потрясающе играешь в шахматы."
+    m 1sub "Ты мог[mas_gender_g] бы стать профессиональным шахматистом!"
     return
 
 # losing, chess strength 20
 label mas_chess_dlg_game_monika_lose_20:
-    m 1wuo "Wow!"
-    m 1tku "Are you sure you're not cheating?"
+    m 1wuo "Вау!"
+    m 1tku "Ты увер[mas_gender_en], что не жульничаешь?"
     return
 
 ### chess has ended dialogue
@@ -2805,9 +2805,9 @@ label mas_chess_dlg_game_monika_win_end_quick:
 
 # monika lost
 label mas_chess_dlg_game_monika_lose_end:
-    m 2eub "It's amazing how much more I have to learn even now."
-    m 2eua "I really don't mind losing as long as I can learn something."
-    m 1hua "After all, the company is good."
+    m 2eub "Удивительно, как много мне еще предстоит узнать."
+    m 2eua "Я действительно не против проиграть, пока могу чему-то научиться."
+    m 1hua "В конце концов, компания хорошая."
     return
 
 #quick version of monika lose
@@ -2822,7 +2822,7 @@ label mas_chess_dlg_game_in_progress_end:
 
 # quick version of game in progress
 label mas_chess_dlg_game_in_progress_end_quick:
-    m 1eua "Okay, [player], let's continue this game soon."
+    m 1eua "Ладно, [player], давай продолжим эту игру в ближайшее время."
     return
 
 #### end dialogue blocks ######################################################
@@ -2844,7 +2844,7 @@ screen mas_chess_confirm():
             yalign .5
             spacing 30
 
-            label _("Are you sure you want to give up?"):
+            label _("Ты увер[mas_gender_en], что хочешь сдаться?"):
                 style "confirm_prompt"
                 text_color mas_globals.button_text_idle_color
                 xalign 0.5
@@ -2853,5 +2853,5 @@ screen mas_chess_confirm():
                 xalign 0.5
                 spacing 100
 
-                textbutton _("Yes") action Return(True)
-                textbutton _("No") action Return(False)
+                textbutton _("Да") action Return(True)
+                textbutton _("Нет") action Return(False)
