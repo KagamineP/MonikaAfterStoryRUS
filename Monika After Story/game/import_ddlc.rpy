@@ -28,7 +28,7 @@ label import_ddlc_persistent_in_settings:
         # current in dialogue workflow, we should only enable the escape
         # and music stuff
         $ enable_esc()
-        $ mas_MUMUDropShield()
+        $ mas_MUINDropShield()
 
     else:
         # otherwise, reenable core interactions
@@ -36,6 +36,20 @@ label import_ddlc_persistent_in_settings:
     return
 
 label import_ddlc_persistent:
+    $ quick_menu = False
+    scene black
+    with Dissolve(1.0)
+
+    if persistent._mas_imported_saves:
+        menu:
+            "Save data from Doki Doki Literature Club has been merged already. Aborting."
+
+            "Okay.":
+                pass
+
+        pause 0.3
+        return
+
     python:
         #NOTE: import glob alone causes a LOT of lag. We're just importing what we need here
         from glob import glob
@@ -59,10 +73,6 @@ label import_ddlc_persistent:
         ddlc_save_path = glob(check_path + 'DDLC/persistent')
         if not ddlc_save_path:
             ddlc_save_path = glob(check_path + 'DDLC-*/persistent')
-
-    $ quick_menu = False
-    scene black
-    with Dissolve(1.0)
 
     #We have something to import
     if ddlc_save_path:
@@ -89,20 +99,35 @@ label import_ddlc_persistent:
     #Open the persistent save file as ddlc_persistent
     python:
         #Open the persistent save file at ddlc_save_path
-        ddlc_pfile = file(ddlc_save_path, "rb")
-        ddlc_persistent = mas_dockstat.cPickle.loads(ddlc_pfile.read().decode("zlib"))
-        ddlc_pfile.close()
+        ddlc_persistent = None
+        try:
+            with open(ddlc_save_path, "rb") as ddlc_pfile:
+                ddlc_persistent = mas_dockstat.cPickle.loads(ddlc_pfile.read().decode("zlib"))
 
-        #Bring ddlc_persistent data up to date with current version
-        renpy.call_in_new_context("vv_updates_topics") # init the updates lists
-        ddlc_persistent = updateTopicIDs("v030", ddlc_persistent)
-        ddlc_persistent = updateTopicIDs("v031", ddlc_persistent)
-        ddlc_persistent = updateTopicIDs("v032", ddlc_persistent)
-        ddlc_persistent = updateTopicIDs("v033", ddlc_persistent)
-        clearUpdateStructs()
+        except Exception as e:
+            store.mas_utils.writelog("Failed to read/decode DDLC persistent: {0}\n".format(e))
+
+        else:
+            #Bring ddlc_persistent data up to date with current version
+            store.mas_versions.init()
+            ddlc_persistent = updateTopicIDs("v030", ddlc_persistent)
+            ddlc_persistent = updateTopicIDs("v031", ddlc_persistent)
+            ddlc_persistent = updateTopicIDs("v032", ddlc_persistent)
+            ddlc_persistent = updateTopicIDs("v033", ddlc_persistent)
+            clearUpdateStructs()
+
+    if ddlc_persistent is None:
+        menu:
+            "Couldn't read/decode save data from Doki Doki Literature Club. Aborting."
+
+            "Okay.":
+                pass
+
+        pause 0.3
+        return
 
     #Check if previous MAS data exists
-    if persistent.first_run:
+    if not persistent.first_run:
         label .save_merge_or_replace:
         menu:
             "Предыдущая версия Monika After Story также была найдена.\nИмпортировать или заменить сохранения?"
@@ -174,9 +199,14 @@ label import_ddlc_persistent:
 
             NOTE: Should only be used to update dicts
             """
+            if key not in old_persistent.__dict__:
+                return
 
             if old_persistent.__dict__[key] is not None:
-                if new_persistent.__dict__[key] is not None:
+                if (
+                    key in new_persistent.__dict__
+                    and new_persistent.__dict__[key] is not None
+                ):
                     new_persistent.__dict__[key].update(old_persistent.__dict__[key])
 
                 else:
@@ -193,13 +223,11 @@ label import_ddlc_persistent:
 
             NOTE: Should only be used to update bools
             """
+            if key not in old_persistent.__dict__:
+                return
+
             if old_persistent.__dict__[key] is not None:
-                if new_persistent.__dict__[key] is not None:
-                    new_persistent.__dict__[key] = new_persistent.__dict__[key] or old_persistent.__dict__[key]
-
-                else:
-                    new_persistent.__dict__[key] = old_persistent.__dict__[key]
-
+                new_persistent.__dict__[key] = old_persistent.__dict__[key]
 
         #START: Transfers
         #_seen_ever: A dict storing all the labels we've seen through the game
@@ -251,19 +279,16 @@ label import_ddlc_persistent:
         #NOTE: We only carry this over if we've gone farther on the ddlc persist than the current persist
         if ddlc_persistent.playthrough is not None:
             if (
-                persistent.playthrough is not None
-                and persistent.playthrough < ddlc_persistent.playthrough
+                persistent.playthrough is None
+                or persistent.playthrough < ddlc_persistent.playthrough
             ):
-                persistent.playthrough = ddlc_persistent.playthrough
-
-            else:
                 persistent.playthrough = ddlc_persistent.playthrough
 
         #Cleanup excess garbage
         __mas__memoryCleanup()
 
         #Mark that we've merged
-        persistent.has_merged = True
+        persistent._mas_imported_saves = True
     return
 
 label merge_unmatched_names:
