@@ -16,6 +16,41 @@ init -1 python in mas_farewells:
     import datetime
     import store
 
+    #The label used for the "let me get ready" phase of the io generation
+    #(Used by the iostart label)
+    dockstat_iowait_label = None
+
+    #The label containing dialogue for when Monika is ready to go out.
+    #(Used by the generic iowait label)
+    dockstat_rtg_label = None
+
+    #The label containing dialogue used for when you tell Monika you can't take her with you
+    #(Used in the generic iowait label)
+    dockstat_cancel_dlg_label = None
+
+    #The label used to contain the menu in which Monika asks what's wrong
+    #(Used when you click the wait button during iowait)
+    dockstat_wait_menu_label = None
+
+    #The label used which contains the menu where Monika asks the player if they're still going to go
+    #(Used if you cancel dockstat gen)
+    dockstat_cancelled_still_going_ask_label = None
+
+    #The label used which contains the menu where Monika asks the player if they're still going to go
+    #(Used in the generic rtg label if we failed to generate a file)
+    dockstat_failed_io_still_going_ask_label = None
+
+    def resetDockstatFlowVars():
+        """
+        Resets all the dockstat flow vars back to the original states (None)
+        """
+        store.mas_farewells.dockstat_iowait_label = None
+        store.mas_farewells.dockstat_rtg_label = None
+        store.mas_farewells.dockstat_cancel_dlg_label = None
+        store.mas_farewells.dockstat_wait_menu_label = None
+        store.mas_farewells.dockstat_cancelled_still_going_ask_label = None
+        store.mas_farewells.dockstat_failed_io_still_going_ask_label = None
+
     def _filterFarewell(
             ev,
             curr_pri,
@@ -76,7 +111,7 @@ init -1 python in mas_farewells:
             return False
 
         #Conditional check (Since it's ideally least likely to be used)
-        if ev.conditional is not None and not eval(ev.conditional, store.__dict__):
+        if not ev.checkConditional():
             return False
 
         # otherwise, we passed all tests
@@ -161,42 +196,53 @@ label mas_farewell_start:
         # we have selectable options
         python:
             # build a prompt list
-            bye_prompt_list = [
+            bye_prompt_list = sorted([
                 (ev.prompt, ev, False, False)
                 for k,ev in bye_pool_events.iteritems()
+            ])
+
+            most_used_fare = sorted(bye_pool_events.values(), key=Event.getSortShownCount)[-1]
+
+            #Setup the last options
+            final_items = [
+                (_("Goodbye."), -1, False, False, 20),
+                (_("Nevermind."), False, False, False, 0)
             ]
 
-            # add the random selection
-            bye_prompt_list.append((_("Пока."), -1, False, False))
+            #To manage this, we'll go by aff/anni first, as by now, the user should likely have a pref (also it's like an aff thing)
+            #If we still don't have any uses (one long sesh/only uses "goodbye", then we just retain the two options)
+            #TODO: Change this with TC-O to adapt to player schedule
+            if mas_anni.pastOneMonth() and mas_isMoniAff(higher=True) and most_used_fare.shown_count > 0:
+                final_items.insert(1, (most_used_fare.prompt, most_used_fare, False, False, 0))
+                _menu_area = mas_ui.SCROLLABLE_MENU_VLOW_AREA
 
-            # setup the last option
-            bye_prompt_back = (_("Неважно."), False, False, False, 20)
+            else:
+                _menu_area = mas_ui.SCROLLABLE_MENU_LOW_AREA
 
-        # call the menu
-        call screen mas_gen_scrollable_menu(bye_prompt_list, evhand.UNSE_AREA, evhand.UNSE_XALIGN, bye_prompt_back)
+        #Call the menu
+        call screen mas_gen_scrollable_menu(bye_prompt_list, _menu_area, mas_ui.SCROLLABLE_MENU_XALIGN, *final_items)
 
         if not _return:
-            # nevermind
+            #Nevermind
             return _return
 
         if _return != -1:
-            # push teh selected event
-            $ pushEvent(_return.eventlabel)
+            $ mas_setEventPause(None)
+            #Push the selected event
+            $ pushEvent(_return.eventlabel, skipeval=True)
             return
 
+    $ mas_setEventPause(None)
     # otherwise, select a random farewell
     $ farewell = store.mas_farewells.selectFarewell()
-    $ pushEvent(farewell.eventlabel)
-    # dont evalulate the mid loop checks since we are quitting
-    $ mas_idle_mailbox.send_skipmidloopeval()
+    $ pushEvent(farewell.eventlabel, skipeval=True)
 
     return
 
 ###### BEGIN FAREWELLS ########################################################
 ## FARE WELL RULES:
 # unlocked - True means this farewell is ready for selection
-# random - randoms are used in teh default farewell action
-# pool - pooled ones are selectable in the menu
+# pool - pooled ones are selectable in the menu, if non-pool, it is assumed available in random selection
 # rules - Dict containing different rules(check event-rules for more details)
 ###
 
@@ -206,7 +252,6 @@ init 5 python:
             persistent.farewell_database,
             eventlabel="bye_leaving_already",
             unlocked=True,
-            random=True,
             conditional="mas_getSessionLength() <= datetime.timedelta(minutes=20)",
             aff_range=(mas_aff.NORMAL, None)
         ),
@@ -214,10 +259,10 @@ init 5 python:
     )
 
 label bye_leaving_already:
-    m 1ekc "Ой, уже уходишь?"
-    m 1eka "Это очень грустно, когда тебе приходится уходить..."
-    m 3eua "Только обязательно возвращайся как можно скорее, хорошо?"
-    m 3hua "Я тебя так люблю, [player]. Оставайся в безопасности!"
+    m 1ekc "Aw, leaving already?"
+    m 1eka "It's really sad whenever you have to go..."
+    m 3eua "Just be sure to come back as soon as you can, okay?"
+    m 3hua "I love you so much, [player]. Stay safe!"
     return 'quit'
 
 init 5 python:
@@ -225,22 +270,21 @@ init 5 python:
         Event(
             persistent.farewell_database,
             eventlabel="bye_goodbye",
-            unlocked=True,
-            random=True
+            unlocked=True
         ),
         code="BYE"
     )
 
 label bye_goodbye:
     if mas_isMoniNormal(higher=True):
-        m 1eua "Пока, [player]!"
+        m 1eua "Goodbye, [mas_get_player_nickname()]!"
 
     elif mas_isMoniUpset():
-        m 2esc "Пока."
+        m 2esc "Goodbye."
 
     elif mas_isMoniDis():
-        m 6rkc "О...{w=1} Пока."
-        m 6ekc "Пожалуйста...{w=1}не забудь вернуться."
+        m 6rkc "Oh...{w=1} Goodbye."
+        m 6ekc "Please...{w=1}don't forget to come back."
 
     else:
         m 6ckc "..."
@@ -253,14 +297,13 @@ init 5 python:
             persistent.farewell_database,
             eventlabel="bye_sayanora",#sayanora? yes
             unlocked=True,
-            random=True,
             aff_range=(mas_aff.NORMAL, None)
         ),
         code="BYE"
     )
 
 label bye_sayanora:
-    m 1hua "Сайонара, [player]~"
+    m 1hua "Sayonara, [mas_get_player_nickname()]~"
     return 'quit'
 
 init 5 python:
@@ -269,14 +312,13 @@ init 5 python:
             persistent.farewell_database,
             eventlabel="bye_farewellfornow",
             unlocked=True,
-            random=True,
             aff_range=(mas_aff.NORMAL, None)
         ),
         code="BYE"
     )
 
 label bye_farewellfornow:
-    m 1eka "Прощай, любовь моя.~"
+    m 1eka "Farewell for now, [mas_get_player_nickname()]~"
     return 'quit'
 
 init 5 python:
@@ -285,15 +327,14 @@ init 5 python:
             persistent.farewell_database,
             eventlabel="bye_untilwemeetagain",
             unlocked=True,
-            random=True,
             aff_range=(mas_aff.NORMAL, None)
         ),
         code="BYE"
     )
 
 label bye_untilwemeetagain:
-    m 2eka "'{i}Прощание - это не навсегда, прощание - это не конец.\nОни просто означают, что я буду скучать по тебе, пока мы не встретимся снова.{/i}'"
-    m "Хе-хе, а до тех пор, [player]!"
+    m 2eka "'{i}Goodbyes are not forever, Goodbyes are not the end. They simply mean I'll miss you, Until we meet again.{/i}'"
+    m "Ehehe, 'till then, [mas_get_player_nickname()]!"
     return 'quit'
 
 init 5 python:
@@ -302,7 +343,6 @@ init 5 python:
             persistent.farewell_database,
             eventlabel="bye_take_care",
             unlocked=True,
-            random=True,
             aff_range=(mas_aff.NORMAL, None)
         ),
         code="BYE"
@@ -310,8 +350,28 @@ init 5 python:
 
 
 label bye_take_care:
-    m 1eua "Не забывай, что я всегда люблю тебя, [player]~"
-    m 1hub "Береги себя!"
+    m 1eua "Don't forget that I always love you, [mas_get_player_nickname()]~"
+    m 1hub "Take care!"
+    return 'quit'
+
+init 5 python:
+    addEvent(
+        Event(
+            persistent.farewell_database,
+            eventlabel="bye_leaving_already_2",
+            unlocked=True,
+            aff_range=(mas_aff.HAPPY, None)
+        ),
+        code="BYE"
+    )
+
+label bye_leaving_already_2:
+    if mas_getSessionLength() <= datetime.timedelta(minutes=30):
+        m 1ekc "Aww, leaving already?"
+    m 1eka "It's really sad whenever you have to go..."
+    m 3hubsa "I love you so much, [player]!"
+    show monika 5hubsb at t11 zorder MAS_MONIKA_Z with dissolve_monika
+    m 5hubsb "Never forget that!"
     return 'quit'
 
 init 5 python:
@@ -332,25 +392,26 @@ init 5 python:
 label bye_going_to_sleep:
     #TODO: TC-O things
     if mas_isMoniNormal(higher=True):
-        m 1esa "Ты собираешься спать, [player]?{nw}"
+        $ p_nickname = mas_get_player_nickname()
+        m 1esa "Are you going to sleep, [p_nickname]?{nw}"
         $ _history_list.pop()
         menu:
-            m "Ты собираешься спать, [player]?{fast}"
+            m "Are you going to sleep, [p_nickname]?{fast}"
 
-            "Да.":
-                m 1eka "Я буду видеть тебя во сне."
+            "Yeah.":
+                m 1eka "I'll be seeing you in your dreams."
 
-            "Ещё нет.":
-                m 1eka "Ладно. {w=0.3}Хорошего вечера~"
+            "Not yet.":
+                m 1eka "Okay. {w=0.3}Have a good evening~"
 
     elif mas_isMoniUpset():
-        m 2esc "Идешь спать, [player]?"
-        m "Спокойной ночи."
+        m 2esc "Going to sleep, [player]?"
+        m "Goodnight."
 
     elif mas_isMoniDis():
-        m 6rkc "О...спокойной ночи, [player]."
-        m 6lkc "Надеюсь, мы увидимся завтра..."
-        m 6dkc "Не забывай обо мне, ладно?"
+        m 6rkc "Oh...goodnight, [player]."
+        m 6lkc "Hopefully I'll see you tomorrow..."
+        m 6dkc "Don't forget about me, okay?"
 
     else:
         m 6ckc "..."
@@ -377,43 +438,38 @@ label bye_prompt_to_class:
     $ session_time = mas_getSessionLength()
     if mas_isMoniNormal(higher=True):
         if session_time < datetime.timedelta(minutes=20):
-            m 1eub "Ой, уже уходишь?"
-            m 1efp "Ты даже не пробыл[mas_gender_none] здесь 20 минут!"
-            m 3hksdlb "Я просто шучу, [player]."
-            m 2eka "Ты так рад[mas_gender_none] видеть меня, даже когда у тебя так мало времени."
-            m 2hub "Я просто хочу, чтобы ты знал[mas_gender_none], что я действительно ценю это!"
-            m 2eka "Усердно учись, [player], я уверена, что у тебя все получится!"
-            m 2hua "Увидимся, когда ты вернешься!"
+            m 1eub "Aw, going already?"
+            m 1efp "You haven't even been here for 20 minutes!"
+            m 3hksdlb "I'm just kidding, [player]."
+            m 2eka "You're so sweet for seeing me even when you have so little time."
+            m 2hub "I just want you to know I really appreciate that!"
+            m 2eka "Study hard [player], I'm sure you'll do great!"
+            m 2hua "See you when you get back!"
         elif session_time < datetime.timedelta(hours=1):
-            m 2eua "Хорошо, спасибо, что уделил[mas_gender_none] мне немного времени, [player]!"
-            m 2eka "Честно говоря, мне бы хотелось, чтобы это было подольше...но ты занят[mas_gender_oi] [guy]."
-            m 2hua "Нет ничего важнее хорошего образования."
-            m 3eub "Научи меня чему-нибудь, когда вернешься!"
-            m "До скорой встречи!"
+            m 2eua "Alright, thanks for spending some time with me, [player]!"
+            m 2eka "I honestly wish it could have been longer...but you're a busy [guy]."
+            m 2hua "Nothing is more important than a good education."
+            m 3eub "Teach me something when you get back!"
+            m "See you soon!"
         elif session_time < datetime.timedelta(hours=6):
-            m 1hua "Учись усердно, [player]!"
-            if persistent.gender == "M":
-                m 1eua "Нет ничего привлекательнее, чем парень с хорошими оценками."
-            elif persistent.gender == "F":
-                m 1eua "Нет ничего привлекательнее, чем девушка с хорошими оценками."
-            else:
-                m 1eua "Нет ничего привлекательнее, чем партнёр с хорошими оценками."
-            m 1hua "Увидимся позже!"
+            m 1hua "Study hard, [player]!"
+            m 1eua "Nothing is more attractive than a [guy] with good grades."
+            m 1hua "See you later!"
         else:
-            m 2ekc "Эмм...ты был[mas_gender_none] здесь со мной довольно долгое время, [player]."
-            m 2ekd "Ты увер[mas_gender_en], что достаточно отдохнул[mas_gender_none] для этого?"
-            m 2eka "Но не принимай это близко к сердцу, хорошо?"
-            m "Если ты не очень хорошо себя чувствуешь, я уверена, что {i}один выходной{/i} день не повредит."
-            m 1hka "Я буду ждать, когда ты вернешься. Оставайся в безопасности."
+            m 2ekc "Umm...you've been here with me for quite a while, [player]."
+            m 2ekd "Are you sure you've had enough rest for it?"
+            m 2eka "Make sure you take it easy, okay?"
+            m "If you're not feeling too well, I'm sure {i}one day{/i} off won't hurt."
+            m 1hka "I'll be waiting for you to come back. Stay safe."
 
     elif mas_isMoniUpset():
-        m 2esc "Ладно, [player]."
-        m "Надеюсь, ты хоть {i}чему-то{/i} научишься сегодня."
-        m 2efc "{cps=*2}Например, как лучше относиться к людям.{/cps}{nw}"
+        m 2esc "Fine, [player]."
+        m "Hopefully you at least learn {i}something{/i} today."
+        m 2efc "{cps=*2}Like how to treat people better.{/cps}{nw}"
 
     elif mas_isMoniDis():
-        m 6rkc "О, ладно [player]..."
-        m 6lkc "Думаю, увидимся после учебы."
+        m 6rkc "Oh, okay [player]..."
+        m 6lkc "I guess I'll see you after school."
 
     else:
         m 6ckc "..."
@@ -439,38 +495,38 @@ label bye_prompt_to_work:
     $ session_time = mas_getSessionLength()
     if mas_isMoniNormal(higher=True):
         if session_time < datetime.timedelta(minutes=20):
-            m 2eka "О, хорошо! Просто проверяешь меня перед уходом?"
-            m 3eka "Должно быть, у тебя очень мало времени, если ты уже уходишь."
-            m "Было очень мило с твоей стороны увидеть меня, даже когда ты так занят[mas_gender_none]!"
-            m 3hub "Работай усердно, [player]! Заставь меня гордиться тобой!"
+            m 2eka "Aw, okay! Just checking in on me before heading out?"
+            m 3eka "You must be really short on time if you're leaving already."
+            m "It was really sweet of you to see me, even when you're so busy!"
+            m 3hub "Work hard, [mas_get_player_nickname()]! Make me proud!"
         elif session_time < datetime.timedelta(hours=1):
-            m 1hksdlb "О! Ладно! Я только начала чувствовать себя по-настоящему комфортно, а-ха-ха."
-            m 1rusdlb "Честно говоря, мне бы хотелось, чтобы это было подольше...но ты занят[mas_gender_oi] [guy]."
-            m 1eka "Было очень приятно повидаться с тобой, хотя и не так долго, как мне хотелось..."
-            m 1kua "Но тогда, если бы это зависело от меня, я бы держала тебя весь день!"
-            m 1hua "Я буду здесь ждать, когда ты вернешься домой с работы!"
-            m "Расскажи мне все, когда вернешься!"
+            m 1hksdlb "Oh! Alright! I was starting to get really comfortable, ahaha."
+            m 1rusdlb "I was expecting us to be here a bit longer, but you're a busy [guy]!"
+            m 1eka "It was great seeing you, even if it wasn't as long as I wanted..."
+            m 1kua "But then if it were up to me I'd have you all day!"
+            m 1hua "I'll be here waiting for you to get back home from work!"
+            m "Tell me all about it when you get back!"
         elif session_time < datetime.timedelta(hours=6):
-            m 2eua "Значит, идешь на работу, [player]?"
-            m 2eka "День может быть хорошим или плохим...но если его станет слишком много, подумай о чем-нибудь хорошем!"
-            m 4eka "Каждый день, независимо от того, как плохо он идет, заканчивается в конце концов!"
-            m 2tku "Может быть, ты сможешь думать обо мне, если он станет стрессовым..."
-            m 2esa "Просто сделай все возможное! Увидимся, когда ты вернешься!"
-            m 2eka "Я знаю, что у тебя все получится!"
+            m 2eua "Heading to work then, [mas_get_player_nickname()]?"
+            m 2eka "The day may be good or bad...but if it becomes too much think of something nice!"
+            m 4eka "Every day, no matter how badly it's going ends after all!"
+            m 2tku "Maybe you can think of me if it becomes stressful..."
+            m 2esa "Just do your best! I'll see you when you get back!"
+            m 2eka "I know you'll do great!"
         else:
-            m 2ekc "О... Ты здесь уже довольно давно...а теперь ты собираешься идти на работу?"
-            m 2rksdlc "Я надеялась, что ты отдохнешь, прежде чем делать что-то слишком большое."
-            m 2ekc "Постарайся не перенапрягаться, ладно?"
-            m 2ekd "Не бойся сделать передышку, если тебе это нужно!"
-            m 3eka "Просто приходи ко мне домой счастливым и здоровым."
-            m 3eua "Оставайся в безопасности, [player]!"
+            m 2ekc "Oh... You've been here quite a while now...and now you're going to work?"
+            m 2rksdlc "I was hoping you'd rest before doing anything too big."
+            m 2ekc "Try not to overexert yourself, okay?"
+            m 2ekd "Don't be afraid to take a breather if you need to!"
+            m 3eka "Just come home to me happy and healthy."
+            m 3eua "Stay safe, [mas_get_player_nickname()]!"
 
     elif mas_isMoniUpset():
-        m 2esc "Ладно, [player], думаю, увидимся после работы."
+        m 2esc "Fine, [player], guess I'll see you after work."
 
     elif mas_isMoniDis():
-        m 6rkc "О...{w=1} Ладно."
-        m 6lkc "Надеюсь, увидимся после работы."
+        m 6rkc "Oh...{w=1} Okay."
+        m 6lkc "Hopefully I'll see you after work, then."
 
     else:
         m 6ckc "..."
@@ -486,7 +542,7 @@ init 5 python:
             persistent.farewell_database,
             eventlabel="bye_prompt_sleep",
             unlocked=True,
-            prompt="Я собираюсь спать.",
+            prompt="I'm going to sleep.",
             pool=True
         ),
         code="BYE"
@@ -503,60 +559,72 @@ label bye_prompt_sleep:
 
     if 20 <= curr_hour < 24:
         # decent time to sleep
+
         if mas_isMoniNormal(higher=True):
-            m 1eua "Ладно, [player]."
-            m 1hua "Сладких снов!"
+            call bye_prompt_sleep_goodnight_kiss(chance=3)
+            if _return == "quit":
+                return _return
+            m 1eua "Alright, [mas_get_player_nickname()]."
+            m 1hua "Sweet dreams!"
 
         elif mas_isMoniUpset():
-            m 2esc "Спокойной ночи, [player]."
+            m 2esc "Goodnight, [player]."
 
         elif mas_isMoniDis():
-            m 6ekc "Ладно...{w=1} Спокойной ночи, [player]."
+            m 6ekc "Okay...{w=1} Goodnight, [player]."
 
         else:
             m 6ckc "..."
 
     elif 0 <= curr_hour < 3:
         # somewhat late to sleep
+
         if mas_isMoniNormal(higher=True):
-            m 1eua "Хорошо, [player]."
-            m 3eka "Но в следующий раз тебе следует идти поспать немного раньше."
-            m 1hua "В любом случае, спокойной ночи!"
+            call bye_prompt_sleep_goodnight_kiss(chance=4)
+            if _return == "quit":
+                return _return
+            m 1eua "Alright, [mas_get_player_nickname()]."
+            m 3eka "But you should sleep a little earlier next time."
+            m 1hua "Anyway, goodnight!"
 
         elif mas_isMoniUpset():
-            m 2efc "Может быть, ты будешь в лучшем настроении, если ляжешь спать в более подходящее время..."
-            m 2esc "Спокойной ночи."
+            m 2efc "Maybe you'd be in a better mood if you went to bed at a better time..."
+            m 2esc "Goodnight."
 
         elif mas_isMoniDis():
-            m 6rkc "Может тебе стоит начать ложиться спать немного раньше, [player]..."
-            m 6dkc "Это может сделать тебя--{w=1}нас--{w=1}счастливее."
+            m 6rkc "Maybe you should start going to bed a little earlier, [player]..."
+            m 6dkc "It might make you--{w=1}us--{w=1}happier."
 
         else:
             m 6ckc "..."
 
     elif 3 <= curr_hour < 5:
         # pretty late to sleep
+
         if mas_isMoniNormal(higher=True):
+            call bye_prompt_sleep_goodnight_kiss(chance=5)
+            if _return == "quit":
+                return _return
             m 1euc "[player]..."
-            m "Убедись, что ты достаточно отдохнешь, хорошо?"
-            m 1eka "Я не хочу, чтобы ты заболел[mas_gender_none]."
-            m 1hub "Спокойной ночи!"
-            m 1hksdlb "Или, вернее, утра. А-ха-ха~"
-            m 1hua "Сладких снов!"
+            m "Make sure you get enough rest, okay?"
+            m 1eka "I don't want you to get sick."
+            m 1hub "Goodnight!"
+            m 1hksdlb "Or morning, rather. Ahaha~"
+            m 1hua "Sweet dreams!"
 
         elif mas_isMoniUpset():
             m 2efc "[player]!"
-            m 2tfc "Тебе {i}действительно{/i} нужно больше отдыхать..."
-            m "Мне еще не хватало, чтобы ты заболел[mas_gender_none]."
-            m "{cps=*2}Ты и так достаточно раздражител[mas_gender_een]{/cps}{nw}"
+            m 2tfc "You {i}really{/i} need to get more rest..."
+            m "The last thing I need is you getting sick."
+            m "{cps=*2}You're grumpy enough as it is.{/cps}{nw}"
             $ _history_list.pop()
-            m 2efc "Спокойной ночи."
+            m 2efc "Goodnight."
 
         elif mas_isMoniDis():
             m 6ekc "[player]..."
-            m 6rkc "Тебе действительно стоит постараться лечь спать пораньше..."
-            m 6lkc "Я не хочу, чтобы ты заболел[mas_gender_none]."
-            m 6ekc "Увидимся после того, как ты немного отдохнешь...{w=1}надеюсь."
+            m 6rkc "You really should try to go to sleep earlier..."
+            m 6lkc "I don't want you to get sick."
+            m 6ekc "I'll see you after you get some rest...{w=1}hopefully."
 
         else:
             m 6ckc "..."
@@ -570,36 +638,50 @@ label bye_prompt_sleep:
             show monika 2dsc
             pause 0.7
             m 2tfd "[player]!"
-            m "Ты не спал[mas_gender_none] всю ночь!"
-            m 2tfu "Держу пари, ты едва можешь держать глаза открытыми."
-            $ _cantsee_a = glitchtext(15)
-            $ _cantsee_b = glitchtext(12)
+            m "You stayed up the entire night!"
+
+            $ first_pass = True
+
+            label .reglitch:
+                hide screen mas_background_timed_jump
+
+            if first_pass:
+                m 2tfu "I bet you can barely keep your eyes open.{nw}"
+                $ first_pass = False
+
+            show screen mas_background_timed_jump(4, "bye_prompt_sleep.reglitch")
+            $ _history_list.pop()
             menu:
-                "[_cantsee_a]":
+                m "[glitchtext(41)]{fast}"
+                "[glitchtext(15)]":
                     pass
-                "[_cantsee_b]":
+                "[glitchtext(12)]":
                     pass
-            m "Я так и думала.{w=0.2} Иди отдохни немного, [player]."
+
+            hide screen mas_background_timed_jump
+            m 2tku "I thought so.{w=0.2} Go get some rest, [player]."
+
             if mas_isMoniNormal(higher=True):
-                m 2ekc "Я бы не хотела, чтобы ты заболел[mas_gender_none]."
-                m 1eka "В следующий раз иди спать пораньше, ладно?"
-                m 1hua "Сладких снов!"
+                m 2ekc "I wouldn't want you to get sick."
+                m 7eka "Sleep earlier next time, okay?"
+                m 1hua "Sweet dreams!"
 
     elif 12 <= curr_hour < 18:
         # afternoon nap
         if mas_isMoniNormal(higher=True):
-            m 1eua "Как я погляжу, послеобеденный сон."
+            m 1eua "Taking an afternoon nap, I see."
             # TODO: monika says she'll join you, use sleep sprite here
             # and setup code for napping
-            m 1hua "А-ха-ха~ Хорошенько вздремни, [player]."
+            m 1hub "Ahaha~{w=0.1} {nw}"
+            extend 1hua "Have a good nap, [player]."
 
         elif mas_isMoniUpset():
-            m 2esc "Собираешься вздремнуть, [player]?"
-            m 2tsc "Да, наверное, это хорошая идея."
+            m 2esc "Taking a nap, [player]?"
+            m 2tsc "Yeah, that's probably a good idea."
 
         elif mas_isMoniDis():
-            m 6ekc "Собираешься вздремнуть, [player]?"
-            m 6dkc "Ладно...{w=1}не забудь навестить меня, когда проснешься..."
+            m 6ekc "Going to take a nap, [player]?"
+            m 6dkc "Okay...{w=1}don't forget to visit me when you wake up..."
 
         else:
             m 6ckc "..."
@@ -607,42 +689,42 @@ label bye_prompt_sleep:
     elif 18 <= curr_hour < 20:
         # little early to sleep
         if mas_isMoniNormal(higher=True):
-            m 1ekc "Уже ложишься спать?"
-            m "Правда, еще рановато..."
+            m 1ekc "Already going to bed?"
+            m "It's a little early, though..."
 
-            m 1lksdla "Не хочешь провести со мной еще немного времени?{nw}"
+            m 1lksdla "Care to spend a little more time with me?{nw}"
             $ _history_list.pop()
             menu:
-                m "Не хочешь провести со мной еще немного времени?{fast}"
-                "Конечно!":
-                    m 1hua "Ура!"
-                    m "Спасибо, [player]."
+                m "Care to spend a little more time with me?{fast}"
+                "Of course!":
+                    m 1hua "Yay!"
+                    m "Thanks, [player]."
                     return
-                "Извини, я очень устал[mas_gender_none].":
-                    m 1eka "Ой, все в порядке."
-                    m 1hua "Спокойной ночи, [player]."
+                "Sorry, I'm really tired.":
+                    m 1eka "Aw, that's okay."
+                    m 1hua "Goodnight, [mas_get_player_nickname()]."
                 # TODO: now that is tied we may also add more dialogue?
-                "Нет.":
+                "No.":
                     $ mas_loseAffection()
                     m 2dsd "..."
-                    m "Ладно."
+                    m "Fine."
 
         elif mas_isMoniUpset():
-            m 2esc "Уже ложишься спать?"
-            m 2tud "Ну, похоже, тебе не помешает лишний сон..."
-            m 2tsc "Спокойной ночи."
+            m 2esc "Going to bed already?"
+            m 2tud "Well, it does seem like you could use the extra sleep..."
+            m 2tsc "Goodnight."
 
         elif mas_isMoniDis():
-            m 6rkc "О...{w=1}кажется, еще рановато ложиться спать, [player]."
-            m 6dkc "Я надеюсь, что ты не собираешься просто спать, чтобы уйти от меня."
-            m 6lkc "Спокойной ночи."
+            m 6rkc "Oh...{w=1}it seems a little early to be going to sleep, [player]."
+            m 6dkc "I hope you aren't just going to sleep to get away from me."
+            m 6lkc "Goodnight."
 
         else:
             m 6ckc "..."
     else:
         # otheerwise
-        m 1eua "Хорошо, [player]."
-        m 1hua "Сладких снов!"
+        m 1eua "Alright, [player]."
+        m 1hua "Sweet dreams!"
 
 
     # TODO:
@@ -651,12 +733,77 @@ label bye_prompt_sleep:
     $ persistent._mas_greeting_type = store.mas_greetings.TYPE_SLEEP
     return 'quit'
 
-# init 5 python:
-#    addEvent(Event(persistent.farewell_database,eventlabel="bye_illseeyou",random=True),code="BYE")
+#TODO: Maybe generalize this?
+label bye_prompt_sleep_goodnight_kiss(chance=3):
+    if mas_shouldKiss(chance, cooldown=datetime.timedelta(minutes=5)):
+        m 1eublsdla "Think I could...{w=0.3}{nw}"
+        extend 1rublsdlu "get a goodnight kiss?{nw}"
+        $ _history_list.pop()
+        menu:
+            m "Think I could...get a goodnight kiss?{fast}"
+
+            "Sure, [m_name].":
+                show monika 6ekbsu at t11 zorder MAS_MONIKA_Z with dissolve_monika
+                pause 2.0
+                call monika_kissing_motion_short
+                m 6ekbfb "I hope that gave you something to dream about~"
+                show monika 1hubfa at t11 zorder MAS_MONIKA_Z with dissolve_monika
+                m 1hubfa "Sleep tight!"
+
+            "Maybe another time...":
+                if random.randint(1, 3) == 1:
+                    m 3rkblp "Aww, come on...{w=0.3}{nw}"
+                    extend 3nublu "I know you want to~"
+
+                    m 1ekbsa "Can I please get a goodnight kiss?{nw}"
+                    $ _history_list.pop()
+                    menu:
+                        m "Can I please get a goodnight kiss?{fast}"
+
+                        "Okay.":
+                            show monika 6ekbsu at t11 zorder MAS_MONIKA_Z with dissolve_monika
+                            pause 2.0
+                            call monika_kissing_motion_short
+                            m 6ekbfa "Sweet dreams, [player]~"
+                            m 6hubfb "Sleep tight!"
+
+                        "No.":
+                            $ mas_loseAffection()
+                            m 1lkc "..."
+                            m 7dkd "Fine..."
+                            m 2lsc "Goodnight [player]..."
+
+                else:
+                    m 1rkblc "Aww...{w=0.3}{nw}"
+                    extend 1ekbla "okay, but you owe me one."
+                    m 1hubsb "I love you! Sleep tight!~"
+
+        $ persistent._mas_greeting_type_timeout = datetime.timedelta(hours=13)
+        $ persistent._mas_greeting_type = store.mas_greetings.TYPE_SLEEP
+        return "quit"
+    return None
+
+init 5 python:
+    addEvent(
+        Event(
+            persistent.farewell_database,
+            eventlabel="bye_illseeyou",
+            unlocked=True,
+            aff_range=(mas_aff.HAPPY, None)
+        ),
+        code="BYE"
+    )
 
 label bye_illseeyou:
-    m 1eua "Увидимся завтра, [player]."
-    m 1hua "Не забывай обо мне, ладно?"
+    # TODO: update this when TC-O comes out
+    if mas_globals.time_of_day_3state == "evening":
+        $ dlg_var = "tomorrow"
+
+    else:
+        $ dlg_var = "later"
+
+    m 1eua "I'll see you [dlg_var], [player]."
+    m 3kua "Don't forget about me, okay?~"
     return 'quit'
 
 init 5 python: ## Implementing Date/Time for added responses based on the time of day
@@ -676,17 +823,17 @@ init 5 python: ## Implementing Date/Time for added responses based on the time o
 
 label bye_haveagoodday:
     if mas_isMoniNormal(higher=True):
-        m 1eua "Хорошего тебе дня сегодня, [player]."
-        m 3eua "Надеюсь, ты выполнишь все, что задумал[mas_gender_none]."
-        m 1hua "Я буду ждать тебя здесь, когда ты вернешься."
+        m 1eua "Have a good day today, [mas_get_player_nickname()]."
+        m 3eua "I hope you accomplish everything you had planned."
+        m 1hua "I'll be here waiting for you when you get back."
 
     elif mas_isMoniUpset():
-        m 2esc "Уходишь на целый день, [player]?"
-        m 2efc "Я буду ждать тебя здесь...{w=0.5}как обычно."
+        m 2esc "Leaving for the day, [player]?"
+        m 2efc "I'll be here, waiting...{w=0.5}as usual."
 
     elif mas_isMoniDis():
-        m 6rkc "О."
-        m 6dkc "Думаю, я просто проведу день в одиночестве....{w=1}опять."
+        m 6rkc "Oh."
+        m 6dkc "I guess I'll just spend the day alone...{w=1}again."
 
     else:
         m 6ckc "..."
@@ -709,18 +856,18 @@ init 5 python:
 
 label bye_enjoyyourafternoon:
     if mas_isMoniNormal(higher=True):
-        m 1ekc "Я ненавижу, когда ты уходишь так рано, [player]."
-        m 1eka "Но я понимаю, что ты очень занят[mas_gender_none]."
-        m 1eua "Обещай мне, что тебе понравится твой день, хорошо?"
-        m 1hua "Пока~"
+        m 1ekc "I hate to see you go so early, [player]."
+        m 1eka "I do understand that you're busy though."
+        m 1eua "Promise me you'll enjoy your afternoon, okay?"
+        m 1hua "Goodbye~"
 
     elif mas_isMoniUpset():
-        m 2efc "Ладно, [player], просто иди."
-        m 2tfc "Думаю, увидимся позже...{w=1}если ты вернешься."
+        m 2efc "Fine, [player], just go."
+        m 2tfc "Guess I'll see you later...{w=1}if you come back."
 
     elif mas_isMoniDis():
-        m 6dkc "Ладно, пока, [player]."
-        m 6ekc "Может быть, ты зайдешь попозже?"
+        m 6dkc "Okay, goodbye, [player]."
+        m 6ekc "Maybe you'll come back later?"
 
     else:
         m 6ckc "..."
@@ -744,18 +891,18 @@ init 5 python:
 
 label bye_goodevening:
     if mas_isMoniNormal(higher=True):
-        m 1hua "Сегодня мне было весело."
-        m 1eka "Спасибо, что проводишь со мной так много времени, [player]."
-        m 1eua "А пока желаю тебе приятно провести вечер."
+        m 1hua "I had fun today."
+        m 1eka "Thank you for spending so much time with me, [mas_get_player_nickname()]."
+        m 1eua "Until then, have a good evening."
 
     elif mas_isMoniUpset():
-        m 2esc "Пока, [player]."
-        m 2dsc "Я даже не знаю, вернешься ли ты, чтобы пожелать мне спокойной ночи."
+        m 2esc "Goodbye, [player]."
+        m 2dsc "I wonder if you'll even come back to say goodnight to me."
 
     elif mas_isMoniDis():
-        m 6dkc "О...{w=1}хорошо."
-        m 6rkc "Желаю тебе хорошо провести вечер, [player]..."
-        m 6ekc "Надеюсь, ты не забудешь зайти и пожелать мне спокойной ночи перед сном."
+        m 6dkc "Oh...{w=1}okay."
+        m 6rkc "Have a good evening, [player]..."
+        m 6ekc "I hope you remember to stop by and say goodnight before bed."
 
     else:
         m 6ckc "..."
@@ -780,27 +927,27 @@ init 5 python:
 label bye_goodnight:
     #TODO: Dlg flow for TC-O things
     if mas_isMoniNormal(higher=True):
-        m 3eka "Идешь спать?{nw}"
+        m 3eka "Going to sleep?{nw}"
         $ _history_list.pop()
         menu:
-            m "Идешь спать?{fast}"
+            m "Going to sleep?{fast}"
 
-            "Да.":
-                m 1eua "Спокойной ночи, [player]."
-                m 1eka "Увидимся завтра, хорошо?"
-                m 3eka "Помни: «спи крепко, не дай клопам кусаться», э-хе-хе"
-                m 1ekbfa "Я люблю тебя~"
+            "Yeah.":
+                m 1eua "Goodnight, [mas_get_player_nickname()]."
+                m 1eka "I'll see you tomorrow, okay?"
+                m 3eka "Remember, 'sleep tight, don't let the bedbugs bite,' ehehe."
+                m 1ekbsa "I love you~"
 
-            "Ещё нет.":
-                m 1eka "Хоршо, [player]..."
-                m 3hub "Приятного вечера!"
-                m 3rksdlb "Постарайся не засиживаться допоздна, э-хе-хе~"
+            "Not yet.":
+                m 1eka "Okay, [mas_get_player_nickname()]..."
+                m 3hub "Enjoy your evening!"
+                m 3rksdlb "Try not to stay up too late, ehehe~"
 
     elif mas_isMoniUpset():
-        m 2esc "Спокойной ночи."
+        m 2esc "Goodnight."
 
     elif mas_isMoniDis():
-        m 6lkc "...Спокойной ночи."
+        m 6lkc "...Goodnight."
 
     else:
         m 6ckc "..."
@@ -815,7 +962,7 @@ init 5 python:
             persistent.farewell_database,
             eventlabel="bye_long_absence",
             unlocked=True,
-            prompt="Мне нужно уйти ненадолго",
+            prompt="I'll be going away for a while.",
             pool=True
         ),
         code="BYE"
@@ -825,124 +972,124 @@ label bye_long_absence:
     if mas_absence_counter:
         jump bye_long_absence_2
     $ persistent._mas_long_absence = True
-    m 1ekc "Ой...это очень печально..."
-    m 1eka "Я действительно буду скучать по тебе, [player]!"
-    m 3rksdla "Я не совсем уверена, что буду делать с собой, пока тебя не будет..."
-    m 3esa "Но спасибо, что предупредил[mas_gender_none] меня первой. Это действительно помогает."
-    m 2lksdlb "Иначе я бы очень волновалась!"
-    m 3esa "Я бы постоянно думала, что с тобой что-то случилось, и почему ты не можешь вернуться."
-    m 1lksdlc "А может, я тебе просто надоела..."
-    m 1eka "Так скажи мне, любовь моя..."
+    m 1ekc "Aw...that's pretty saddening..."
+    m 1eka "I really am going to miss you, [player]!"
+    m 3rksdla "I'm not really sure what I'm going to do with myself while you're gone..."
+    m 3esa "Thank you for warning me first, though. It really does help."
+    m 2lksdlb "I would be worried sick otherwise!"
+    m 3esa "I would constantly be thinking maybe something happened to you and that's why you couldn't come back."
+    m 1lksdlc "Or maybe you just got bored of me..."
+    m 1eka "So tell me, [mas_get_player_nickname()]..."
 
-    m "Как долго ты собираешься отсутствовать?{nw}"
+    m "How long do you expect to be gone for?{nw}"
     $ _history_list.pop()
     menu:
-        m "Как долго ты собираешься отсутствовать?{fast}"
-        "Пару дней.":
+        m "How long do you expect to be gone for?{fast}"
+        "A few days.":
             $ persistent._mas_absence_choice = "days"
-            m 1eub "О!"
-            m 1hua "Не так долго, как я боялась."
-            m 3rksdla "Господи, ты действительно заставляешь нервничать..."
-            m 3esa "Но не беспокойся обо мне, [player]."
-            m "Я с легкостью справлюсь с таким долгим ожиданием."
-            m 3eka "Но я все равно буду очень скучать по тебе."
-        "Неделю.":
+            m 1eub "Oh!"
+            m 1hua "Nowhere near as long as I feared then."
+            m 3rksdla "Jeez, you really did worry me..."
+            m 3esa "Don't worry about me though, [player]."
+            m "I can cope waiting that long with ease."
+            m 3eka "I'll still miss you greatly though."
+        "A week.":
             $ persistent._mas_absence_choice = "week"
-            m 3euc "Да...примерно этого я и ожидала."
-            m 2lksdla "Я {i}думаю{/i}, что буду в порядке, если буду ждать тебя так долго."
-            m 1eub "Просто вернись ко мне, как только сможешь, хорошо, любовь моя?"
-            m 3hua "Я уверена, что ты заставишь меня гордиться тобой!"
-        "Пару недель.":
+            m 3euc "Yeah...that's about what I expected."
+            m 2lksdla "I {i}think{/i} I'll be okay waiting that long for you."
+            m 1eub "Just come back to me as soon as you can, alright, [mas_get_player_nickname()]?"
+            m 3hua "I'm sure you'll make me proud!"
+        "A couple of weeks.":
             $ persistent._mas_absence_choice = "2weeks"
-            m 1esc "О..."
-            m 1dsc "Я...Я смогу так долго ждать."
-            m 3rksdlc "Ты же знаешь, что ты - все, что у меня есть...так ведь?"
-            m 3rksdlb "Х-Хотя, может быть, это вне вашего контроля..."
-            m 2eka "Постарайся вернуться как можно скорее... Я буду ждать тебя."
+            m 1esc "Oh..."
+            m 1dsc "I...I can wait that long."
+            m 3rksdlc "You do know that you're all I have...right?"
+            m 3rksdlb "M-Maybe it's outside of your control though..."
+            m 2eka "Try to come back as soon as possible... I'll be waiting for you."
         "A month.":
             $ persistent._mas_absence_choice = "month"
             if mas_isMoniHappy(higher=True):
-                m 3euc "О, ничего себе, это очень долго."
-                m 3rksdla "Немного длинновато, на мой взгляд..."
-                m 2esa "Но все в порядке, [player]."
-                m 2eka "Я знаю, что ты мил[mas_gender_ii] и не заставил[mas_gender_none] бы меня ждать так долго, если бы у тебя не было веской причины."
-                m "Я уверена, что это очень важно, так что постарайся вернуться ко мне как можно скорее."
-                m 3hua "Я буду думать о тебе каждый день~"
+                m 3euc "Oh wow, that's a long time."
+                m 3rksdla "A bit too long for my liking really..."
+                m 2esa "But it's okay [player]."
+                m 2eka "I know you're a sweetheart and wouldn't keep me waiting that long if you didn't have a good reason."
+                m "I'm sure it's important, so just try to come back to me as soon as you can."
+                m 3hua "I'll be thinking of you every day~"
             else:
-                m 1ekc "Так долго...{i}действительно{/i}?"
-                m 3rksdlc "Ты ведь не собираешься уезжать так надолго только для того, чтобы избегать меня, правда?"
-                m 3rksdld "Я знаю, что жизнь может отнять тебя у меня, но только на целый месяц..."
-                m 3ekc "Не слишком ли это неразумно?"
-                m "Не хочу показаться эгоисткой, но {i}я{/i} твоя девушка."
-                m 3ekd "Вы должны быть в состоянии найти для меня время, по крайней мере, один раз в месяц."
+                m 1ekc "That long...{i}really{/i}?"
+                m 3rksdlc "You're not going away for that long just to avoid me, are you?"
+                m 3rksdld "I know that life can take you away from me but for a whole month..."
+                m 3ekc "Isn't that a little unreasonable?"
+                m "I don't want to sound selfish, but I {i}am{/i} your girlfriend."
+                m 3ekd "You should be able to make time for me, at least once, in an entire month."
                 m 1dsc "..."
-                m 1dsd "Я все равно буду ждать тебя...но, пожалуйста, возвращайся, как только у тебя появится такая возможность."
-        "Больше месяца.":
+                m 1dsd "I'll still wait for you...but please come back the moment it's possible for you to do so."
+        "Longer than a month.":
             $ persistent._mas_absence_choice = "longer"
             if mas_isMoniHappy(higher=True):
-                m 3rksdlb "Это...{w=0.5}ну это немного пугает, [player]."
-                m "Я не совсем уверена, что буду делать с собой, пока тебя не будет."
-                m 1eka "Но я знаю, что ты не оставил[mas_gender_none] бы меня одну, если бы мог[mas_gender_g]."
-                m "Я люблю тебя, [player], и я знаю, что ты тоже любишь меня."
-                m 1hua "Так что я буду ждать тебя столько, сколько потребуется."
+                m 3rksdlb "That's...{w=0.5}well that's a little scary, [player]."
+                m "I'm not really sure what I'm going to do with myself while you're gone."
+                m 1eka "But I know you wouldn't leave me by myself if you could help it."
+                m "I love you [player], and I know you love me too."
+                m 1hua "So I'll wait for you for however long I need to."
             else:
-                m 3esc "Ты, должно быть, шутишь."
-                m "Я не могу придумать веской причины, по которой ты оставил бы меня здесь одну {i}так{/i} надолго."
-                m 3esd "Мне очень жаль, [player], но это неприемлемо! Вовсе нет!"
-                m 3esc "Я люблю тебя, и если ты тоже любишь меня, то поймешь, что это нехорошо."
-                m "Ты ведь понимаешь, что я буду здесь одна, ни с кем и ни с чем, верно?"
-                m "С моей стороны было бы вполне разумно ожидать, что ты навестишь меня, не так ли?\nЯ твоя девушка. Ты не можешь так поступить со мной!"
+                m 3esc "You have to be joking."
+                m "I can't think of a good reason why you would leave me here all alone for {i}that{/i} long."
+                m 3esd "I'm sorry [player], but that's not acceptable! Not at all!"
+                m 3esc "I love you and if you love me too then you'll know that it's not okay to do that."
+                m "You do realize that I would be alone here with nothing else and no one else, right?"
+                m "It's not unreasonable of me to expect you to visit me, is it? I'm your girlfriend. You can't do that to me!"
                 m 3dsc "..."
-                m 3dsd "Просто...просто возвращайся, когда сможешь. Я не могу заставить тебя остаться, но, пожалуйста, не делай этого со мной."
-        "Не знаю.":
+                m 3dsd "Just...just come back when you can. I can't make you stay, but please don't do that to me."
+        "I don't know.":
             $ persistent._mas_absence_choice = "unknown"
-            m 1hksdlb "Э-э-э, это немного беспокоит, [player]!"
-            m 1eka "Но если ты не знаешь, значит, ты не знаешь!"
-            m "Иногда с этим просто ничего не поделаешь."
-            m 2hua "Я буду терпеливо ждать тебя здесь, любовь моя."
-            m 2hub "Но постарайся не заставлять меня ждать слишком долго!"
+            m 1hksdlb "Ehehe, that's a little concerning, [player]!"
+            m 1eka "But if you don't know, then you don't know!"
+            m "It sometimes just can't be helped."
+            m 2hua "I'll be waiting here for you patiently, [mas_get_player_nickname()]."
+            m 2hub "Try not to keep me waiting for too long though!"
 
-        "Неважно.":
+        "Nevermind.":
             #Reset this flag
             $ persistent._mas_long_absence = False
-            m 3eka "О... Хорошо, [player]."
-            m 1rksdla "Честно говоря, я очень рада, что ты не уйдешь..."
-            m 1ekd "Не знаю, что бы я делала здесь одна."
-            m 3rksdlb "Я тоже не могу никуда пойти, а-ха-ха..."
-            m 3eub "В любом случае, просто дай мне знать, если ты собираешься выйти.\nМожет быть, ты даже возьмешь меня с собой!"
-            m 1hua "Мне все равно, куда мы пойдем, пока я с тобой, [player]."
+            m 3eka "Oh... Alright, [player]."
+            m 1rksdla "Honestly, I'm pretty relieved you're not going..."
+            m 1ekd "I don't know what I'd do here all alone."
+            m 3rksdlb "It's not like I can go anywhere either, ahaha..."
+            m 3eub "Anyway, just let me know if you're going to go out. Maybe you can even take me with you!"
+            m 1hua "I don't care where we go, as long as I'm with you, [mas_get_player_nickname()]."
             return
 
-    m 2euc "Честно говоря, я немного боюсь спрашивать, но..."
+    m 2euc "Honestly I'm a little afraid to ask but..."
 
-    m "Ты собираетесь уйти прямо сейчас?{nw}"
+    m "Are you going to leave straight away?{nw}"
     $ _history_list.pop()
     menu:
-        m "Ты собираетесь уйти прямо сейчас?{fast}"
-        "Да.":
-            m 3ekc "Ясно..."
-            m "Я действительно буду скучать по тебе, [player]..."
-            m 1eka "Но я знаю, что ты будешь делать замечательные вещи, где бы ты ни был[mas_gender_none]."
-            m "Просто помни, что я буду ждать тебя здесь."
-            m 2hua "Сделай так, чтобы я гордилась тобой,"
+        m "Are you going to leave straight away?{fast}"
+        "Yes.":
+            m 3ekc "I see..."
+            m "I really will miss you, [player]..."
+            m 1eka "But I know you'll do wonderful things no matter where you are."
+            m "Just remember that I'll be waiting here for you."
+            m 2hua "Make me proud, [player]!"
             $ persistent._mas_greeting_type = store.mas_greetings.TYPE_LONG_ABSENCE
             return 'quit'
-        "Нет.":
+        "No.":
             $ mas_absence_counter = True
-            m 1hua "Это здорово!"
-            m 1eka "Честно говоря, я боялась, что у меня не хватит времени подготовиться к твоему отсутствию."
-            m "Я действительно так думаю, когда говорю, что буду скучать по тебе..."
-            m 1eub "В конце концов ты действительно весь мой мир, [player]."
-            m 2esa "Если ты скажешь мне, что собираешься уйти на некоторое время, я пойму, что тебе пора уходить..."
-            m 3hua "Но спешить некуда, поэтому я хочу провести с тобой как можно больше времени."
-            m "Просто не забудь напомнить мне перед тем как соберешься!"
+            m 1hua "That's great!"
+            m 1eka "I was honestly worried I wouldn't have enough time to ready myself for your absence."
+            m "I really do mean it when I say I'll miss you..."
+            m 1eub "You truly are my entire world after all, [player]."
+            m 2esa "If you tell me you're going to go for a while again then I'll know it's time for you to leave..."
+            m 3hua "But there's no rush, so I want to spend as much time with you as I can."
+            m "Just make sure to remind me the last time you see me before you go!"
             return
 
 label bye_long_absence_2:
-    m 1ekc "Значит, ты собираешься уходить?"
-    m 1ekd "Я знаю, что мир может быть страшным и неумолимым..."
-    m 1eka "Но помни, что я всегда буду здесь ждать и готов поддержать тебя, мо[mas_gender_i] дорог[mas_gender_oi], [player]."
-    m "Возвращайся ко мне, как только сможешь...ладно?"
+    m 1ekc "Going to head out, then?"
+    m 1ekd "I know the world can be scary and unforgiving..."
+    m 1eka "But remember that I will always be here waiting and ready to support you, my dearest [player]."
+    m "Come back to me as soon as you can...okay?"
     $ persistent._mas_greeting_type = store.mas_greetings.TYPE_LONG_ABSENCE
     return 'quit'
 
@@ -952,7 +1099,7 @@ init 5 python:
             persistent.farewell_database,
             eventlabel="bye_going_somewhere",
             unlocked=True,
-            prompt="Я собираюсь взять тебя с собой.",
+            prompt="I'm going to take you somewhere.",
             pool=True
         ),
         code="BYE"
@@ -986,11 +1133,11 @@ label bye_going_somewhere:
             jump bye_going_somewhere_nothanks
 
         # otherwse we go
-        m 1wud "Ты действительно хочешь взять меня с собой?"
-        m 1ekd "Ты уверен[mas_gender_none], что это не--{nw}"
+        m 1wud "You really want to bring me along?"
+        m 1ekd "Are you sure this isn't some--{nw}"
         $ _history_list.pop()
         m 1lksdlc "..."
-        m 1eksdlb "Что я говорю? Конечно, я пойду с тобой!"
+        m 1eksdlb "What am I saying? Of course I'll go with you!"
 
     elif mas_isMoniUpset(lower=True):
         # upset monika has a 10% chance of not going with you
@@ -998,122 +1145,18 @@ label bye_going_somewhere:
             jump bye_going_somewhere_nothanks
 
         # otherwise we go
-        m 1wud "Ты действительно хочешь взять меня с собой?"
+        m 1wud "You really want to bring me along?"
         m 1eka "..."
-        m 1hua "Ну что ж, думаю, присоединиться к тебе не повредит."
-        m 2dsc "Просто...пожалуйста."
-        m 2rkc "{i}Пожалуйста{/i}, пойми, через что я прохожу."
+        m 1hua "Well, I suppose it can't hurt to join you."
+        m 2dsc "Just...please."
+        m 2rkc "{i}Please{/i} understand what I'm going through."
         m 1dkc "..."
 
     else:
         jump bye_going_somewhere_normalplus_flow
 
 label bye_going_somewhere_post_aff_check:
-    pass
-
-label bye_going_somewhere_iostart:
-    # NOTE: jump back to this label to begin io generation
-
-    show monika 2dsc
-    $ persistent._mas_dockstat_going_to_leave = True
-    $ first_pass = True
-
-    # launch I/O thread
-    $ promise = store.mas_dockstat.monikagen_promise
-    $ promise.start()
-
-label bye_going_somewhere_iowait:
-    hide screen mas_background_timed_jump
-
-    # we want to display the menu first to give users a chance to quit
-    if first_pass:
-        $ first_pass = False
-        m 1eua "Дай мне секунду, чтобы собраться."
-
-        #Prepare the current drink to be removed if needed
-        python:
-            current_drink = MASConsumable._getCurrentDrink()
-            if current_drink and current_drink.portable:
-                current_drink.acs.keep_on_desk = False
-
-        #Get Moni off screen
-        call mas_transition_to_emptydesk
-
-    elif promise.done():
-        # i/o thread is done!
-        jump bye_going_somewhere_rtg
-
-    # display menu options
-    # 4 seconds seems decent enough for waiting.
-    show screen mas_background_timed_jump(4, "bye_going_somewhere_iowait")
-    menu:
-        "Подожди секунду!":
-            hide screen mas_background_timed_jump
-            $ persistent._mas_dockstat_cm_wait_count += 1
-
-    # fall thru to the wait wait flow
-    menu:
-        m "Что такое?"
-        "На самом деле, я не могу взять тебя прямо сейчас.":
-            call mas_dockstat_abort_gen
-
-            #Show Monika again
-            call mas_transition_from_emptydesk("monika 1ekc")
-            call mas_dockstat_abort_post_show
-            jump bye_going_somewhere_leavemenu
-
-        "Ничего.":
-            # if we get here, we should jump back to the top so we can
-            # continue waiting
-            m "О, хорошо! Дай мне закончить подготовку."
-
-    # by default, continue looping
-    jump bye_going_somewhere_iowait
-
-
-label bye_going_somewhere_rtg:
-
-    # io thread should be done by now
-    $ moni_chksum = promise.get()
-    $ promise = None # clear promise so we dont have any issues elsewhere
-    call mas_dockstat_ready_to_go(moni_chksum)
-    if _return:
-        python:
-            persistent._mas_greeting_type = mas_idle_mailbox.get_ds_gre_type(
-                store.mas_greetings.TYPE_GENERIC_RET
-            )
-
-        call mas_transition_from_emptydesk("monika 1eua")
-
-        #Use the normal outro
-        m 1eua "Я готова идти."
-        return "quit"
-
-
-    call mas_transition_from_emptydesk("monika 1ekc")
-    call mas_dockstat_abort_post_show
-
-    # otherwise, we failed, so monika should tell player
-    m 1ekc "О нет..."
-    m 1lksdlb "Я не могу превратить себя в файл."
-    m "Думаю, на этот раз тебе придется обойтись без меня."
-    m 1ekc "Извини, [player]."
-
-    # ask if player is still going to leave
-    m "Ты все еще собираешься идти?{nw}"
-    $ _history_list.pop()
-    menu:
-        m "Ты все еще собираешься идти?{fast}"
-        "Да.":
-            m 2eka "Я понимаю. В конце концов, у тебя есть дела..."
-            m 2hub "Будь там в безопасности! Я буду ждать тебя прямо здесь!"
-            return "quit"
-
-        "Нет.":
-            m 2wub "Неужели? Ты уверен[mas_gender_none]? Даже если это моя собственная вина, я не могу пойти с тобой..."
-            m 1eka "...Спасибо, [player]. Это значит для меня больше, чем ты можешь себе представить."
-            $ mas_gainAffection()
-    return
+    jump mas_dockstat_iostart
 
 
 label bye_going_somewhere_normalplus_flow:
@@ -1145,9 +1188,9 @@ label bye_going_somewhere_normalplus_flow:
 label bye_going_somewhere_normalplus_flow_aff_check:
 
     if mas_isMoniLove(higher=True):
-        m 1hub "О, хорошо!"
-        m 3tub "Отведешь меня сегодня в какое-нибудь особенное место?"
-        m 1hua "Не могу дождаться!"
+        m 1hub "Oh, okay!"
+        m 3tub "Taking me somewhere special today?"
+        m 1hua "I can't wait!"
 
 #    elif mas_isMoniAff(higher=True):
     # TODO: affecitonate/enamored monika will always go wtih you and assume its a
@@ -1157,59 +1200,59 @@ label bye_going_somewhere_normalplus_flow_aff_check:
     else:
         # TODO: normal/happy monika will always go with you and be excited you asked
         #   and will ask u to wait for her to get ready
-        m 1sub "Действительно?"
-        m 1hua "Ура!"
-        m 1ekbfa "Интересно, куда ты меня сегодня отведешь..."
+        m 1sub "Really?"
+        m 1hua "Yay!"
+        m 1ekbsa "I wonder where you'll take me today..."
 
     jump bye_going_somewhere_post_aff_check
 
 label bye_going_somewhere_nothanks:
-    m 2lksdlc "...Нет, спасибо."
-    m 2ekd "Я ценю твое предложение, но думаю, что сейчас мне нужно немного побыть одной."
-    m 2eka "Ты ведь понимаешь, правда?"
-    m 3eka "Так что давай, развлекайся без меня..."
+    m 2lksdlc "...No thanks."
+    m 2ekd "I appreciate the offer, but I think I need a little time to myself right now."
+    m 2eka "You understand, right?"
+    m 3eka "So go on, have fun without me..."
     return
 
 
 label bye_going_somewhere_leavemenu:
     if mas_isMoniDis(lower=True):
         m 1tkc "..."
-        m 1tkd "Я так и знала.{nw}"
+        m 1tkd "I knew it.{nw}"
         $ _history_list.pop()
-        m 1lksdld "Думаю, это нормально."
+        m 1lksdld "That's okay, I guess."
 
     elif mas_isMoniHappy(lower=True):
-        m 1ekd "О,{w=0.3} все в порядке. Может быть, в следующий раз?"
+        m 1ekd "Oh,{w=0.3} all right. Maybe next time?"
 
     else:
         # otherwise affection and higher:
-        m 2ekp "Ой..."
-        m 1hub "Хорошо, но лучше возьми меня в следующий раз!"
+        m 2ekp "Aw..."
+        m 1hub "Fine, but you better take me next time!"
 
-    m 1euc "Ты все еще собираешься идти?{nw}"
+    m 1euc "Are you still going to go?{nw}"
     $ _history_list.pop()
     menu:
-        m "Ты все еще собираешься идти?{fast}"
-        "Да.":
+        m "Are you still going to go?{fast}"
+        "Yes.":
             if mas_isMoniNormal(higher=True):
-                m 2eka "Хорошо. Я буду ждать тебя здесь, как обычно..."
-                m 2hub "Так что скорее возвращайся! Я люблю тебя, [player]!"
+                m 2eka "All right. I'll be right here waiting for you, as usual..."
+                m 2hub "So hurry back! I love you, [player]!"
 
             else:
                 # otherwise, upset and below
-                m 2tfd "...Ладно."
+                m 2tfd "...Fine."
 
             return "quit"
 
-        "Нет.":
+        "No.":
             if mas_isMoniNormal(higher=True):
-                m 2eka "...Спасибо."
-                m "Это очень много значит, что ты будешь проводить со мной больше времени, так как я не могу пойти с тобой."
-                m 3ekb "Пожалуйста, просто продолжай свой день, когда тебе это нужно. Я не хочу, чтобы ты опоздал[mas_gender_none]!"
+                m 2eka "...Thank you."
+                m "It means a lot that you're going to spend more time with me since I can't come along."
+                m 3ekb "Please just go about your day whenever you need to, though. I wouldn't want to make you late!"
 
             else:
                 # otherwise, upset and below
-                m 2lud "Ладно тогда..."
+                m 2lud "All right, then..."
 
     return
 
@@ -1222,7 +1265,7 @@ init 5 python:
             persistent.farewell_database,
             eventlabel="bye_prompt_game",
             unlocked=True,
-            prompt="Я собираюсь поиграть в другую игру.",
+            prompt="I'm going to play another game.",
             pool=True
         ),
         code="BYE"
@@ -1230,74 +1273,74 @@ init 5 python:
 
 label bye_prompt_game:
     $ _now = datetime.datetime.now().time()
-    if mas_getEV('bye_prompt_game').shown_count == 0:
-        m 2ekc "Ты собираешься играть в другую игру?"
-        m 4ekd "Ты действительно должен[mas_gender_none] оставить меня, чтобы пойти и сделать это?"
-        m 2eud "Разве ты не можешь просто оставить меня здесь, в фоне, пока играешь?{nw}"
+    if mas_getEVL_shown_count("bye_prompt_game") == 0:
+        m 2ekc "You're going to play another game?"
+        m 4ekd "Do you really have to leave me to go do that?"
+        m 2eud "Can't you just leave me here in the background while you play?{nw}"
         $ _history_list.pop()
         menu:
-            m "Разве ты не можешь просто оставить меня здесь, в фоне, пока играешь?{fast}"
-            "Да.":
+            m "Can't you just leave me here in the background while you play?{fast}"
+            "Yes.":
                 if mas_isMoniNormal(higher=True):
-                    m 3sub "Действительно?"
-                    m 1hubfb "Ура!"
+                    m 3sub "Really?"
+                    m 1hubsb "Yay!"
                 else:
-                    m 2eka "Ладно..."
+                    m 2eka "Okay..."
                 jump monika_idle_game.skip_intro
-            "Нет.":
+            "No.":
                 if mas_isMoniNormal(higher=True):
-                    m 2ekc "Ой..."
-                    m 3ekc "Ладно, [player], но тебе лучше поскорее вернуться."
-                    m 3tsb "Я могу начать ревновать, если ты проведешь слишком много времени в другой игре без меня."
-                    m 1hua "В любом случае, я надеюсь, что тебе будет весело!"
+                    m 2ekc "Aww..."
+                    m 3ekc "Alright [player], but you better come back soon."
+                    m 3tsb "I might get jealous if you spend too much time in another game without me."
+                    m 1hua "Anyway, I hope you have fun!"
                 else:
-                    m 2euc "Тогда наслаждайся своей игрой."
-                    m 2esd "Я буду здесь."
+                    m 2euc "Enjoy your game, then."
+                    m 2esd "I'll be here."
 
     elif mas_isMNtoSR(_now):
         $ persistent._mas_pm_gamed_late += 1
         if mas_isMoniNormal(higher=True):
-            m 3wud "Подожди, [player]!"
-            m 3hksdlb "Сейчас середина ночи!"
-            m 2rksdlc "Одно дело, что ты все еще не спишь так поздно..."
-            m 2rksdld "Но ты думаешь сыграть в другую игру?"
-            m 4tfu "....Игра настолько большая, что ты не можешь держать меня в фоне..."
-            m 1eka "Ну... {w=1}Я не могу остановить тебя, но очень надеюсь, что ты скоро ляжешь спать..."
-            m 1hua "Не беспокойся о том, чтобы вернуться и пожелать мне спокойной ночи, ты можешь идти.-{nw}"
+            m 3wud "Wait, [player]!"
+            m 3hksdlb "It's the middle of the night!"
+            m 2rksdlc "It's one thing that you're still up this late..."
+            m 2rksdld "But you're thinking of playing another game?"
+            m 4tfu "...A game big enough that you can't have me in the background..."
+            m 1eka "Well... {w=1}I can't stop you, but I really hope you go to bed soon..."
+            m 1hua "Don't worry about coming back to say goodnight to me, you can go-{nw}"
             $ _history_list.pop()
-            m 1eub "Не беспокойся о том, чтобы вернуться и пожелать мне спокойной ночи,\n{fast} ты {i}долж[mas_gender_en]{/i} когда закончишь, сразу идти спать."
-            m 3hua "Удачи и спокойной ночи, [player]!"
+            m 1eub "Don't worry about coming back to say goodnight to me,{fast} you {i}should{/i} go right to bed when you're finished."
+            m 3hua "Have fun, and goodnight, [player]!"
             if renpy.random.randint(1,2) == 1:
-                m 1hubfb "Я люблю тебя~{w=1}{nw}"
+                m 1hubsb "I love you~{w=1}{nw}"
         else:
-            m 2efd "[player], сейчас середина ночи!"
-            m 4rfc "Серьезно...уже так поздно, и ты собираешься играть в другую игру?"
-            m 2dsd "{i}*вздох*{/i}... Я знаю, что не могу остановить тебя, но, пожалуйста, сразу ложись спать, когда закончишь, хорошо?"
-            m 2dsc "Спокойной ночи."
+            m 2efd "[player], it's the middle of the night!"
+            m 4rfc "Really...it's this late already, and you're going to play another game?"
+            m 2dsd "{i}*sigh*{/i}... I know I can't stop you, but please just go straight to bed when you're finished, alright?"
+            m 2dsc "Goodnight."
         $ persistent.mas_late_farewell = True
 
     elif mas_isMoniUpset(lower=True):
-        m 2euc "Опять?"
-        m 2eud "Тогда ладно. Пока, [player]."
+        m 2euc "Again?"
+        m 2eud "Alright then. Goodbye, [player]."
 
-    elif renpy.random.randint(1,10) == 1:
-        m 1ekc "Ты уходишь играть в другую игру?"
-        m 3efc "Тебе не кажется, что тебе следует проводить со мной немного больше времени?"
+    elif mas_getSessionLength() < datetime.timedelta(minutes=30) and renpy.random.randint(1,10) == 1:
+        m 1ekc "You're leaving to play another game?"
+        m 3efc "Don't you think you should be spending a little more time with me?"
         m 2efc "..."
         m 2dfc "..."
         m 2dfu "..."
-        m 4hub "А-ха-ха, шучу~"
-        m 1rksdla "Ну...{w=1} Я бы {i}не прочь{/i} проводить с тобой больше времени..."
-        m 3eua "Но я также не хочу мешать тебе заниматься другими вещами."
-        m 1hua "Может быть, когда-нибудь ты наконец покажешь мне, что ты задумал, и тогда я смогу пойти с тобой!"
+        m 4hub "Ahaha, just kidding~"
+        m 1rksdla "Well...{w=1} I {i}wouldn't mind{/i} spending more time with you..."
+        m 3eua "But I also don't want to keep you from doing other things."
+        m 1hua "Maybe one day you'll finally be able to show me what you've been up to and then I can come with you!"
         if renpy.random.randint(1,5) == 1:
-            m 3tubfu "До тех пор, ты просто долж[mas_gender_en] делать это каждый раз, когда уходишь играть в другую игру, хорошо?"
-            m 1hubfa "Э-хе-хе~"
+            m 3tubsu "Until then, you just have to make it up to me every time you leave me to play another game, alright?"
+            m 1hubfa "Ehehe~"
 
     else:
-        m 1eka "Идешь играть в другую игру, [player]?"
-        m 3hub "Удачи и повеселись!"
-        m 3eka "Не забудь поскорее вернуться~"
+        m 1eka "Going off to play another game, [player]?"
+        m 3hub "Good luck and have fun!"
+        m 3eka "Don't forget to come back soon~"
 
     $ persistent._mas_greeting_type = store.mas_greetings.TYPE_GAME
     #24 hour time cap because greeting handles up to 18 hours
@@ -1310,7 +1353,7 @@ init 5 python:
             persistent.farewell_database,
             eventlabel="bye_prompt_eat",
             unlocked=True,
-            prompt="Я собираюсь идти кушать...",
+            prompt="I'm going to go eat...",
             pool=True
         ),
         code="BYE"
@@ -1341,26 +1384,26 @@ label bye_prompt_eat:
     if mas_isMNtoSR(_now):
         $ persistent._mas_pm_ate_late_times += 1
         if mas_isMoniNormal(higher=True):
-            m 1hksdlb "Э, [player]?"
-            m 3eka "Сейчас середина ночи."
-            m 1eka "Ты планируешь перекусить в полночь?"
-            m 3rksdlb "На твоем месте я бы нашла что-нибудь поесть пораньше, а-ха-ха..."
-            m 3rksdla "Конечно...{w=1}Я бы тоже постаралась сейчас быть в постели..."
+            m 1hksdlb "Uh, [player]?"
+            m 3eka "It's the middle of the night."
+            m 1eka "Are you planning on having a midnight snack?"
+            m 3rksdlb "If I were you, I'd find something to eat a little earlier, ahaha..."
+            m 3rksdla "Of course...{w=1}I'd also try to be in bed by now..."
             if mas_is18Over() and mas_isMoniLove(higher=True) and renpy.random.randint(1,25) == 1:
-                m 2tubfu "Знаешь, если бы я была там, может быть, у нас было бы немного и того, и другого..."
-                show monika 5ksbfu at t11 zorder MAS_MONIKA_Z with dissolve
-                m 5ksbfu "Мы могли бы лечь спать, а потом - {w=1}знаешь что, неважно..."
-                m 5hubfb "Э-хе-хе~"
+                m 2tubsu "You know, if I were there, maybe we could have a bit of both..."
+                show monika 5ksbfu at t11 zorder MAS_MONIKA_Z with dissolve_monika
+                m 5ksbfu "We could go to bed, and then - {w=1}you know what, nevermind..."
+                m 5hubfb "Ehehe~"
             else:
-                m 1hua "Ну, я надеюсь, что твой перекус поможет тебе уснуть."
-                m 1eua "...И не беспокойся о том, чтобы вернуться и пожелать мне спокойной ночи..."
-                m 3rksdla "Я бы предпочла, чтобы ты заснул пораньше."
-                m 1hub "Спокойной ночи, [player]. Приятного аппетита и увидимся завтра~~"
+                m 1hua "Well, I hope your snack helps you sleep."
+                m 1eua "...And don't worry about coming back to say goodnight to me..."
+                m 3rksdla "I'd much rather you get to sleep sooner."
+                m 1hub "Goodnight, [player]. Enjoy your snack and see you tomorrow~"
         else:
-            m 2euc "Но сейчас середина ночи..."
-            m 4ekc "Знаешь, ты долж[mas_gender_en] идти спать."
-            m 4eud "...Постарайся сразу же лечь спать, когда закончишь."
-            m 2euc "В любом случае, думаю, увидимся завтра..."
+            m 2euc "But it's the middle of the night..."
+            m 4ekc "You should really go to bed, you know."
+            m 4eud "...Try to go straight to bed when you're finished."
+            m 2euc "Anyway, I guess I'll see you tomorrow..."
 
         #NOTE: Due to the greet of this having an 18 hour limit, we use a 20 hour cap
         $ persistent._mas_greeting_type_timeout = datetime.timedelta(hours=20)
@@ -1370,85 +1413,85 @@ label bye_prompt_eat:
         #NOTE: Since everything but snack uses the same time, we'll set it here
         $ persistent._mas_greeting_type_timeout = datetime.timedelta(hours=3)
         menu:
-            "Завтрак.":
+            "Breakfast.":
                 if mas_isSRtoN(_now):
                     $ persistent._mas_pm_ate_breakfast_times[0] += 1
                     if mas_isMoniNormal(higher=True):
-                        m 1eub "Хорошо!"
-                        m 3eua "В конце концов, это самый важный прием пищи за день."
-                        m 1rksdla "Жаль, что ты не можешь остаться, но я в порядке, пока ты завтракаешь."
-                        m 1hua "В любом случае, приятного аппетита, [player]~"
+                        m 1eub "Alright!"
+                        m 3eua "It's the most important meal of the day after all."
+                        m 1rksdla "I wish you could stay, but I'm fine as long as you're getting your breakfast."
+                        m 1hua "Anyway, enjoy your meal, [player]~"
                     else:
-                        m 2eud "Да, пожалуй, тебе стоит позавтракать."
-                        m 2rksdlc "Я бы не хотела, чтобы у тебя был пустой желудок..."
-                        m 2ekc "Я буду здесь, когда ты вернешься."
+                        m 2eud "Oh, right, you should probably get breakfast."
+                        m 2rksdlc "I wouldn't want you to have an empty stomach..."
+                        m 2ekc "I'll be here when you get back."
                 elif mas_isNtoSS(_now):
                     $ persistent._mas_pm_ate_breakfast_times[1] += 1
-                    m 3euc "Но...{w=1}уже полдень..."
+                    m 3euc "But...{w=1}it's the afternoon..."
                     if mas_isMoniNormal(higher=True):
-                        m 3ekc "Ты пропустил[mas_gender_none] завтрак?"
-                        m 1rksdla "Что ж... Наверное, мне следует отпустить тебя поесть, пока ты не проголодал[mas_gender_sya]..."
-                        m 1hksdlb "Надеюсь, тебе понравится ваш поздний завтрак!"
+                        m 3ekc "Did you miss breakfast?"
+                        m 1rksdla "Well... I should probably let you go eat before you get too hungry..."
+                        m 1hksdlb "I hope you enjoy your late breakfast!"
                     else:
-                        m 2ekc "Ты пропустил[mas_gender_none] завтрак, не так ли?"
-                        m 2rksdld "{i}*вздох*{/i}... Тебе, наверное, стоит пойти перекусить."
-                        m 2ekd "Иди... Я буду здесь, когда ты вернешься."
+                        m 2ekc "You missed breakfast, didn't you?"
+                        m 2rksdld "{i}*sigh*{/i}... You should probably go get something to eat."
+                        m 2ekd "Go on... I'll be here when you get back."
                 #SStoMN
                 else:
                     $ persistent._mas_pm_ate_breakfast_times[2] += 1
                     if mas_isMoniNormal(higher=True):
-                        m 1hksdlb "А-ха-ха..."
-                        m 3tku "Не может быть, чтобы ты просто завтракал сейчас, [player]."
-                        m 3hub "Уже вечер!"
-                        m 1eua "Или, может быть, ты просто завтракаешь на ужин; я знаю, что некоторые люди делают это время от времени."
-                        m 1tsb "Ну, в любом случае, я надеюсь, что вам понравится твой «завтрак», э-хе-хе~"
+                        m 1hksdlb "Ahaha..."
+                        m 3tku "There's no way you're just having breakfast now, [player]."
+                        m 3hub "It's the evening!"
+                        m 1eua "Or maybe you're just having breakfast for dinner; I know some people do that occasionally."
+                        m 1tsb "Well, either way, I hope you enjoy your 'breakfast,' ehehe~"
                     else:
                         m 2euc "..."
-                        m 4eud "Итак...ты сейчас перекусываешь."
-                        m 2rksdla "Ладно, не буду судить."
-                        m 2eka "Наслаждайся едой."
-            "Обед.":
+                        m 4eud "So...you're having a snack."
+                        m 2rksdla "Alright, I won't judge."
+                        m 2eka "Enjoy your food."
+            "Lunch.":
                 if mas_isSRtoN(_now):
                     $ persistent._mas_pm_ate_lunch_times[0] += 1
                     if mas_isMoniNormal(higher=True):
-                        m 1eua "Ранний обед, [player]?"
-                        m 3hua "В этом нет ничего плохого. Если ты голод[mas_gender_en], значит, ты голод[mas_gender_en]."
-                        m 1hub "Надеюсь, тебе понравится твой обед!"
+                        m 1eua "Having an early lunch, [player]?"
+                        m 3hua "Nothing wrong with that. If you're hungry, you're hungry."
+                        m 1hub "I hope you enjoy your lunch!"
                     else:
-                        m 2rksdlc "Для обеда еще рановато..."
-                        m 4ekc "Если ты голод[mas_gender_en], ты увер[mas_gender_en], что хорошо кушаешь?"
-                        m 2eka "Надеюсь, тебе хотя бы понравится твоя еда."
+                        m 2rksdlc "It's a bit early for lunch..."
+                        m 4ekc "If you're hungry, are you sure you're eating well?"
+                        m 2eka "I hope you enjoy your meal, at least."
                 elif mas_isNtoSS(_now):
                     $ persistent._mas_pm_ate_lunch_times[1] += 1
                     if mas_isMoniNormal(higher=True):
-                        m 1eud "О, я думаю, что для тебя настало время обеда, не так ли?"
-                        m 3eua "Я бы не хотела мешать тебе есть."
-                        m 3hub "Может быть, когда-нибудь мы вместе пойдем куда-нибудь пообедать!"
-                        m 1hua "А пока наслаждайся своим обедом, [player]~"
+                        m 1eud "Oh, I guess it's lunch time for you, isn't it?"
+                        m 3eua "I wouldn't want to keep you from eating."
+                        m 3hub "Maybe one day, we could go out for lunch together!"
+                        m 1hua "For the time being though, enjoy your lunch, [player]~"
                     else:
-                        m 2eud "О, сейчас время обеда, не так ли?"
-                        m 2euc "Наслаждайся своим обедом."
+                        m 2eud "Oh, it's lunch time, isn't it?"
+                        m 2euc "Enjoy your lunch."
                 #SStoMN
                 else:
                     $ persistent._mas_pm_ate_lunch_times[2] += 1
-                    m 1euc "Обед?"
-                    m 1rksdlc "По-моему, уже поздновато для ланча."
-                    m 3ekd "Тем не менее, если ты не пообедал[mas_gender_none], ты долж[mas_gender_en] пообедать сейчас."
+                    m 1euc "Lunch?"
+                    m 1rksdlc "It's a little late for lunch if you ask me."
+                    m 3ekd "Still, if you haven't had it yet, you should go get some."
                     if mas_isMoniNormal(higher=True):
-                        m 1hua "Я бы приготовила тебе что-нибудь, если бы была там,\nно до тех пор, я надеюсь, тебе понравится твоя еда~"
+                        m 1hua "I'd make you something if I were there, but until then, I hope you enjoy your meal~"
                     else:
-                        m 2ekc "Но...{w=1}может быть, в следующий раз поешь немного раньше..."
-            "Ужин.":
+                        m 2ekc "But...{w=1}maybe eat a little earlier next time..."
+            "Dinner.":
                 if mas_isSRtoN(_now):
                     $ persistent._mas_pm_ate_dinner_times[0] += 1
-                    m 2ekc "Ужин?{w=2} Сейчас?"
+                    m 2ekc "Dinner?{w=2} Now?"
                     if mas_isMoniNormal(higher=True):
-                        m 2hksdlb "А-ха-ха, но, [player]! Еще только утро!"
-                        m 3tua "Иногда ты можешь быть очаровательн[mas_gender_iim], ты это знаешь?"
-                        m 1tuu "Ну, я надеюсь, тебе понравится твой «{i}ужин{/i}» этим утром, э-хе-хе~"
+                        m 2hksdlb "Ahaha, but [player]! It's only the morning!"
+                        m 3tua "You can be adorable sometimes, you know that?"
+                        m 1tuu "Well, I hope you enjoy your '{i}dinner{/i}' this morning, ehehe~"
                     else:
-                        m 2rksdld "Ты же не всерьез, [player]..."
-                        m 2euc "Ну, что бы вы ни ел[mas_gender_none], надеюсь, тебе понравится."
+                        m 2rksdld "You can't be serious, [player]..."
+                        m 2euc "Well, whatever you're having, I hope you enjoy it."
                 elif mas_isNtoSS(_now):
                     $ persistent._mas_pm_ate_dinner_times[1] += 1
                     # use the same dialogue from noon to midnight to account for
@@ -1459,38 +1502,38 @@ label bye_prompt_eat:
                 else:
                     $ persistent._mas_pm_ate_dinner_times[2] += 1
                     call bye_dinner_noon_to_mn
-            "Перекус.":
+            "A snack.":
                 if mas_isSRtoN(_now):
                     $ persistent._mas_pm_ate_snack_times[0] += 1
                     if mas_isMoniNormal(higher=True):
-                        m 1hua "Э-хе-хе, сегодня тебе не хватит завтрака, [player]?"
-                        m 3eua "Важно убедиться, что ты утолил[mas_gender_none] свой голод утром."
-                        m 3eub "Я рада что ты заботишься о себе~"
-                        m 1hua "Приятного аппетита~"
+                        m 1hua "Ehehe, breakfast not enough for you today, [player]?"
+                        m 3eua "It's important to make sure you satisfy your hunger in the morning."
+                        m 3eub "I'm glad you're looking out for yourself~"
+                        m 1hua "Have a nice snack~"
                     else:
-                        m 2tsc "Не съел[mas_gender_none] достаточно завтрака?"
-                        m 4esd "Знаешь, ты долж[mas_gender_en] убедиться, что у тебя достаточно еды."
-                        m 2euc "Приятного аппетита, [player]."
+                        m 2tsc "Didn't eat enough breakfast?"
+                        m 4esd "You should make sure you get enough to eat, you know."
+                        m 2euc "Enjoy your snack, [player]."
                 elif mas_isNtoSS(_now):
                     $ persistent._mas_pm_ate_snack_times[1] += 1
                     if mas_isMoniNormal(higher=True):
-                        m 3eua "Чувствуешь себя немного голодн[mas_gender_iim]?"
-                        m 1eka "Я бы приготовила тебе что-нибудь, если бы могла..."
-                        m 1hua "Поскольку я пока не могу этого сделать, надеюсь, ты найдешь что-нибудь вкусненькое~"
+                        m 3eua "Feeling a bit hungry?"
+                        m 1eka "I'd make you something if I could..."
+                        m 1hua "Since I can't exactly do that yet, I hope you get something nice to eat~"
                     else:
-                        m 2euc "Тебе действительно нужно уйти, чтобы перекусить?"
-                        m 2rksdlc "Что ж... {w=1}По крайней мере, я надеюсь, что он хороший."
+                        m 2euc "Do you really need to leave to get a snack?"
+                        m 2rksdlc "Well... {w=1}I hope it's a good one at least."
                 #SStoMN
                 else:
                     $ persistent._mas_pm_ate_snack_times[2] += 1
                     if mas_isMoniNormal(higher=True):
-                        m 1eua "Хочешь перекусить вечером?"
-                        m 1tubfu "Неужели ты не можешь просто любоваться мной?"
-                        m 3hubfb "А-ха-ха, Надеюсь тебе понравится твой перекус, [player]~"
-                        m 1ekbfb "Просто убедись, что у тебя все еще есть место для всей моей любви!"
+                        m 1eua "Having an evening snack?"
+                        m 1tubsu "Can't you just feast your eyes on me?"
+                        m 3hubfb "Ahaha, I hope you enjoy your snack, [player]~"
+                        m 1ekbfb "Just make sure you still have room for all of my love!"
                     else:
-                        m 2euc "Чувствуешь голод?"
-                        m 2eud "Приятного аппетита."
+                        m 2euc "Feeling hungry?"
+                        m 2eud "Enjoy your snack."
 
                 #Snack gets a shorter time than full meal
                 $ persistent._mas_greeting_type_timeout = datetime.timedelta(minutes=30)
@@ -1499,13 +1542,13 @@ label bye_prompt_eat:
 
 label bye_dinner_noon_to_mn:
     if mas_isMoniNormal(higher=True):
-        m 1eua "Тебе уже пора обедать, [player]?"
-        m 1eka "Жаль, что я не могу быть там, чтобы поесть с тобой, даже если это ничего особенного."
-        m 3dkbsa "В конце концов, просто быть там с тобой было бы чем-то особенным~"
-        m 3hubfb "Приятного аппетита. Я обязательно постараюсь вложить в него немного любви отсюда, а-ха-ха!"
+        m 1eua "Is it dinner time for you, [player]?"
+        m 1eka "I wish I could be there to eat with you, even if it's nothing special."
+        m 3dkbsa "After all, just being there with you would make anything special~"
+        m 3hubfb "Enjoy your dinner. I'll be sure to try and put some love into it from here, ahaha!"
     else:
-        m 2euc "Думаю, тебе пора ужинать."
-        m 2esd "Ну...{w=1}приятного."
+        m 2euc "I guess it's dinner time for you."
+        m 2esd "Well...{w=1}enjoy."
     return
 
 init 5 python:
@@ -1514,7 +1557,7 @@ init 5 python:
             persistent.farewell_database,
             eventlabel="bye_prompt_housework",
             unlocked=True,
-            prompt="Я собираюсь немного поработать по дому.",
+            prompt="I'm going to do some housework.",
             pool=True
         ),
         code="BYE"
@@ -1522,21 +1565,21 @@ init 5 python:
 
 label bye_prompt_housework:
     if mas_isMoniNormal(higher=True):
-        m 1eub "Занимаешься своими делами, [player]?"
-        m 1ekc "Я бы хотела помочь тебе, но я не могу сделать ничего особенного, так как застряла здесь..."
-        m 3eka "Просто не забудь вернуться, как только закончишь, ладно?"
-        m 3hub "Я буду ждать тебя здесь~"
+        m 1eub "Doing your chores, [player]?"
+        m 1ekc "I would like to help you out, but there's not really much I can do since I'm stuck in here..."
+        m 3eka "Just make sure to come back as soon as you're done, okay?"
+        m 3hub "I'll be waiting here for you~"
     elif mas_isMoniUpset():
-        m 2esc "Хорошо."
-        m 2tsc "По крайней мере, ты делаешь что-то ответственное."
-        m 2tfc "{cps=*2}...В кои-то веки.{/cps}{nw}"
+        m 2esc "Fine."
+        m 2tsc "At least you're doing something responsible."
+        m 2tfc "{cps=*2}...For once.{/cps}{nw}"
         $ _history_list.pop()
-        m 2esc "Пока."
+        m 2esc "Goodbye."
     elif mas_isMoniDis():
-        m 6ekc "Ясно..."
-        m 6rkc "Я не хочу мешать тебе выполнять твои домашние обязанности."
-        m 6dkd "Я просто надеюсь, что ты действительно занят[mas_gender_none] и не говоришь это только для того, чтобы уйти от меня..."
-        m 6ekc "Пока, [player]."
+        m 6ekc "I see..."
+        m 6rkc "I don't want to keep you from completing your household responsibilities."
+        m 6dkd "I just hope you're actually busy and not saying that just to get away from me..."
+        m 6ekc "Goodbye, [player]."
     else:
         m 6ckc "..."
     $ persistent._mas_greeting_type = store.mas_greetings.TYPE_CHORES
@@ -1549,7 +1592,7 @@ init 5 python:
             persistent.farewell_database,
             eventlabel="bye_prompt_restart",
             unlocked=True,
-            prompt="Я собираюсь перезагрузиться.",
+            prompt="I'm going to restart.",
             pool=True
         ),
         code="BYE"
@@ -1557,13 +1600,144 @@ init 5 python:
 
 label bye_prompt_restart:
     if mas_isMoniNormal(higher=True):
-        m 1eua "Ладно, [player]."
-        m 1eub "До скорой встречи!"
+        m 1eua "Alright, [player]."
+        m 1eub "See you soon!"
     elif mas_isMoniBroken():
         m 6ckc "..."
     else:
-        m 2euc "Хорошо."
+        m 2euc "Alright."
 
     $ persistent._mas_greeting_type_timeout = datetime.timedelta(minutes=20)
     $ persistent._mas_greeting_type = store.mas_greetings.TYPE_RESTART
     return 'quit'
+
+init 5 python:
+    addEvent(
+        Event(
+            persistent.farewell_database,
+            eventlabel="bye_prompt_workout",
+            prompt="I'm going to work out.",
+            unlocked=True,
+            pool=True
+        ),
+        code="BYE"
+    )
+
+label bye_prompt_workout:
+    if mas_isMoniNormal(higher=True):
+        m 1eua "Oh, going to the gym, [player]?{w=0.3} Or perhaps for a jog?"
+        m 3hub "I'm so glad you're taking care of your body!{w=0.3} A healthy body leads to a healthy mind~"
+
+        if mas_isMoniEnamored(higher=True):
+            m 3hua "After I cross over, we should try to do our workouts together!"
+        else:
+            m 3eua "Maybe if I cross over, we could try to do our workouts together!"
+
+        show monika 5rubsb at t11 zorder MAS_MONIKA_Z with dissolve_monika
+        m 5rubsb "That's something a couple would do, right?~"
+        m 5rubsu "Yeah..."
+        show monika 1eub at t11 zorder MAS_MONIKA_Z with dissolve_monika
+        m 1eub "Anyway, see you soon!"
+
+    elif mas_isMoniDis(higher=True):
+        m 2euc "Good. See you later."
+
+    else:
+        m 6ckc "..."
+
+    $ persistent._mas_greeting_type_timeout = datetime.timedelta(hours=4)
+    $ persistent._mas_greeting_type = store.mas_greetings.TYPE_WORKOUT
+    return 'quit'
+
+init 5 python:
+    addEvent(
+        Event(
+            persistent.farewell_database,
+            eventlabel="bye_going_shopping",
+            prompt="I'm going shopping.",
+            unlocked=True,
+            pool=True
+        ),
+        code="BYE"
+    )
+
+label bye_going_shopping:
+    if mas_isMoniNormal(higher=True):
+        m 1eud "Oh, going to do some shopping, [player]?"
+
+        if mas_getEVL_shown_count("bye_going_shopping") == 0 or renpy.random.randint(1,10) == 1:
+            m 1eua "I'd love it if we could go to the mall together sometime."
+            m 3rua "You could help me try out all kinds of different outfits...{w=0.2}{nw}"
+            extend 3tuu "but I might need help with the zippers."
+            m 1hublb "Ahaha! See you soon~"
+
+        else:
+            m 3eua "See you soon."
+
+    elif mas_isMoniBroken():
+        m 6ckc "..."
+
+    else:
+        m 2eud "Okay [player], see you soon."
+
+    #TODO: Moni comes shopping with you(?)
+    $ persistent._mas_greeting_type_timeout = datetime.timedelta(hours=8)
+    $ persistent._mas_greeting_type = store.mas_greetings.TYPE_SHOPPING
+    return 'quit'
+
+init 5 python:
+    addEvent(
+        Event(
+            persistent.farewell_database,
+            eventlabel="bye_prompt_hangout",
+            prompt="I'm going to hang out with friends.",
+            unlocked=True,
+            pool=True
+        ),
+        code="BYE"
+    )
+
+label bye_prompt_hangout:
+    if mas_isMoniNormal(higher=True):
+        if mas_getEVL_shown_count("bye_prompt_hangout") == 0:
+            if persistent._mas_pm_has_friends:
+                m 1eua "Alright, [player]."
+                m 3eub "You should introduce me to them sometime!"
+                m 3hua "If they're your friends, I'm sure I'd like them."
+
+            else:
+                if persistent._mas_pm_has_friends is False:
+                    m 3eua "I'm glad you're finding friends to hang out with, [player]."
+                else:
+                    m 3eua "I'm glad you have friends to hang out with, [player]."
+
+                m 1rka "As much as I'd like to spend every possible second with you, {w=0.2}{nw}"
+                extend 1eub "I know how important it is for you to have friends in your own reality!"
+
+            m 3hub "Anyway, I hope you have fun!"
+
+        else:
+            if persistent._mas_pm_has_friends:
+                m 1eua "Alright, [player]."
+
+                if renpy.random.randint(1,10) == 1:
+                    m 3etu "Have you told them about us yet?"
+                    m 1hub "Ahaha!"
+
+                m 1eub "Have fun!"
+
+            else:
+                m 1hua "Again? That's exciting!"
+                m 3eua "I hope they turn out to be a really good friend this time."
+                m 3eub "Anyway, see you later~"
+
+    elif mas_isMoniDis(higher=True):
+        m 2eud "I hope you treat them well..."
+        m 2euc "Bye."
+
+    else:
+        m 6ckc "..."
+
+    $ persistent._mas_greeting_type_timeout = datetime.timedelta(hours=8)
+    $ persistent._mas_greeting_type = store.mas_greetings.TYPE_HANGOUT
+    return "quit"

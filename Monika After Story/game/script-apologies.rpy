@@ -71,14 +71,20 @@ label monika_playerapologizes:
     #Set the prompt for this...
     if len(persistent._mas_apology_time_db) > 0:
         #If there's a non-generic apology reason pending we use "for something else."
-        $ mas_getEV('mas_apology_generic').prompt = "...за " + player_apology_reasons.get(mas_apology_reason,player_apology_reasons[0])
+        $ mas_setEVLPropValues(
+            "mas_apology_generic",
+            prompt="...за {0}".format(player_apology_reasons.get(mas_apology_reason,player_apology_reasons[0]))
+        )
     else:
         #Otherwise, we use "for something." if reason isn't 0
         if mas_apology_reason == 0:
-            $ mas_getEV('mas_apology_generic').prompt = "...за что-то."
+            $ mas_setEVLPropValues("mas_apology_generic", prompt="...за что-то.")
         else:
             #We set this to an apology reason if it's valid
-            $ mas_getEV('mas_apology_generic').prompt = "...за " + player_apology_reasons.get(mas_apology_reason,"что-то.")
+            $ mas_setEVLPropValues(
+                "mas_apology_generic",
+                prompt="...за {0}".format(player_apology_reasons.get(mas_apology_reason,"что-то."))
+            )
 
     #Then we delete this since we're not going to need it again until we come back here, where it's created again.
     #No need to store excess memory
@@ -89,13 +95,13 @@ label monika_playerapologizes:
         apologylist = [
             (ev.prompt, ev.eventlabel, False, False)
             for ev_label, ev in store.mas_apology.apology_db.iteritems()
-            if ev.unlocked and (ev.prompt != "...за что-то." and ev.prompt != "...за что-то другое.")
+            if ev.unlocked and (ev.prompt != "...за что-то." and ev.prompt != "...за еще кое-что.")
         ]
 
         #Now we add the generic if there's no prompt attached
         generic_ev = mas_getEV('mas_apology_generic')
 
-        if generic_ev.prompt == "...за что-то." or generic_ev.prompt == "...за что-то другое.":
+        if generic_ev.prompt == "...за что-то." or generic_ev.prompt == "...за еше кое-что.":
             apologylist.append((generic_ev.prompt, generic_ev.eventlabel, False, False))
 
         #The back button
@@ -103,7 +109,7 @@ label monika_playerapologizes:
 
     #Display our scrollable
     show monika at t21
-    call screen mas_gen_scrollable_menu(apologylist,(evhand.UNSE_X, evhand.UNSE_Y, evhand.UNSE_W, 500), evhand.UNSE_XALIGN, return_prompt_back)
+    call screen mas_gen_scrollable_menu(apologylist, mas_ui.SCROLLABLE_MENU_MEDIUM_AREA, mas_ui.SCROLLABLE_MENU_XALIGN, return_prompt_back)
 
     #Make sure we don't lose this value
     $ apology =_return

@@ -73,7 +73,7 @@ init:
                 self.paddle = Image("mod_assets/games/pong/pong.png")
                 self.ball = Image("mod_assets/games/pong/pong_ball.png")
                 self.player = Text(_("[player]"), size=36)
-                self.monika = Text(_("[m_name]"), size=36)
+                self.monika = Text(_("Моника"), size=36)
                 self.ctb = Text(_("Нажми, чтобы начать"), size=36)
 
                 # Sounds used.
@@ -487,7 +487,6 @@ label game_pong:
             m 1hua "Хочешь сыграть в пинг-понг ещё раз?"
             m 3eub "Я буду готова тогда же, когда и ты~"
     else:
-        m 1eua "Хочешь поиграть в пинг-понг? Ладно!"
         $ played_pong_this_session = True
 
     $ pong_monika_last_response_id = PONG_MONIKA_RESPONSE_NONE
@@ -546,8 +545,8 @@ label demo_minigame_pong:
         $ inst_dialogue = store.mas_pong.DLG_LOSER
 
         #Give player XP if this is their first win
-        if not persistent.ever_won['pong']:
-            $persistent.ever_won['pong'] = True
+        if not persistent._mas_ever_won['pong']:
+            $persistent._mas_ever_won['pong'] = True
 
     if new_difficulty < 0:
         $ persistent._mas_pong_difficulty = 0
@@ -1086,9 +1085,8 @@ label mas_pong_dlg_loser_fast:
 
 #Quick Moni win dlg
 label mas_pong_dlg_winner_fast:
-    m 1eka "Хорошо, [player]."
-    m 1eka "Спасибо, что поиграл[mas_gender_none] со мной в теннис и позволили выиграть."
-    m 1hua "Мне было очень весело! Давай как-нибудь еще поиграем, ладно?"
+    m 1eka "Хорошо, [player]. Спасибо, что поиграл[mas_gender_none] со мной в теннис"
+    m 1hua "I had a lot of fun! Let's play again sometime soon, okay?"
 
     $ persistent._mas_pong_difficulty_change_next_game = PONG_DIFFICULTY_POWERDOWN;
     return
@@ -1104,10 +1102,7 @@ label mas_pong_dlg_loser_end:
 #Post dlg Moni win
 label mas_pong_dlg_winner_end:
     m 4tku "Я не могу по-настоящему радоваться такой простой игре..."
-    m 1eua "Но, по крайней мере, это все еще весело играть."
+    m 1eua "Но, по крайней мере, играть по-прежнему весело."
     m 1ekbsa "Особенно с тобой, [player]."
-    m 1hubfb "А-ха-ха!"
-    m 1ekbfa "Но спасибо, что позволил[mas_gender_none] мне победить."
-    m 1tku "Только ученики начальных классов всерьёз проигрывают в Пинг-понге, верно?"
-    m 1hua "Э-хе-хе~"
+    m 1hubfa "Э-хе-хе~"
     return

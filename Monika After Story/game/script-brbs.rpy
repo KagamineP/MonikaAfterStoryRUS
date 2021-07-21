@@ -55,6 +55,26 @@ label mas_brb_back_to_idle:
 
     return "idle"
 
+# label for generic reactions for low affection callback paths
+# to be used if a specific reaction isn't needed or provided
+label mas_brb_generic_low_aff_callback:
+    if mas_isMoniDis(higher=True):
+        python:
+            cb_line = renpy.substitute(renpy.random.choice([
+                _("О...{w=0.3}ты вернул[mas_gender_sya]."),
+                _("О...{w=0.3}с возвращением."),
+                _("Все сделал[mas_gender_none]?"),
+                _("С возвращением."),
+                _("О...{w=0.3}вот ты где."),
+            ]))
+
+        m 2ekc "[cb_line]"
+
+    else:
+        m 6ckc "..."
+
+    return
+
 
 init 5 python:
     addEvent(
@@ -71,8 +91,30 @@ init 5 python:
 
 label monika_brb_idle:
     if mas_isMoniAff(higher=True):
-        m 1eua "Хорошо, [player]."
-        m 1hub "Возвращайся скорее, я буду ждать тебя здесь.~"
+        m 1eua "Alright, [player]."
+
+        show monika 1eta at t21
+        python:
+            #For options that can basically be an extension of generics and don't need much specification
+            brb_reason_options = [
+                (_("I'm going to get something."), True, False, False),
+                (_("I'm going to do something."), True, False, False),
+                (_("I'm going to make something."), True, False, False),
+                (_("I have to check something."), True, False, False),
+                (_("Someone's at the door."), True, False, False),
+                (_("Nope."), None, False, False),
+            ]
+
+            renpy.say(m, "Doing anything specific?", interact=False)
+        call screen mas_gen_scrollable_menu(brb_reason_options, mas_ui.SCROLLABLE_MENU_TALL_AREA, mas_ui.SCROLLABLE_MENU_XALIGN)
+        show monika at t11
+
+        if _return:
+            m 1eua "Oh alright.{w=0.2} {nw}"
+            extend 3hub "Hurry back, I'll be waiting here for you~"
+
+        else:
+            m 1hub "Hurry back, I'll be waiting here for you~"
 
     elif mas_isMoniNormal(higher=True):
         m 1hub "Возвращайся скорее, [player]!"
@@ -100,11 +142,9 @@ label monika_brb_idle_callback:
         m 1hub "С возвращением, [player]!"
         m 1eua "[wb_quip]"
 
-    elif mas_isMoniDis(higher=True):
-        m 2esc "Оу, уже вернул[mas_gender_sya]?"
-
     else:
-        m 6ckc "..."
+        call mas_brb_generic_low_aff_callback
+
     return
 
 init 5 python:
@@ -131,13 +171,13 @@ label monika_writing_idle:
             m "О! Ты собираешься{fast} написать что-то?"
 
         else:
-            m 1eub "OО! Ты собираешься{fast} написать что-то?"
+            m 1eub "Oh! You're going to go write something?"
 
-        m 1hua "Это меня так радует!"
-        m 3eua "Может быть, когда-нибудь ты сможешь поделиться им со мной...{w=0.3} {nw}"
-        extend 3hua "Я бы с удовольствием прочитала твои работы, [player]!"
-        m 3eua "В любом случае, просто дай мне знать, когда закончишь."
-        m 1hua "Я буду ждать тебя прямо здесь~"
+        m 1hua "That makes me so glad!"
+        m 3eua "Maybe someday you could share it with me...{w=0.3} {nw}"
+        extend 3hua "I'd love to read your work, [player]!"
+        m 3eua "Anyway, just let me know when you're done."
+        m 1hua "I'll be waiting right here for you~"
 
     elif mas_isMoniUpset():
         m 2esc "Хорошо."
@@ -162,14 +202,9 @@ label monika_writing_idle_callback:
         m 1eua "Закончил[mas_gender_none] писать, [player]?"
         m 1eub "[wb_quip]"
 
-    elif mas_isMoniUpset():
-        m 2esc "Закончил? С возвращением, [player]."
-
-    elif mas_isMoniDis():
-        m 6ekc "О...{w=0.5} Ты вернулся..."
-
     else:
-        m 6ckc "..."
+        call mas_brb_generic_low_aff_callback
+
     return
 
 init 5 python:
@@ -240,27 +275,30 @@ label monika_idle_shower:
 
 label monika_idle_shower_callback:
     if mas_isMoniNormal(higher=True):
-        m 1eua "С возвращением, [player]."
+        m 1eua "Welcome back, [player]."
 
-        if mas_isMoniLove() and renpy.seen_label("monikaroom_greeting_ear_bathdinnerme") and renpy.random.randint(1,20) == 1:
-            m 3tubfb "Теперь, когда вы приняли душ, вы хотели бы поужинать или, может быть{w=0.5}.{w=0.5}.{w=0.5}."
-            m 1hubsa "Ты мог[mas_gender_g] бы просто расслабиться со мной еще немного~"
-            m 1hub "А-ха-ха!"
+        if (
+            mas_isMoniLove()
+            and renpy.seen_label("monikaroom_greeting_ear_bathdinnerme")
+            and mas_getEVL_shown_count("monika_idle_shower") != 1 #Since the else block has a one-time only line, we force it on first use
+            and renpy.random.randint(1,20) == 1
+        ):
+            m 3tubsb "Now that you've had your shower, would you like your dinner, or maybe{w=0.5}.{w=0.5}.{w=0.5}."
+            m 1hubsa "You could just relax with me some more~"
+            m 1hub "Ahaha!"
 
         else:
-            m 1hua "Надеюсь, ты хорошо принял[mas_gender_none] душ."
-            if mas_getEV("monika_idle_shower").shown_count == 1:
-                m 3eub "Теперь мы можем вернуться к хорошему, {i}чистому{/i} веселью вместе..."
-                m 1hub "А-ха-ха!"
+            m 1hua "I hope you had a nice shower."
+            if mas_getEVL_shown_count("monika_idle_shower") == 1:
+                m 3eub "Now we can get back to having some good, {i}clean{/i} fun together..."
+                m 1hub "Ahaha!"
 
     elif mas_isMoniUpset():
-        m 2esc "Надеюсь, ты хорошо принял[mas_gender_none] душ. С возвращением, [player]."
-
-    elif mas_isMoniDis():
-        m 6ekc "О, как я рада снова тебя видеть..."
+        m 2esc "I hope you enjoyed your shower. {w=0.2}Welcome back, [player]."
 
     else:
-        m 6ckc "..."
+        call mas_brb_generic_low_aff_callback
+
     return
 
 label bye_brb_shower_timeout:
@@ -310,7 +348,7 @@ label monika_idle_game:
         m 2tsc "Наслаждайся другими играми."
 
     elif mas_isMoniDis():
-        m 6ekc "Пожалуйста...{w=0.5}{nw}"
+        m 6ekc "Прошу...{w=0.5}{nw}"
         extend 6dkc "не забывай обо мне..."
 
     else:
@@ -334,6 +372,7 @@ label monika_idle_game_callback:
 
     else:
         m 6ckc "..."
+
     return
 
 init 5 python:
@@ -392,14 +431,9 @@ label monika_idle_coding_callback:
 
         m 3eub "[wb_quip]"
 
-    elif mas_isMoniUpset():
-        m 2esc "С возврашением."
-
-    elif mas_isMoniDis():
-        m 6ekc "О, ты вернулся."
-
     else:
-        m 6ckc "..."
+        call mas_brb_generic_low_aff_callback
+
     return
 
 
@@ -484,13 +518,11 @@ label monika_idle_workout_callback:
         m 7eub "[wb_quip]"
 
     elif mas_isMoniUpset():
-        m 2euc "Закончил[mas_gender_none] с зарядкой, [player]?"
-
-    elif mas_isMoniDis():
-        m 6ekc "О, ты вернул[mas_gender_sya]."
+        m 2euc "Done with your workout, [player]?"
 
     else:
-        m 6ckc "..."
+        call mas_brb_generic_low_aff_callback
+
     return
 
 init 5 python:
@@ -529,38 +561,37 @@ label monika_idle_nap:
 
 label monika_idle_nap_callback:
     if mas_isMoniNormal(higher=True):
+        $ wb_quip = mas_brbs.get_wb_quip()
         if mas_brbs.was_idle_for_at_least(datetime.timedelta(hours=5), "monika_idle_nap"):
-            m 2hksdlb "О, [player]! Ты Наконец-то ты проснул[mas_gender_sya]!"
-            m 7rksdlb "Когда ты сказал[mas_gender_none], что собираешься вздремнуть, я ожидала, что ты отдохнёшь час или два..."
-            m 1hksdlb "Наверное, ты очень устал[mas_gender_none], а-ха-ха..."
-            m 3eua "Но, по крайней мере, после столь долгого сна ты останешься здесь со мной на некоторое время, верно?"
-            m 1hua "Э-хе-хе~"
+            m 2hksdlb "Oh, [player]! You're finally awake!"
+            m 7rksdlb "When you said you were going to take a nap, I was expecting you take maybe an hour or two..."
+            m 1hksdlb "I guess you must have been really tired, ahaha..."
+            m 3eua "But at least after sleeping for so long, you'll be here with me for a while, right?"
+            m 1hua "Ehehe~"
 
         elif mas_brbs.was_idle_for_at_least(datetime.timedelta(hours=1), "monika_idle_nap"):
-            m 1hua "С возвращением, [player]!"
-            m 1eua "Ты хорошо вздремнул[mas_gender_none]?"
-            m 3hua "Ты отсутствовал[mas_gender_none] некоторое время, так что я надеюсь, что ты чувствуешь себя отдохнувш[mas_gender_iiim]~"
-            m 1eua "Есть ли что-нибудь ещё, что ты хотел[mas_gender_none] бы сделать сегодня?"
+            m 1hua "Welcome back, [player]!"
+            m 1eua "Did you have a nice nap?"
+            m 3hua "You were out for some time, so I hope you're feeling rested~"
+            m 1eua "[wb_quip]"
 
         elif mas_brbs.was_idle_for_at_least(datetime.timedelta(minutes=5), "monika_idle_nap"):
-            m 1hua "С возвращением, [player]~"
-            m 1eub "Надеюсь, ты немного вздремнул[mas_gender_none]."
-            m 3eua "Есть ли что-нибудь ещё, что ты хотел[mas_gender_none] бы сделать сегодня?"
+            m 1hua "Welcome back, [player]~"
+            m 1eub "I hope you had a nice little nap."
+            m 3eua "[wb_quip]"
 
         else:
-            m 1eud "О, уже вернул[mas_gender_sya]?"
-            m 1euc "Ты что, передумал[mas_gender_none]?"
-            m 3eka "Ну, я не жалуюсь, но ты долж[mas_gender_en] вздремнуть, если тебе захочется позже."
-            m 1eua "В конце концов, я бы не хотела, чтобы ты слишком устал[mas_gender_none]."
+            m 1eud "Oh, back already?"
+            m 1euc "Did you change your mind?"
+            m 3eka "Well, I'm not complaining, but you should take a nap if you feel like it later."
+            m 1eua "I wouldn't want you to be too tired, after all."
 
     elif mas_isMoniUpset():
-        m 2euc "Вздремнул[mas_gender_none], [player]?"
-
-    elif mas_isMoniDis():
-        m 6ekc "О, ты вернул[mas_gender_sya]."
+        m 2euc "Done with your nap, [player]?"
 
     else:
-        m 6ckc "..."
+        call mas_brb_generic_low_aff_callback
+
     return
 
 init 5 python:
@@ -612,6 +643,7 @@ label monika_idle_homework_callback:
 
     else:
         m 6ckc "..."
+
     return
 
 init 5 python:
@@ -664,7 +696,135 @@ label monika_idle_working_callback:
 
     else:
         m 6ckc "..."
+
     return
+
+init 5 python:
+    addEvent(
+        Event(
+            persistent.event_database,
+            eventlabel="monika_idle_screen_break",
+            prompt="My eyes need a break from the screen",
+            category=['be right back'],
+            pool=True,
+            unlocked=True
+        ),
+        markSeen=True
+    )
+
+label monika_idle_screen_break:
+    if mas_isMoniNormal(higher=True):
+        if mas_timePastSince(mas_getEVL_last_seen("monika_idle_screen_break"), mas_getSessionLength()):
+
+            if mas_getSessionLength() < datetime.timedelta(minutes=40):
+                m 1esc "Oh,{w=0.3} okay."
+                m 3eka "You haven't been here for that long but if you say you need a break, then you need a break."
+
+            elif mas_getSessionLength() < datetime.timedelta(hours=2, minutes=30):
+                m 1eua "Going to rest your eyes for a bit?"
+
+            else:
+                m 1lksdla "Yeah, you probably need that, don't you?"
+
+            m 1hub "I'm glad you're taking care of your health, [player]."
+
+            if not persistent._mas_pm_works_out and random.randint(1,3) == 1:
+                m 3eua "Why not take the opportunity to do a few stretches as well, hmm?"
+                m 1eub "Anyway, come back soon!~"
+
+            else:
+                m 1eub "Come back soon!~"
+
+        else:
+            m 1eua "Taking another break, [player]?"
+            m 1hua "Come back soon!~"
+
+    elif mas_isMoniUpset():
+        m 2esc "Oh...{w=0.5} {nw}"
+        extend 2rsc "Okay."
+
+    elif mas_isMoniDis():
+        m 6ekc "Alright."
+
+    else:
+        m 6ckc "..."
+
+    $ mas_idle_mailbox.send_idle_cb("monika_idle_screen_break_callback")
+    $ persistent._mas_idle_data["monika_idle_screen_break"] = True
+    return "idle"
+
+label monika_idle_screen_break_callback:
+    if mas_isMoniNormal(higher=True):
+        $ wb_quip = mas_brbs.get_wb_quip()
+        m 1eub "Welcome back, [player]."
+
+        if mas_brbs.was_idle_for_at_least(datetime.timedelta(minutes=30), "monika_idle_screen_break"):
+            m 1hksdlb "You must've really needed that break, considering how long you were gone."
+            m 1eka "I hope you're feeling a little better now."
+        else:
+            m 1hua "I hope you're feeling a little better now~"
+
+        m 1eua "[wb_quip]"
+
+    else:
+        call mas_brb_generic_low_aff_callback
+
+    return
+
+init 5 python:
+    addEvent(
+        Event(
+            persistent.event_database,
+            eventlabel="monika_idle_reading",
+            prompt="I'm going to read",
+            category=['be right back'],
+            pool=True,
+            unlocked=True
+        ),
+        markSeen=True
+    )
+
+label monika_idle_reading:
+    if mas_isMoniNormal(higher=True):
+        m 1eub "Really? That's great, [player]!"
+        m 3lksdla "I'd love to read with you, but my reality has its limits, unfortunately."
+        m 1hub "Have fun!"
+
+    elif mas_isMoniDis(higher=True):
+        m 2ekd "Oh, alright..."
+        m 2ekc "Have a good time, [player]."
+
+    else:
+        m 6dkc "..."
+
+    $ mas_idle_mailbox.send_idle_cb("monika_idle_reading_callback")
+    $ persistent._mas_idle_data["monika_idle_reading"] = True
+    return "idle"
+
+label monika_idle_reading_callback:
+    if mas_isMoniNormal(higher=True):
+        if mas_brbs.was_idle_for_at_least(datetime.timedelta(hours=2), "monika_idle_reading"):
+            m 1wud "Wow, you were gone for a while...{w=0.3}{nw}"
+            extend 3wub "that's great, [player]!"
+            m 3eua "Reading is a wonderful thing, so don't worry about getting too caught up in it."
+            m 3hksdlb "Besides, it's not like I'm one to talk..."
+            show monika 5ekbsa at t11 zorder MAS_MONIKA_Z with dissolve_monika
+            m 5ekbsa "If I had my way, we'd be reading together all night long~"
+
+        elif mas_brbs.was_idle_for_at_least(datetime.timedelta(minutes=30), "monika_idle_reading"):
+            m 3esa "All done, [player]?"
+            m 1hua "Let's relax, you've earned it~"
+
+        else:
+            m 1eud "Oh, that was fast."
+            m 1eua "I thought you'd be gone a little while longer, but this is fine too."
+            m 3ekblu "After all, it lets me spend more time with you~"
+
+    else:
+        call mas_brb_generic_low_aff_callback
+
+    return
+
 
 #Rai's og game idle
 #label monika_idle_game:
